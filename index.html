@@ -5,11 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sismonow - Real-time Earthquakes</title>
     <style>
-        body { margin: 0; background-color: #000; overflow: hidden; }
+        body { margin: 0; background-color: #000; overflow: hidden; font-family: Arial; }
         #globeViz { width: 100vw; height: 100vh; }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #fff;
+            z-index: 100;
+            background: rgba(0,0,0,0.6);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
+    <div id="info">Cargando terremotos...</div>
     <div id="globeViz"></div>
 
     <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
@@ -23,6 +35,43 @@
 
         world.controls().autoRotate = true;
         world.controls().autoRotateSpeed = 0.5;
+
+        // --- TERREMOTOS EN VIVO ---
+        const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
+
+        fetch(USGS_URL)
+            .then(r => r.json())
+            .then(data => {
+                const quakes = data.features;
+                document.getElementById('info').innerText = 
+                    '🌍 ' + quakes.length + ' terremotos en las últimas 24h';
+
+                const points = quakes.map(q => ({
+                    lat: q.geometry.coordinates[1],
+                    lng: q.geometry.coordinates[0],
+                    mag: q.properties.mag,
+                    place: q.properties.place,
+                    size: Math.max(0.15, q.properties.mag * 0.15),
+                    color: q.properties.mag >= 5 ? '#ff2d2d'
+                         : q.properties.mag >= 3 ? '#ff8c00'
+                         : '#ffd500'
+                }));
+
+                world
+                    .pointsData(points)
+                    .pointLat('lat')
+                    .pointLng('lng')
+                    .pointColor('color')
+                    .pointRadius('size')
+                    .pointAltitude(0.01)
+                    .pointLabel(d => 
+                        `<b>Mag ${d.mag}</b><br/>${d.place}`
+                    );
+            })
+            .catch(err => {
+                document.getElementById('info').innerText = 
+                    'Error cargando datos: ' + err;
+            });
     </script>
 </body>
 </html>
