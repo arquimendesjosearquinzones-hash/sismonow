@@ -36,42 +36,47 @@
         world.controls().autoRotate = true;
         world.controls().autoRotateSpeed = 0.5;
 
-        // --- TERREMOTOS EN VIVO ---
+        // --- TERREMOTOS EN VIVO (con refresco automático) ---
         const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
-        fetch(USGS_URL)
-            .then(r => r.json())
-            .then(data => {
-                const quakes = data.features;
-                document.getElementById('info').innerText = 
-                    '🌍 ' + quakes.length + ' terremotos en las últimas 24h';
+        function cargarTerremotos() {
+            fetch(USGS_URL)
+                .then(r => r.json())
+                .then(data => {
+                    const quakes = data.features;
+                    const ahora = new Date().toLocaleTimeString();
+                    document.getElementById('info').innerText =
+                        '🌍 ' + quakes.length + ' terremotos activos · Actualizado: ' + ahora;
 
-                const points = quakes.map(q => ({
-                    lat: q.geometry.coordinates[1],
-                    lng: q.geometry.coordinates[0],
-                    mag: q.properties.mag,
-                    place: q.properties.place,
-                    size: Math.max(0.15, q.properties.mag * 0.15),
-                    color: q.properties.mag >= 5 ? '#ff2d2d'
-                         : q.properties.mag >= 3 ? '#ff8c00'
-                         : '#ffd500'
-                }));
+                    const points = quakes.map(q => ({
+                        lat: q.geometry.coordinates[1],
+                        lng: q.geometry.coordinates[0],
+                        mag: q.properties.mag,
+                        place: q.properties.place,
+                        size: Math.max(0.15, q.properties.mag * 0.15),
+                        color: q.properties.mag >= 5 ? '#ff2d2d'
+                             : q.properties.mag >= 3 ? '#ff8c00'
+                             : '#ffd500'
+                    }));
 
-                world
-                    .pointsData(points)
-                    .pointLat('lat')
-                    .pointLng('lng')
-                    .pointColor('color')
-                    .pointRadius('size')
-                    .pointAltitude(0.01)
-                    .pointLabel(d => 
-                        `<b>Mag ${d.mag}</b><br/>${d.place}`
-                    );
-            })
-            .catch(err => {
-                document.getElementById('info').innerText = 
-                    'Error cargando datos: ' + err;
-            });
+                    world
+                        .pointsData(points)
+                        .pointLat('lat')
+                        .pointLng('lng')
+                        .pointColor('color')
+                        .pointRadius('size')
+                        .pointAltitude(0.01)
+                        .pointLabel(d => `<b>Mag ${d.mag}</b><br/>${d.place}`);
+                })
+                .catch(err => {
+                    document.getElementById('info').innerText = 'Error: ' + err;
+                });
+        }
+
+        cargarTerremotos();
+
+        // Refresca cada 5 minutos (300.000 milisegundos)
+        setInterval(cargarTerremotos, 300000);
     </script>
 </body>
 </html>
