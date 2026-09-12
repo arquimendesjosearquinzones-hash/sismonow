@@ -17,11 +17,46 @@
             padding: 10px 15px;
             border-radius: 8px;
             font-size: 14px;
+            max-width: 400px;
         }
+        #search {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 8px;
+        }
+        #search input {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            font-size: 14px;
+            width: 250px;
+            outline: none;
+        }
+        #search input:focus { border-color: #ff2d2d; }
+        #search button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #ff2d2d;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #search button:hover { background: #ff5555; }
     </style>
 </head>
 <body>
     <div id="info">Cargando terremotos...</div>
+    <div id="search">
+        <input type="text" id="searchInput" placeholder="Buscar país (ej: Venezuela)" />
+        <button onclick="buscarPais()">Buscar</button>
+    </div>
     <div id="globeViz"></div>
 
     <script src="//cdn.jsdelivr.net/npm/globe.gl"></script>
@@ -36,7 +71,6 @@
         world.controls().autoRotate = true;
         world.controls().autoRotateSpeed = 0.5;
 
-        // --- TERREMOTOS EN VIVO (con refresco automático) ---
         const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
         function cargarTerremotos() {
@@ -74,9 +108,40 @@
         }
 
         cargarTerremotos();
-
-        // Refresca cada 5 minutos (300.000 milisegundos)
         setInterval(cargarTerremotos, 300000);
+
+        // --- BUSCADOR POR PAÍS ---
+        function buscarPais() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) return;
+
+            const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(query);
+
+            document.getElementById('info').innerText = '🔎 Buscando ' + query + '...';
+
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        document.getElementById('info').innerText = '❌ No se encontró: ' + query;
+                        return;
+                    }
+                    const lat = parseFloat(data[0].lat);
+                    const lng = parseFloat(data[0].lon);
+
+                    world.controls().autoRotate = false;
+                    world.pointOfView({ lat: lat, lng: lng, altitude: 1.5 }, 2000);
+
+                    document.getElementById('info').innerText = '📍 ' + data[0].display_name;
+                })
+                .catch(err => {
+                    document.getElementById('info').innerText = 'Error: ' + err;
+                });
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') buscarPais();
+        });
     </script>
 </body>
 </html>
