@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#05050a">
+    <title>sismonow · Legal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #05050a; color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh; position: relative; line-height: 1.6;
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0; pointer-events: none;
+        }
+        body::after {
+            content: ''; position: fixed; inset: 0;
+            background:
+                radial-gradient(circle at 15% 15%, rgba(176, 38, 255, 0.15), transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(0, 255, 255, 0.10), transparent 45%);
+            z-index: 0; pointer-events: none;
+        }
+        header { position: relative; z-index: 10; text-align: center; padding: 40px 20px 20px; }
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900; font-size: 2.4rem; letter-spacing: 6px;
+            background: linear-gradient(90deg, #00ffff, #b026ff, #ff00ff);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        .subtitle {
+            font-size: 0.85rem; letter-spacing: 3px; color: #00ffff;
+            text-transform: uppercase; margin-top: 4px; opacity: 0.8;
+        }
+        .back-btn {
+            display: inline-block; margin-top: 16px;
+            padding: 10px 20px;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 10px;
+            background: rgba(0, 10, 20, 0.7); color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.72rem; letter-spacing: 1px;
+            text-decoration: none;
+        }
+        .back-btn:hover { background: rgba(0, 255, 255, 0.15); }
+        .container { position: relative; z-index: 10; max-width: 880px; margin: 20px auto; padding: 0 20px 60px; }
+        .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .tabs button {
+            padding: 10px 18px;
+            border: 1px solid rgba(0, 255, 255, 0.35);
+            border-radius: 10px;
+            background: rgba(0, 10, 20, 0.7); color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.72rem; letter-spacing: 1px;
+            cursor: pointer;
+        }
+        .tabs button.active { background: #00ffff; color: #000; }
+        .panel { display: none; }
+        .panel.active { display: block; }
+        .panel h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem; color: #00ffff;
+            margin-bottom: 8px;
+        }
+        .panel .updated { font-size: 0.78rem; color: rgba(255, 255, 255, 0.5); margin-bottom: 24px; }
+        .panel h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem; color: #b026ff;
+            margin: 26px 0 10px;
+        }
+        .panel p, .panel li { font-size: 0.95rem; color: rgba(255, 255, 255, 0.85); margin-bottom: 10px; }
+        .panel ul { padding-left: 22px; margin-bottom: 12px; }
+        .panel a { color: #00ffff; }
+        .panel strong { color: #00ff88; }
+        .highlight-box {
+            background: rgba(0, 255, 136, 0.08);
+            border-left: 3px solid #00ff88;
+            padding: 14px 18px; border-radius: 8px;
+            margin: 16px 0; font-size: 0.9rem;
+        }
+        .warn-box {
+            background: rgba(255, 140, 0, 0.08);
+            border-left: 3px solid #ff8c00;
+            padding: 14px 18px; border-radius: 8px;
+            margin: 16px 0; font-size: 0.9rem;
+        }
+        footer {
+            position: relative; z-index: 10;
+            text-align: center; padding: 30px 20px;
+            border-top: 1px solid rgba(0, 255, 255, 0.15);
+            font-size: 0.78rem; color: rgba(255, 255, 255, 0.5);
+        }
+        footer a { color: #00ffff; text-decoration: none; margin: 0 6px; }
+        @media (max-width: 700px) {
+            .logo { font-size: 1.8rem; }
+            .panel h1 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" style="text-decoration:none;"><div class="logo">SISMONOW</div></a>
+        <div class="subtitle">Información legal</div>
+        <a href="/" class="back-btn">← VOLVER AL MAPA</a>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="active" onclick="showPanel('privacy', this)">🔒 Privacidad</button>
+            <button onclick="showPanel('terms', this)">📜 Términos</button>
+            <button onclick="showPanel('cookies', this)">🍪 Cookies</button>
+        </div>
+
+        <!-- PRIVACIDAD -->
+        <div id="panel-privacy" class="panel active">
+            <h1>Política de Privacidad</h1>
+            <div class="updated">Última actualización: Septiembre 2026</div>
+
+            <div class="highlight-box">
+                <strong>Resumen en 10 segundos:</strong> sismonow no recolecta datos personales, no usa cookies de seguimiento, no vende información a terceros. Solo guardamos tu idioma preferido y preferencias de alarma en tu propio navegador.
+            </div>
+
+            <h2>1. Quiénes somos</h2>
+            <p>sismonow es un monitor sísmico global gratuito, de código abierto. Ofrece información de terremotos en tiempo real basada en datos oficiales del Servicio Geológico de Estados Unidos (USGS).</p>
+
+            <h2>2. Qué datos recolectamos</h2>
+            <p><strong>Ninguno.</strong> No hay registro, no hay login, no hay formularios que envíen datos a nuestros servidores. Toda la información que ves se obtiene directamente desde las APIs públicas de USGS y OpenStreetMap.</p>
+
+            <h2>3. Qué se guarda en tu navegador</h2>
+            <p>sismonow usa el almacenamiento local del navegador (localStorage) para guardar:</p>
+            <ul>
+                <li>Tu idioma preferido (ES, EN, PT, FR, DE, IT)</li>
+                <li>Estado de la alarma sonora (activada/desactivada)</li>
+                <li>IDs de sismos ya sonados (para no repetir alarma)</li>
+                <li>Sismos de tsunami que cerraste</li>
+            </ul>
+            <p>Todos estos datos <strong>se quedan en tu dispositivo</strong>. Nunca se envían a nosotros ni a terceros.</p>
+
+            <h2>4. Servicios externos</h2>
+            <p>Para funcionar, sismonow consulta:</p>
+            <ul>
+                <li><strong>USGS</strong> — datos sísmicos oficiales</li>
+                <li><strong>OpenStreetMap/Nominatim</strong> — búsqueda de lugares</li>
+                <li><strong>Esri ArcGIS</strong> — imágenes satelitales</li>
+                <li><strong>Google News</strong> — enlaces de noticias</li>
+                <li><strong>Cloudflare</strong> — hosting y protección DDoS</li>
+                <li><strong>Google Fonts</strong> — tipografías</li>
+            </ul>
+
+            <h2>5. Geolocalización</h2>
+            <p>El botón "Usar mi ubicación" solicita permiso a tu navegador. Si lo aceptas, tus coordenadas se usan <strong>solo en tu dispositivo</strong>. No se envían a ningún servidor.</p>
+
+            <h2>6. Tus derechos</h2>
+            <p>Al no recolectar datos personales, no hay nada que eliminar de nuestra parte. Si quieres borrar tus preferencias, abre F12 → Application → Clear storage en tu navegador.</p>
+
+            <h2>7. Menores de edad</h2>
+            <p>sismonow es apto para todas las edades. No recolecta datos de nadie.</p>
+
+            <h2>8. Cambios a esta política</h2>
+            <p>Si cambiamos algo importante, lo anunciaremos en la web antes de aplicar los cambios.</p>
+
+            <h2>9. Contacto</h2>
+            <p>Para preguntas legales: <a href="mailto:legal@sismonow.com">legal@sismonow.com</a></p>
+
+            <div class="warn-box">
+                <strong>Aviso:</strong> sismonow es una herramienta informativa. NO sustituye los sistemas oficiales de alerta temprana. En caso de sismo, sigue siempre las instrucciones de las autoridades locales.
+            </div>
+        </div>
+
+        <!-- TÉRMINOS -->
+        <div id="panel-terms" class="panel">
+            <h1>Términos de Uso</h1>
+            <div class="updated">Última actualización: Septiembre 2026</div>
+
+            <h2>1. Aceptación</h2>
+            <p>Al usar sismonow aceptas estos términos. Si no estás de acuerdo, por favor no uses el servicio.</p>
+
+            <h2>2. Servicio gratuito</h2>
+            <p>sismonow se ofrece <strong>gratis</strong>, sin garantías de disponibilidad. Puede haber interrupciones por mantenimiento o fallos de APIs externas.</p>
+
+            <h2>3. Uso permitido</h2>
+            <ul>
+                <li>Consultar información sísmica con fines personales o profesionales</li>
+                <li>Compartir sismos por redes sociales</li>
+                <li>Educación, investigación o periodismo citando la fuente</li>
+            </ul>
+
+            <h2>4. Uso prohibido</h2>
+            <ul>
+                <li>Automatizar consultas masivas que saturen las APIs externas</li>
+                <li>Revender el servicio como propio sin atribución</li>
+                <li>Usar la información para generar pánico o desinformación</li>
+                <li>Alterar o intentar hackear el servicio</li>
+            </ul>
+
+            <h2>5. Exactitud de la información</h2>
+            <p>Los datos provienen de USGS. <strong>sismonow no los verifica de forma independiente</strong>. Pueden existir retrasos o inexactitudes.</p>
+
+            <h2>6. Limitación de responsabilidad</h2>
+            <div class="warn-box">
+                <strong>sismonow NO es un sistema oficial de alerta temprana.</strong> No garantizamos detección previa a un sismo. Para alertas oficiales, consulta USGS, NOAA, o tu agencia nacional de protección civil.
+            </div>
+
+            <h2>7. Propiedad intelectual</h2>
+            <p>El código es de código abierto bajo licencia MIT. Los datos sísmicos son de dominio público (USGS). El nombre, diseño y marca "sismonow" son propiedad de sus creadores.</p>
+
+            <h2>8. Modificaciones</h2>
+            <p>Nos reservamos el derecho de modificar o discontinuar el servicio en cualquier momento.</p>
+
+            <h2>9. Contacto</h2>
+            <p>Para consultas: <a href="mailto:legal@sismonow.com">legal@sismonow.com</a></p>
+        </div>
+
+        <!-- COOKIES -->
+        <div id="panel-cookies" class="panel">
+            <h1>Política de Cookies</h1>
+            <div class="updated">Última actualización: Septiembre 2026</div>
+
+            <div class="highlight-box">
+                <strong>sismonow NO usa cookies.</strong> Usamos únicamente el almacenamiento local del navegador (localStorage) para recordar tus preferencias. Esto no requiere banner de cookies según la normativa europea, porque son datos esenciales para el funcionamiento del sitio.
+            </div>
+
+            <h2>1. ¿Qué son las cookies?</h2>
+            <p>Las cookies son pequeños archivos que los sitios web guardan en tu navegador. Se usan típicamente para rastrear comportamiento, guardar sesiones o mostrar publicidad personalizada.</p>
+
+            <h2>2. ¿Qué usa sismonow?</h2>
+            <p>sismonow <strong>NO usa cookies</strong> de ningún tipo. Ni propias, ni de terceros, ni de publicidad, ni de análisis.</p>
+
+            <h2>3. ¿Qué usa en su lugar?</h2>
+            <p>Usamos <strong>localStorage</strong>, que es diferente: no se envía al servidor, no permite rastrearte entre sitios, es más seguro.</p>
+
+            <h2>4. Qué guardamos</h2>
+            <ul>
+                <li><strong>sismonow_lang</strong> — tu idioma preferido</li>
+                <li><strong>sismonow_alarm</strong> — si la alarma sonora está activada</li>
+                <li><strong>sismonow_sounded</strong> — sismos que ya sonaron</li>
+                <li><strong>tsunami_dismissed_id</strong> — último tsunami que cerraste</li>
+                <li><strong>cookieConsent</strong> — si ya viste este aviso</li>
+            </ul>
+
+            <h2>5. Cómo borrar estos datos</h2>
+            <ul>
+                <li><strong>Chrome:</strong> Configuración → Privacidad → Borrar datos de navegación</li>
+                <li><strong>Firefox:</strong> Preferencias → Privacidad → Borrar datos</li>
+                <li><strong>Safari:</strong> Preferencias → Privacidad → Gestionar datos</li>
+                <li><strong>Rápido:</strong> F12 → Application → Clear storage</li>
+            </ul>
+
+            <h2>6. Cumplimiento normativo</h2>
+            <p>sismonow cumple con GDPR (UE), ePrivacy, CCPA (California) y LGPD (Brasil). Al no usar cookies de rastreo ni recolectar datos personales, cumplimos automáticamente con todas estas normativas.</p>
+
+            <h2>7. Cambios futuros</h2>
+            <p>Si en el futuro añadimos cookies (por ejemplo Google Analytics), publicaremos un banner pidiendo consentimiento explícito antes de activarlas.</p>
+
+            <h2>8. Contacto</h2>
+            <p>Para dudas: <a href="mailto:legal@sismonow.com">legal@sismonow.com</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <div>sismonow © 2026 · Datos: USGS · Hecho con ❤️ para el mundo</div>
+        <div style="margin-top: 8px;">
+            <a href="/">Inicio</a> ·
+            <a href="legal.html">Legal</a> ·
+            <a href="https://earthquake.usgs.gov" target="_blank">USGS</a>
+        </div>
+    </footer>
+
+    <script>
+        function showPanel(name, btn) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+            document.getElementById('panel-' + name).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
