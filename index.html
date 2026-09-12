@@ -133,10 +133,46 @@
             box-shadow: 0 0 12px rgba(0, 255, 255, 0.7);
         }
 
+        .hub-bar {
+            position: relative; z-index: 10;
+            display: flex; justify-content: center; gap: 10px;
+            margin: 10px auto 4px; max-width: 1000px; padding: 0 16px; flex-wrap: wrap;
+        }
+        .hub-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 14px; border-radius: 8px;
+            font-family: 'Orbitron', sans-serif; font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 1px; text-decoration: none; cursor: pointer;
+            transition: all 0.25s; border: 1px solid transparent;
+        }
+        .hub-btn-wa {
+            background: rgba(37, 211, 102, 0.12); color: #25d366;
+            border-color: rgba(37, 211, 102, 0.5);
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
+        }
+        .hub-btn-wa:hover {
+            background: rgba(37, 211, 102, 0.25); color: #fff;
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
+        }
+        .hub-btn-sound {
+            background: rgba(255, 140, 0, 0.1); color: #ff8c00;
+            border-color: rgba(255, 140, 0, 0.4);
+        }
+        .hub-btn-sound.active {
+            background: rgba(0, 255, 136, 0.15); color: #00ff88;
+            border-color: #00ff88; box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+        .hub-btn-install {
+            background: rgba(0, 255, 255, 0.1); color: #00ffff;
+            border-color: rgba(0, 255, 255, 0.5);
+            display: none;
+        }
+        .hub-btn-install.visible { display: inline-flex; }
+
         .search-container {
             position: relative; z-index: 10;
             display: flex; justify-content: center; gap: 8px;
-            margin: 20px auto 12px; max-width: 1000px;
+            margin: 12px auto 12px; max-width: 1000px;
             padding: 0 16px; flex-wrap: wrap;
         }
         .search-box {
@@ -241,14 +277,14 @@
 
         #globeViz {
             position: relative; z-index: 5;
-            width: 100%; height: 60vh; margin: 0 auto;
+            width: 100%; height: 58vh; margin: 0 auto;
         }
 
         #recentPanel {
-            position: fixed; top: 200px; left: 16px;
+            position: fixed; top: 220px; left: 16px;
             z-index: 9998; width: 300px;
             max-width: calc(100vw - 32px);
-            max-height: calc(100vh - 240px);
+            max-height: calc(100vh - 260px);
             overflow-y: auto;
             background: linear-gradient(135deg, rgba(20, 0, 30, 0.98), rgba(10, 0, 20, 0.98));
             border: 2px solid #b026ff;
@@ -296,10 +332,10 @@
         .recent-item:hover .recent-go { opacity: 1; }
 
         #localPanel {
-            position: fixed; top: 240px; right: 16px;
+            position: fixed; top: 250px; right: 16px;
             z-index: 9999; width: 320px;
             max-width: calc(100vw - 32px);
-            max-height: calc(100vh - 280px);
+            max-height: calc(100vh - 290px);
             overflow-y: auto;
             background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
             border: 2px solid #00ff88;
@@ -384,81 +420,111 @@
             padding: 20px;
         }
         #satModal.visible { display: flex; }
-        #satModal .modal-content {
+        .modal-content {
             width: 100%; max-width: 900px; max-height: 90vh;
             background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
             border: 2px solid #00ffff; border-radius: 16px;
             box-shadow: 0 0 60px rgba(0, 255, 255, 0.5);
             display: flex; flex-direction: column; overflow: hidden;
         }
-        #satModal .modal-header {
+        .modal-header {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(0, 255, 255, 0.3);
             display: flex; justify-content: space-between; align-items: center;
             gap: 12px;
         }
-        #satModal .modal-title {
+        .modal-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700; font-size: 1rem; letter-spacing: 2px;
             color: #00ffff; flex: 1;
         }
-        #satModal .modal-close {
+        .modal-close {
             background: none;
             border: 2px solid rgba(0, 255, 255, 0.4);
             border-radius: 8px; color: #00ffff;
             font-size: 1.2rem; cursor: pointer;
             padding: 4px 12px; line-height: 1;
         }
-        #satModal .modal-info {
+        .modal-info {
             padding: 14px 20px;
             display: flex; gap: 20px; flex-wrap: wrap;
             border-bottom: 1px solid rgba(0, 255, 255, 0.15);
             font-size: 0.85rem;
         }
-        #satModal .modal-info-item { display: flex; flex-direction: column; gap: 2px; }
-        #satModal .modal-info-item .lbl {
+        .modal-info-item { display: flex; flex-direction: column; gap: 2px; }
+        .modal-info-item .lbl {
             font-size: 0.65rem; letter-spacing: 2px;
             color: rgba(0, 255, 255, 0.7); text-transform: uppercase;
         }
-        #satModal .modal-info-item .val {
+        .modal-info-item .val {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700; color: #fff;
         }
-        #satMap { flex: 1; min-height: 400px; width: 100%; background: #000; }
-        #satModal .modal-actions {
+        #satMap { flex: 1; min-height: 380px; width: 100%; background: #000; }
+        .modal-actions {
             padding: 14px 20px;
             display: flex; gap: 10px; flex-wrap: wrap;
             border-top: 1px solid rgba(0, 255, 255, 0.15);
         }
-        #satModal .modal-actions a,
-        #satModal .modal-actions button {
-            flex: 1; min-width: 120px;
-            padding: 12px 16px;
+        .modal-actions a,
+        .modal-actions button {
+            flex: 1; min-width: 110px;
+            padding: 12px 14px;
             border: 2px solid rgba(0, 255, 255, 0.5);
             border-radius: 10px;
             background: rgba(0, 255, 255, 0.08);
             color: #00ffff;
             font-family: 'Orbitron', sans-serif;
-            font-weight: 700; font-size: 0.72rem; letter-spacing: 2px;
+            font-weight: 700; font-size: 0.7rem; letter-spacing: 1px;
             text-align: center; text-decoration: none; cursor: pointer;
             transition: all 0.25s;
         }
-        #satModal .modal-actions a:hover,
-        #satModal .modal-actions button:hover {
+        .modal-actions a:hover,
+        .modal-actions button:hover {
             background: rgba(0, 255, 255, 0.2);
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
-        #satModal .modal-actions .share-btn {
-            border-color: rgba(176, 38, 255, 0.6);
-            color: #b026ff;
+        .modal-actions .share-wa {
+            border-color: rgba(37, 211, 102, 0.6); color: #25d366;
+            background: rgba(37, 211, 102, 0.08);
+        }
+        .modal-actions .share-wa:hover {
+            background: rgba(37, 211, 102, 0.22);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+        }
+        .modal-actions .share-tg {
+            border-color: rgba(0, 136, 204, 0.6); color: #0088cc;
+            background: rgba(0, 136, 204, 0.08);
+        }
+        .modal-actions .share-tg:hover {
+            background: rgba(0, 136, 204, 0.22);
+            box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
+        }
+        .modal-actions .share-x {
+            border-color: rgba(255, 255, 255, 0.5); color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .modal-actions .share-x:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+        .modal-actions .share-fb {
+            border-color: rgba(24, 119, 242, 0.6); color: #1877f2;
+            background: rgba(24, 119, 242, 0.08);
+        }
+        .modal-actions .share-fb:hover {
+            background: rgba(24, 119, 242, 0.22);
+            box-shadow: 0 0 20px rgba(24, 119, 242, 0.5);
+        }
+        .modal-actions .share-copy {
+            border-color: rgba(176, 38, 255, 0.6); color: #b026ff;
             background: rgba(176, 38, 255, 0.08);
         }
-        #satModal .modal-actions .share-btn:hover {
-            background: rgba(176, 38, 255, 0.2);
+        .modal-actions .share-copy:hover {
+            background: rgba(176, 38, 255, 0.22);
             box-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
         }
 
-        /* Estilo limpio para el icono de Leaflet sin recuadro blanco */
         .custom-quake-icon {
             background: transparent !important;
             border: none !important;
@@ -474,15 +540,15 @@
             padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
             gap: 6px; justify-content: space-around;
         }
-        .mobile-tabs button {
+        .mobile-tabs button, .mobile-tabs a {
             flex: 1; padding: 8px 4px;
             border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 8px;
             background: rgba(0, 255, 255, 0.05);
             color: #00ffff;
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.6rem; letter-spacing: 1px;
-            cursor: pointer;
+            font-size: 0.58rem; letter-spacing: 1px;
+            cursor: pointer; text-decoration: none; text-align: center;
         }
 
         .legend {
@@ -523,6 +589,8 @@
                 position: relative; top: auto; right: auto;
                 justify-content: center; margin: 10px auto 0; max-width: 100%;
             }
+            .hub-bar { gap: 6px; padding: 0 12px; }
+            .hub-btn { font-size: 0.6rem; padding: 6px 10px; }
             .search-container { padding: 0 12px; gap: 6px; }
             .search-box { min-width: 100%; }
             .search-box input { padding: 13px 14px; font-size: 0.9rem; }
@@ -536,7 +604,7 @@
             .info-item { min-width: 0; flex: 1; padding: 8px 10px; }
             .info-item .label { font-size: 0.55rem; }
             .info-item .value { font-size: 1rem; }
-            #globeViz { height: 55vh; }
+            #globeViz { height: 50vh; }
             #recentPanel {
                 top: auto; bottom: 70px; left: 12px; right: 12px;
                 width: auto; max-height: 32vh; z-index: 9000;
@@ -549,7 +617,8 @@
             .mobile-tabs { display: flex; }
             .legend { gap: 10px; padding: 12px; margin-bottom: 70px; }
             .legend-item { font-size: 0.7rem; }
-            #satMap { min-height: 280px; }
+            #satMap { min-height: 260px; }
+            .modal-actions a, .modal-actions button { min-width: 90px; font-size: 0.65rem; padding: 10px 8px; letter-spacing: 0; }
             #tsunamiBanner { font-size: 0.7rem; padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top)); }
             #tsunamiBanner .tsunami-close { width: 26px; height: 26px; font-size: 1rem; }
         }
@@ -577,6 +646,20 @@
         <div class="logo">SISMONOW</div>
         <div class="subtitle" id="t-subtitle"></div>
     </header>
+
+    <!-- Barra de Comunidad -->
+    <div class="hub-bar" translate="no">
+        <!-- ⚠️ REEMPLAZA el href con el enlace real de tu canal de WhatsApp -->
+        <a class="hub-btn hub-btn-wa" id="btn-whatsapp" href="https://whatsapp.com/channel/TU_CANAL_AQUI" target="_blank" rel="noopener">
+            💬 <span id="t-hubWa">CANAL WHATSAPP</span>
+        </a>
+        <button class="hub-btn hub-btn-sound" id="btn-sound" onclick="toggleAlarmaSonora()">
+            🔇 <span id="t-hubSound">ALARMA: OFF</span>
+        </button>
+        <button class="hub-btn hub-btn-install" id="btn-install" onclick="instalarPWA()">
+            ⬇️ <span id="t-hubInstall">INSTALAR APP</span>
+        </button>
+    </div>
 
     <div class="search-container" translate="no">
         <div class="search-box">
@@ -676,7 +759,7 @@
         <button onclick="scrollToTop()">🏠 <span id="t-tabHome">Inicio</span></button>
         <button onclick="toggleRecent()">🔥 <span id="t-tabRecent">Sismos</span></button>
         <button onclick="usarMiUbicacion()">📍 <span id="t-tabLocation">Mi zona</span></button>
-        <button onclick="abrirNoticias()">📰 <span id="t-tabNews">Noticias</span></button>
+        <a href="https://whatsapp.com/channel/TU_CANAL_AQUI" target="_blank" rel="noopener">💬 <span>WhatsApp</span></a>
     </div>
 
     <div class="legend" translate="no">
@@ -685,6 +768,7 @@
         <div class="legend-item"><div class="legend-dot" style="background:#ff0033; color:#ff0033;"></div><span id="t-legendHigh"></span></div>
     </div>
 
+    <!-- Modal Satelital -->
     <div id="satModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -694,9 +778,13 @@
             <div class="modal-info" id="satInfo"></div>
             <div id="satMap"></div>
             <div class="modal-actions">
-                <button class="share-btn" onclick="compartirSismo()">📤 <span id="t-shareBtn">COMPARTIR</span></button>
+                <button class="share-wa" onclick="compartirWhatsApp()">💬 WhatsApp</button>
+                <button class="share-tg" onclick="compartirTelegram()">✈️ Telegram</button>
+                <button class="share-x" onclick="compartirX()">𝕏 Twitter</button>
+                <button class="share-fb" onclick="compartirFacebook()">📘 Facebook</button>
+                <button class="share-copy" onclick="copiarEnlace()">🔗 <span id="t-copyBtn">Copiar</span></button>
                 <a id="satUSGS" href="#" target="_blank" rel="noopener">🔗 USGS</a>
-                <a id="satMaps" href="#" target="_blank" rel="noopener">🗺️ MAPS</a>
+                <a id="satMaps" href="#" target="_blank" rel="noopener">🗺️ Maps</a>
             </div>
         </div>
     </div>
@@ -706,13 +794,16 @@
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
+        // ⚠️ CAMBIA ESTA URL CUANDO COMPRES EL DOMINIO
+        const SITE_URL = 'https://sismonow.arquimendesjosearquinzones.workers.dev';
+
         const I18N = {
-            es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', filterTime:'Rango temporal', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', tabNews:'Noticias', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar', shareBtn:'COMPARTIR', copied:'✓ ENLACE COPIADO', shareText:'🌍 Terremoto M{mag} cerca de {place} — Más info en sismonow' },
-            en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', filterTime:'Time range', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', tabNews:'News', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place', shareBtn:'SHARE', copied:'✓ LINK COPIED', shareText:'🌍 Earthquake M{mag} near {place} — More info at sismonow' },
-            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não soportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', filterTime:'Intervalo', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', tabNews:'Notícias', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', shareBtn:'COMPARTILHAR', copied:'✓ LINK COPIADO', shareText:'🌍 Terremoto M{mag} perto de {place} — Mais info em sismonow' },
-            fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', filterTime:'Période', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', daysAgo:'j', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', tabNews:'Actus', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu', shareBtn:'PARTAGER', copied:'✓ LIEN COPIÉ', shareText:'🌍 Séisme M{mag} près de {place} — Plus d\'infos sur sismonow' },
-            de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', filterTime:'Zeitraum', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', daysAgo:'T', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', tabNews:'News', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort', shareBtn:'TEILEN', copied:'✓ LINK KOPIERT', shareText:'🌍 Erdbeben M{mag} nahe {place} — Mehr Infos auf sismonow' },
-            it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', filterTime:'Intervallo', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', daysAgo:'g', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', tabNews:'Notizie', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', shareBtn:'CONDIVIDI', copied:'✓ LINK COPIATO', shareText:'🌍 Terremoto M{mag} vicino a {place} — Più info su sismonow' }
+            es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', filterTime:'Rango temporal', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar', copyBtn:'Copiar', copied:'✓ ENLACE COPIADO', shareText:'🌍 Terremoto M{mag} cerca de {place} — Más info en sismonow', hubWa:'CANAL WHATSAPP', soundOn:'ALARMA: ON', soundOff:'ALARMA: OFF', hubInstall:'INSTALAR APP' },
+            en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', filterTime:'Time range', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place', copyBtn:'Copy', copied:'✓ LINK COPIED', shareText:'🌍 Earthquake M{mag} near {place} — More info at sismonow', hubWa:'WHATSAPP CHANNEL', soundOn:'ALARM: ON', soundOff:'ALARM: OFF', hubInstall:'INSTALL APP' },
+            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não soportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', filterTime:'Intervalo', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', copyBtn:'Copiar', copied:'✓ LINK COPIADO', shareText:'🌍 Terremoto M{mag} perto de {place} — Mais info em sismonow', hubWa:'CANAL WHATSAPP', soundOn:'ALARME: ON', soundOff:'ALARME: OFF', hubInstall:'INSTALAR APP' },
+            fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', filterTime:'Période', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', daysAgo:'j', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu', copyBtn:'Copier', copied:'✓ LIEN COPIÉ', shareText:'🌍 Séisme M{mag} près de {place} — Plus d\'infos sur sismonow', hubWa:'CHAÎNE WHATSAPP', soundOn:'ALARME: ON', soundOff:'ALARME: OFF', hubInstall:'INSTALLER' },
+            de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', filterTime:'Zeitraum', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', daysAgo:'T', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort', copyBtn:'Kopieren', copied:'✓ LINK KOPIERT', shareText:'🌍 Erdbeben M{mag} nahe {place} — Mehr Infos auf sismonow', hubWa:'WHATSAPP-KANAL', soundOn:'ALARM: AN', soundOff:'ALARM: AUS', hubInstall:'INSTALLIEREN' },
+            it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', filterTime:'Intervallo', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', daysAgo:'g', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', copyBtn:'Copia', copied:'✓ LINK COPIATO', shareText:'🌍 Terremoto M{mag} vicino a {place} — Più info su sismonow', hubWa:'CANALE WHATSAPP', soundOn:'ALLARME: ON', soundOff:'ALLARME: OFF', hubInstall:'INSTALLA' }
         };
 
         const EMERGENCY = {
@@ -740,6 +831,10 @@
         };
 
         let currentLang = localStorage.getItem('sismonow_lang') || 'es';
+        let alarmaHabilitada = localStorage.getItem('sismonow_alarm') === 'true';
+        let sismosSonados = JSON.parse(localStorage.getItem('sismonow_sounded') || '[]');
+        let audioCtx = null;
+
         let ultimosTerremotos = [];
         let miUbicacion = null;
         let currentMagFilter = 0;
@@ -749,7 +844,94 @@
         let leafletMarker = null;
         let leafletCircle = null;
         let currentQuake = null;
+        let deferredInstallPrompt = null;
 
+        // ============ PWA INSTALL ============
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            document.getElementById('btn-install').classList.add('visible');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredInstallPrompt = null;
+            document.getElementById('btn-install').classList.remove('visible');
+        });
+
+        function instalarPWA() {
+            if (!deferredInstallPrompt) return;
+            deferredInstallPrompt.prompt();
+            deferredInstallPrompt.userChoice.then(choice => {
+                if (choice.outcome === 'accepted') {
+                    mostrarToast('✓ ' + (currentLang === 'es' ? 'APP INSTALADA' : 'APP INSTALLED'));
+                }
+                deferredInstallPrompt = null;
+                document.getElementById('btn-install').classList.remove('visible');
+            });
+        }
+
+        // ============ AUDIO ALARMA ============
+        function initAudio() {
+            if (!audioCtx) {
+                const AC = window.AudioContext || window.webkitAudioContext;
+                if (AC) audioCtx = new AC();
+            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function sonarAlarma(tipo = 'warning') {
+            if (!alarmaHabilitada) return;
+            try {
+                initAudio();
+                if (!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                const now = audioCtx.currentTime;
+                if (tipo === 'danger') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(800, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.3);
+                    osc.frequency.setValueAtTime(800, now + 0.3);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.6);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+                    osc.start(now);
+                    osc.stop(now + 0.7);
+                } else {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(880, now);
+                    osc.frequency.exponentialRampToValueAtTime(440, now + 0.4);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                }
+            } catch (err) { console.warn('Audio:', err); }
+        }
+
+        function toggleAlarmaSonora() {
+            initAudio();
+            alarmaHabilitada = !alarmaHabilitada;
+            localStorage.setItem('sismonow_alarm', alarmaHabilitada);
+            actualizarBotonSonido();
+            if (alarmaHabilitada) sonarAlarma('warning');
+        }
+
+        function actualizarBotonSonido() {
+            const btn = document.getElementById('btn-sound');
+            const t = I18N[currentLang];
+            if (alarmaHabilitada) {
+                btn.className = 'hub-btn hub-btn-sound active';
+                btn.innerHTML = '🔊 <span>' + t.soundOn + '</span>';
+            } else {
+                btn.className = 'hub-btn hub-btn-sound';
+                btn.innerHTML = '🔇 <span>' + t.soundOff + '</span>';
+            }
+        }
+
+        // ============ IDIOMA ============
         function aplicarIdioma(lang) {
             if (!I18N[lang]) lang = 'es';
             currentLang = lang;
@@ -780,9 +962,11 @@
             set('t-tabHome', t.tabHome);
             set('t-tabRecent', t.tabRecent);
             set('t-tabLocation', t.tabLocation);
-            set('t-tabNews', t.tabNews);
-            set('t-shareBtn', t.shareBtn);
-            set('copyToast', t.copied);
+            set('t-copyBtn', t.copyBtn);
+            set('t-hubWa', t.hubWa);
+            set('t-hubInstall', t.hubInstall);
+
+            actualizarBotonSonido();
 
             document.getElementById('magFilter').options[0].text = t.all;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
@@ -983,6 +1167,15 @@
                 banner.dataset.id = fuerte.id || fuerte.time;
                 banner.dataset.idx = ultimosTerremotos.indexOf(fuerte);
                 banner.classList.add('visible');
+
+                // Alarma solo si no sonó antes para ESTE sismo
+                const sismoKey = 'tsunami_' + (fuerte.id || fuerte.time);
+                if (!sismosSonados.includes(sismoKey)) {
+                    sismosSonados.push(sismoKey);
+                    if (sismosSonados.length > 50) sismosSonados = sismosSonados.slice(-50);
+                    localStorage.setItem('sismonow_sounded', JSON.stringify(sismosSonados));
+                    sonarAlarma('danger');
+                }
             } else {
                 banner.classList.remove('visible');
             }
@@ -1056,40 +1249,62 @@
             }, 100);
         }
 
-        function compartirSismo() {
-            if (!currentQuake) return;
-            const q = currentQuake;
+        // ============ COMPARTIR REDES SOCIALES ============
+        function textoCompartir() {
+            if (!currentQuake) return '';
             const t = I18N[currentLang];
-            const url = window.location.href;
-            const texto = t.shareText
-                .replace('{mag}', q.mag.toFixed(1))
-                .replace('{place}', q.place);
+            return t.shareText.replace('{mag}', currentQuake.mag.toFixed(1)).replace('{place}', currentQuake.place);
+        }
 
-            if (navigator.share) {
-                navigator.share({ title: 'sismonow', text: texto, url: url }).catch(() => {});
+        function compartirWhatsApp() {
+            if (!currentQuake) return;
+            const url = 'https://wa.me/?text=' + encodeURIComponent(textoCompartir() + '\n' + SITE_URL);
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function compartirTelegram() {
+            if (!currentQuake) return;
+            const url = 'https://t.me/share/url?url=' + encodeURIComponent(SITE_URL) + '&text=' + encodeURIComponent(textoCompartir());
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function compartirX() {
+            if (!currentQuake) return;
+            const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(textoCompartir()) + '&url=' + encodeURIComponent(SITE_URL);
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function compartirFacebook() {
+            if (!currentQuake) return;
+            const url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL);
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        function copiarEnlace() {
+            if (!currentQuake) return;
+            const t = I18N[currentLang];
+            const contenido = textoCompartir() + '\n' + SITE_URL;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(contenido).then(() => mostrarToast(t.copied)).catch(() => copiarFallback(contenido));
             } else {
-                const contenido = texto + '\n' + url;
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(contenido).then(() => mostrarToast()).catch(() => mostrarToastFallback(contenido));
-                } else {
-                    mostrarToastFallback(contenido);
-                }
+                copiarFallback(contenido);
             }
         }
 
-        function mostrarToastFallback(texto) {
+        function copiarFallback(texto) {
             const ta = document.createElement('textarea');
             ta.value = texto;
             ta.style.position = 'fixed';
             ta.style.top = '-9999px';
             document.body.appendChild(ta);
             ta.select();
-            try { document.execCommand('copy'); mostrarToast(); } catch(e) { alert(texto); }
+            try { document.execCommand('copy'); mostrarToast(I18N[currentLang].copied); } catch(e) { alert(texto); }
             document.body.removeChild(ta);
         }
 
-        function mostrarToast() {
+        function mostrarToast(msg) {
             const toast = document.getElementById('copyToast');
+            if (msg) toast.textContent = msg;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
@@ -1121,7 +1336,6 @@
                     const lugar = (data[0].display_name || '').split(',')[0].trim() || t.world;
                     locEl.textContent = lugar;
 
-                    // Conectar la búsqueda con el panel de datos y el radio geográfico
                     miUbicacion = {
                         lat, lng,
                         countryCode: (data[0].address?.country_code || '').toLowerCase()
@@ -1156,9 +1370,16 @@
                 .pathDashLength(0.02).pathDashGap(0.005).pathDashAnimateTime(8000);
         }
 
+        // ============ NOTICIAS ACTUALES (últimas 24h) ============
         function abrirNoticias() {
-            const loc = document.getElementById('activeLocation').textContent || 'World';
-            window.open('https://news.google.com/search?q=' + encodeURIComponent(loc + ' earthquake'), '_blank', 'noopener,noreferrer');
+            const locEl = document.getElementById('activeLocation');
+            const loc = locEl.textContent && locEl.textContent !== I18N[currentLang].world ? locEl.textContent : '';
+            // Google News: query + when:1d = últimas 24 horas
+            let query = 'earthquake when:1d';
+            if (loc) query = loc + ' earthquake when:1d';
+            // Si el filtro de magnitud está en M5+, buscar terremotos fuertes
+            if (currentMagFilter >= 5) query = (loc ? loc + ' ' : '') + 'major earthquake when:7d';
+            window.open('https://news.google.com/search?q=' + encodeURIComponent(query) + '&hl=' + (currentLang === 'pt' ? 'pt-BR' : currentLang === 'fr' ? 'fr' : currentLang === 'de' ? 'de' : currentLang === 'it' ? 'it' : currentLang === 'en' ? 'en-US' : 'es-419'), '_blank', 'noopener,noreferrer');
         }
 
         function usarMiUbicacion() {
@@ -1206,12 +1427,9 @@
 
         function abrirPanel() {
             document.getElementById('localPanel').classList.add('visible');
-            // Si la pantalla es móvil, colapsar el panel de últimos sismos para evitar superposición
             if (window.innerWidth <= 900) {
                 const recent = document.getElementById('recentPanel');
-                if (!recent.classList.contains('collapsed')) {
-                    toggleRecent();
-                }
+                if (!recent.classList.contains('collapsed')) toggleRecent();
             }
         }
         function cerrarPanel() { document.getElementById('localPanel').classList.remove('visible'); }
@@ -1282,7 +1500,7 @@
             });
         }
 
-        // Inicialización correcta
+        // Inicialización en orden
         document.getElementById('activeLocation').dataset.translatable = 'true';
         aplicarIdioma(currentLang);
         cargarTerremotos();
