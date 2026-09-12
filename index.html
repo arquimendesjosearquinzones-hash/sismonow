@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="referrer" content="no-referrer">
+    <meta name="google" content="notranslate">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://unpkg.com data:; connect-src https://earthquake.usgs.gov https://nominatim.openstreetmap.org;">
 
     <title>sismonow</title>
@@ -275,24 +276,24 @@
 </head>
 <body>
 
-    <div class="lang-switch">
+    <div class="lang-switch" translate="no">
         <button id="btn-es" data-lang="es">ES</button>
         <button id="btn-en" data-lang="en">EN</button>
     </div>
 
-    <header>
+    <header translate="no">
         <div class="logo">SISMONOW</div>
         <div class="subtitle" id="t-subtitle"></div>
     </header>
 
-    <div class="search-container">
+    <div class="search-container" translate="no">
         <div class="search-box">
             <input type="text" id="searchInput" maxlength="100" autocomplete="off" />
             <button id="btn-search" onclick="buscarPais()"></button>
         </div>
     </div>
 
-    <div class="info-bar">
+    <div class="info-bar" translate="no">
         <div class="info-item">
             <span class="label" id="t-quakeLabel"></span>
             <span class="value" id="quakeCount">—</span>
@@ -309,7 +310,7 @@
 
     <div id="globeViz"></div>
 
-    <div class="legend">
+    <div class="legend" translate="no">
         <div class="legend-item">
             <div class="legend-dot" style="background:#ffe600; color:#ffe600;"></div>
             <span id="t-legendLow"></span>
@@ -327,7 +328,7 @@
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
     <script>
         // ============================================================
-        // TRADUCCIONES COMPLETAS
+        // TRADUCCIONES
         // ============================================================
         const I18N = {
             es: {
@@ -372,7 +373,7 @@
         let ultimosTerremotos = [];
 
         // ============================================================
-        // APLICAR IDIOMA (traduce TODO)
+        // APLICAR IDIOMA
         // ============================================================
         function aplicarIdioma(lang) {
             currentLang = lang;
@@ -395,7 +396,6 @@
 
             document.getElementById('btn-search').textContent = t.searchBtn;
 
-            // Solo resetear "Ubicación activa" si está en el valor por defecto
             const locEl = document.getElementById('activeLocation');
             if (locEl.dataset.translatable === 'true') {
                 locEl.textContent = t.world;
@@ -404,7 +404,6 @@
             document.getElementById('btn-es').classList.toggle('active', lang === 'es');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
 
-            // Redibujar los puntos con el nuevo idioma
             if (ultimosTerremotos.length > 0) {
                 dibujarPuntos(ultimosTerremotos);
             }
@@ -518,7 +517,6 @@
             const query = rawQuery.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s,\-\.]/g, '');
             if (query.length === 0 || query.length > 100) return;
 
-            // Forzamos a Nominatim a responder en el idioma actual
             const url = 'https://nominatim.openstreetmap.org/search'
                 + '?format=json&limit=1'
                 + '&accept-language=' + currentLang
@@ -560,7 +558,6 @@
                         .ringPropagationSpeed(3)
                         .ringRepeatPeriod(800);
 
-                    // Solo el primer segmento del nombre (antes de la coma)
                     const nombreCorto = (data[0].display_name || '').split(',')[0].trim() || t.world;
                     locEl.textContent = nombreCorto;
                 })
@@ -582,7 +579,6 @@
         // ARRANQUE
         // ============================================================
         aplicarIdioma(currentLang);
-        // Marcar "Mundo" como traducible en el primer arranque
         document.getElementById('activeLocation').dataset.translatable = 'true';
 
         cargarTerremotos();
