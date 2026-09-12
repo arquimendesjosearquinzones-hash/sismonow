@@ -125,7 +125,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin: 30px auto 20px;
+            margin: 30px auto 16px;
             max-width: 900px;
             padding: 0 20px;
             flex-wrap: wrap;
@@ -218,6 +218,62 @@
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
+        /* ===== FILTROS ===== */
+        .filters-bar {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 0 auto 16px;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border: 1px solid rgba(0, 255, 255, 0.35);
+            border-radius: 10px;
+            background: rgba(0, 10, 20, 0.6);
+            backdrop-filter: blur(8px);
+        }
+
+        .filter-group label {
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            color: rgba(0, 255, 255, 0.75);
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .filter-group select {
+            background: rgba(0, 10, 20, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 6px;
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            padding: 6px 10px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .filter-group select:hover,
+        .filter-group select:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+        }
+
+        .filter-group select option {
+            background: #05050a;
+            color: #00ffff;
+        }
+
         .info-bar {
             position: relative;
             z-index: 10;
@@ -265,17 +321,14 @@
             margin: 0 auto;
         }
 
-        /* ============================================ */
-        /* PANEL LOCAL — SIMPLIFICADO Y ROBUSTO        */
-        /* ============================================ */
         #localPanel {
             position: fixed;
-            top: 200px;
+            top: 260px;
             right: 20px;
             z-index: 9999;
             width: 340px;
             max-width: calc(100vw - 40px);
-            max-height: calc(100vh - 240px);
+            max-height: calc(100vh - 300px);
             overflow-y: auto;
             background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
             border: 2px solid #00ff88;
@@ -288,9 +341,7 @@
             display: none;
         }
 
-        #localPanel.visible {
-            display: block;
-        }
+        #localPanel.visible { display: block; }
 
         #localPanel .panel-title {
             font-family: 'Orbitron', sans-serif;
@@ -432,6 +483,9 @@
             .search-box input { padding: 14px 16px; font-size: 0.95rem; }
             .search-box button { padding: 0 18px; letter-spacing: 2px; font-size: 0.75rem; }
             .geo-button { padding: 14px 18px; font-size: 0.75rem; width: 100%; }
+            .filter-group { padding: 8px 12px; }
+            .filter-group label { font-size: 0.65rem; letter-spacing: 1px; }
+            .filter-group select { font-size: 0.75rem; padding: 4px 8px; }
             .info-item { min-width: 140px; padding: 8px 16px; }
             .info-item .value { font-size: 1.2rem; }
             #globeViz { height: 55vh; }
@@ -466,6 +520,28 @@
         <button class="geo-button" id="btn-geo" onclick="usarMiUbicacion()">📍</button>
     </div>
 
+    <div class="filters-bar" translate="no">
+        <div class="filter-group">
+            <label id="t-filterMag">Magnitud mínima</label>
+            <select id="magFilter">
+                <option value="0">Todas</option>
+                <option value="1">M1+</option>
+                <option value="2.5">M2.5+</option>
+                <option value="4">M4+</option>
+                <option value="5">M5+</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label id="t-filterRadius">Radio</label>
+            <select id="radiusFilter">
+                <option value="100">100 km</option>
+                <option value="500" selected>500 km</option>
+                <option value="1000">1000 km</option>
+                <option value="2000">2000 km</option>
+            </select>
+        </div>
+    </div>
+
     <div class="info-bar" translate="no">
         <div class="info-item">
             <span class="label" id="t-quakeLabel"></span>
@@ -491,7 +567,7 @@
         <div class="panel-loc" id="panelLoc">—</div>
 
         <div class="stat-row">
-            <span class="stat-label" id="t-statNear">Sismos en 500 km</span>
+            <span class="stat-label" id="t-statNear">Sismos en tu radio</span>
             <span class="stat-value" id="statNear">—</span>
         </div>
         <div class="stat-row">
@@ -499,7 +575,7 @@
             <span class="stat-value" id="statClosest">—</span>
         </div>
         <div class="stat-row">
-            <span class="stat-label" id="t-statStrongest">Más fuerte (500 km)</span>
+            <span class="stat-label" id="t-statStrongest">Más fuerte</span>
             <span class="stat-value" id="statStrongest">—</span>
         </div>
 
@@ -552,10 +628,13 @@
                 legendMid: 'Magnitud 3.0 – 4.9',
                 legendHigh: 'Magnitud ≥ 5.0',
                 panelTitle: '📍 TU ZONA',
-                statNear: 'Sismos en 500 km',
+                statNear: 'Sismos en tu radio',
                 statClosest: 'Más cercano',
-                statStrongest: 'Más fuerte (500 km)',
+                statStrongest: 'Más fuerte',
                 emergencyTitle: '🚨 NÚMEROS DE EMERGENCIA',
+                filterMag: 'Magnitud mínima',
+                filterRadius: 'Radio',
+                all: 'Todas',
                 km: 'km',
                 none: 'Ninguno',
                 locale: 'es-ES'
@@ -582,10 +661,13 @@
                 legendMid: 'Magnitude 3.0 – 4.9',
                 legendHigh: 'Magnitude ≥ 5.0',
                 panelTitle: '📍 YOUR AREA',
-                statNear: 'Quakes within 500 km',
+                statNear: 'Quakes in your radius',
                 statClosest: 'Closest',
-                statStrongest: 'Strongest (500 km)',
+                statStrongest: 'Strongest',
                 emergencyTitle: '🚨 EMERGENCY NUMBERS',
+                filterMag: 'Min magnitude',
+                filterRadius: 'Radius',
+                all: 'All',
                 km: 'km',
                 none: 'None',
                 locale: 'en-US'
@@ -593,7 +675,7 @@
         };
 
         // ============================================================
-        // NÚMEROS DE EMERGENCIA POR PAÍS
+        // NÚMEROS DE EMERGENCIA
         // ============================================================
         const EMERGENCY = {
             'Venezuela': [
@@ -617,7 +699,6 @@
             ],
             'Chile': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '132' },
-                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '132' },
                 { name: { es: 'Carabineros', en: 'Police' }, number: '133' }
             ],
             'Perú': [
@@ -637,13 +718,11 @@
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
                 { name: { es: 'USGS', en: 'USGS' }, number: '1-888-275-8747' }
             ],
-            'Spain': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
-                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '112' }
-            ],
             'España': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
-                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '112' }
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' }
+            ],
+            'Spain': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' }
             ],
             'Japan': [
                 { name: { es: 'Policía', en: 'Police' }, number: '110' },
@@ -654,12 +733,10 @@
                 { name: { es: 'Bomberos/Ambulancia', en: 'Fire/Ambulance' }, number: '119' }
             ],
             'Italy': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
-                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '800-840-840' }
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' }
             ],
             'Italia': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
-                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '800-840-840' }
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' }
             ],
             'Indonesia': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
@@ -684,17 +761,15 @@
                 { name: { es: 'AFAD', en: 'AFAD' }, number: '122' }
             ],
             'Haiti': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '114' },
-                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '114' }
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '114' }
             ],
             'Haití': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '114' },
-                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '114' }
-            ],
-            'Dominican Republic': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '114' }
             ],
             'República Dominicana': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
+            ],
+            'Dominican Republic': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
             ],
             'Cuba': [
@@ -711,6 +786,8 @@
         let currentLang = localStorage.getItem('sismonow_lang') || 'es';
         let ultimosTerremotos = [];
         let miUbicacion = null;
+        let currentMagFilter = 0;
+        let currentRadiusKm = 500;
 
         // ============================================================
         // APLICAR IDIOMA
@@ -730,16 +807,24 @@
             document.getElementById('t-legendLow').textContent = t.legendLow;
             document.getElementById('t-legendMid').textContent = t.legendMid;
             document.getElementById('t-legendHigh').textContent = t.legendHigh;
-
             document.getElementById('t-panelTitle').textContent = t.panelTitle;
             document.getElementById('t-statNear').textContent = t.statNear;
             document.getElementById('t-statClosest').textContent = t.statClosest;
             document.getElementById('t-statStrongest').textContent = t.statStrongest;
             document.getElementById('t-emergencyTitle').textContent = t.emergencyTitle;
+            document.getElementById('t-filterMag').textContent = t.filterMag;
+            document.getElementById('t-filterRadius').textContent = t.filterRadius;
+
+            // Actualizar opciones del selector de magnitud
+            const magSelect = document.getElementById('magFilter');
+            magSelect.options[0].text = t.all;
+            magSelect.options[1].text = 'M1+';
+            magSelect.options[2].text = 'M2.5+';
+            magSelect.options[3].text = 'M4+';
+            magSelect.options[4].text = 'M5+';
 
             const searchInput = document.getElementById('searchInput');
             searchInput.placeholder = t.searchPlaceholder;
-
             document.getElementById('btn-search').textContent = t.searchBtn;
 
             const geoBtn = document.getElementById('btn-geo');
@@ -760,11 +845,11 @@
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
 
             if (ultimosTerremotos.length > 0) {
-                dibujarPuntos(ultimosTerremotos);
+                redibujarPuntos();
             }
-
             if (miUbicacion) {
                 actualizarPanelLocal();
+                dibujarCirculoRadio();
             }
         }
 
@@ -798,6 +883,32 @@
         }
 
         // ============================================================
+        // CÍRCULO (destino con rumbo)
+        // ============================================================
+        function calcularCirculo(lat, lng, radioKm, puntos) {
+            puntos = puntos || 96;
+            const coords = [];
+            const R = 6371;
+            const dist = radioKm / R;
+            const lat1 = lat * Math.PI / 180;
+            const lng1 = lng * Math.PI / 180;
+
+            for (let i = 0; i <= puntos; i++) {
+                const bearing = (i / puntos) * 2 * Math.PI;
+                const lat2 = Math.asin(
+                    Math.sin(lat1) * Math.cos(dist) +
+                    Math.cos(lat1) * Math.sin(dist) * Math.cos(bearing)
+                );
+                const lng2 = lng1 + Math.atan2(
+                    Math.sin(bearing) * Math.sin(dist) * Math.cos(lat1),
+                    Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2)
+                );
+                coords.push([lat2 * 180 / Math.PI, lng2 * 180 / Math.PI]);
+            }
+            return coords;
+        }
+
+        // ============================================================
         // GLOBO
         // ============================================================
         const globeEl = document.getElementById('globeViz');
@@ -814,15 +925,23 @@
         world.controls().autoRotate = true;
         world.controls().autoRotateSpeed = 0.5;
 
+        // Click en un terremoto → abrir USGS
+        world.onPointClick(point => {
+            if (point && point.url) {
+                window.open(point.url, '_blank', 'noopener,noreferrer');
+            }
+        });
+
         // ============================================================
         // TERREMOTOS
         // ============================================================
         const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
-        function dibujarPuntos(points) {
+        function redibujarPuntos() {
             const t = I18N[currentLang];
+            const filtrados = ultimosTerremotos.filter(q => q.mag >= currentMagFilter);
             world
-                .pointsData(points)
+                .pointsData(filtrados)
                 .pointLat('lat')
                 .pointLng('lng')
                 .pointColor('color')
@@ -846,10 +965,7 @@
                     }
 
                     const quakes = data.features;
-                    const ahora = new Date().toLocaleTimeString(t.locale, {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
+                    const ahora = new Date().toLocaleTimeString(t.locale, { hour: '2-digit', minute: '2-digit' });
 
                     document.getElementById('quakeCount').textContent = quakes.length;
                     document.getElementById('lastUpdate').textContent = ahora;
@@ -863,18 +979,14 @@
                                 lng: q.geometry.coordinates[0],
                                 mag: mag,
                                 place: q.properties?.place || t.unknownPlace,
+                                url: q.properties?.url || '',
                                 size: Math.max(0.25, mag * 0.25),
-                                color: mag >= 5 ? '#ff0033'
-                                     : mag >= 3 ? '#ff8c00'
-                                     : '#ffe600'
+                                color: mag >= 5 ? '#ff0033' : mag >= 3 ? '#ff8c00' : '#ffe600'
                             };
                         });
 
-                    dibujarPuntos(ultimosTerremotos);
-
-                    if (miUbicacion) {
-                        actualizarPanelLocal();
-                    }
+                    redibujarPuntos();
+                    if (miUbicacion) actualizarPanelLocal();
                 })
                 .catch(err => {
                     console.error('Error terremotos:', err);
@@ -913,17 +1025,13 @@
                         world.ringsData([]);
                         return;
                     }
-
                     const lat = parseFloat(data[0].lat);
                     const lng = parseFloat(data[0].lon);
-
                     if (isNaN(lat) || isNaN(lng)) {
                         locEl.textContent = t.error;
                         return;
                     }
-
                     volarA(lat, lng);
-
                     const nombreCorto = (data[0].display_name || '').split(',')[0].trim() || t.world;
                     locEl.textContent = nombreCorto;
                 })
@@ -955,6 +1063,27 @@
         }
 
         // ============================================================
+        // CÍRCULO DEL RADIO
+        // ============================================================
+        function dibujarCirculoRadio() {
+            if (!miUbicacion) {
+                world.pathsData([]);
+                return;
+            }
+            const circle = calcularCirculo(miUbicacion.lat, miUbicacion.lng, currentRadiusKm, 96);
+            world
+                .pathsData([{ points: circle, color: 'rgba(0, 255, 136, 0.9)' }])
+                .pathPoints('points')
+                .pathPointLat(p => p[0])
+                .pathPointLng(p => p[1])
+                .pathColor('color')
+                .pathStroke(1.5)
+                .pathDashLength(0.02)
+                .pathDashGap(0.005)
+                .pathDashAnimateTime(8000);
+        }
+
+        // ============================================================
         // GEOLOCALIZACIÓN
         // ============================================================
         function usarMiUbicacion() {
@@ -979,16 +1108,14 @@
 
                     volarA(lat, lng);
                     miUbicacion = { lat: lat, lng: lng, country: '' };
+                    dibujarCirculoRadio();
 
-                    // Mostrar panel inmediatamente con datos básicos
-                    const locElInner = document.getElementById('activeLocation');
-                    locElInner.dataset.translatable = 'false';
-                    locElInner.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
+                    locEl.dataset.translatable = 'false';
+                    locEl.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     document.getElementById('panelLoc').textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     actualizarPanelLocal();
                     abrirPanel();
 
-                    // Reverse geocoding (opcional, para mejorar el nombre)
                     const url = 'https://nominatim.openstreetmap.org/reverse'
                         + '?format=json&limit=1'
                         + '&accept-language=' + currentLang
@@ -1002,14 +1129,12 @@
                                 || data?.address?.state
                                 || data?.address?.country
                                 || (lat.toFixed(2) + ', ' + lng.toFixed(2));
-                            const pais = data?.address?.country || '';
-                            miUbicacion.country = pais;
-                            locElInner.textContent = lugar;
+                            miUbicacion.country = data?.address?.country || '';
+                            locEl.textContent = lugar;
+                            document.getElementById('panelLoc').textContent = lugar;
                             actualizarPanelLocal();
                         })
-                        .catch(() => {
-                            // Ya mostramos coords antes, no hace falta más
-                        })
+                        .catch(() => {})
                         .finally(() => {
                             geoBtn.disabled = false;
                             geoBtn.classList.add('success');
@@ -1033,7 +1158,6 @@
         function abrirPanel() {
             document.getElementById('localPanel').classList.add('visible');
         }
-
         function cerrarPanel() {
             document.getElementById('localPanel').classList.remove('visible');
         }
@@ -1043,13 +1167,10 @@
             const t = I18N[currentLang];
             const { lat, lng } = miUbicacion;
 
-            const locText = document.getElementById('activeLocation').textContent || '—';
-            document.getElementById('panelLoc').textContent = locText;
-
-            // Filtrar sismos en 500 km
+            // Stats: siempre sobre el total (sin filtro de magnitud, solo por radio)
             const cercanos = ultimosTerremotos
                 .map(q => ({ ...q, dist: distanciaKm(lat, lng, q.lat, q.lng) }))
-                .filter(q => q.dist <= 500)
+                .filter(q => q.dist <= currentRadiusKm)
                 .sort((a, b) => a.dist - b.dist);
 
             document.getElementById('statNear').textContent = cercanos.length;
@@ -1072,7 +1193,6 @@
                     (masFuerte.mag >= 5 ? ' danger' : masFuerte.mag >= 3 ? ' warn' : '');
             }
 
-            // Números de emergencia
             const pais = miUbicacion.country;
             const emergencySection = document.getElementById('emergencySection');
             const emergencyList = document.getElementById('emergencyList');
@@ -1089,6 +1209,20 @@
                 emergencySection.style.display = 'none';
             }
         }
+
+        // ============================================================
+        // EVENTOS DE FILTROS
+        // ============================================================
+        document.getElementById('magFilter').addEventListener('change', (e) => {
+            currentMagFilter = parseFloat(e.target.value) || 0;
+            redibujarPuntos();
+        });
+
+        document.getElementById('radiusFilter').addEventListener('change', (e) => {
+            currentRadiusKm = parseInt(e.target.value, 10) || 500;
+            dibujarCirculoRadio();
+            if (miUbicacion) actualizarPanelLocal();
+        });
 
         window.addEventListener('resize', () => {
             world.width(globeEl.clientWidth).height(globeEl.clientHeight);
