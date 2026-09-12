@@ -87,10 +87,10 @@
                         lng: q.geometry.coordinates[0],
                         mag: q.properties.mag,
                         place: q.properties.place,
-                        size: Math.max(0.15, q.properties.mag * 0.15),
-                        color: q.properties.mag >= 5 ? '#ff2d2d'
+                        size: Math.max(0.25, q.properties.mag * 0.25),
+                        color: q.properties.mag >= 5 ? '#ff0033'
                              : q.properties.mag >= 3 ? '#ff8c00'
-                             : '#ffd500'
+                             : '#ffe600'
                     }));
 
                     world
@@ -99,7 +99,8 @@
                         .pointLng('lng')
                         .pointColor('color')
                         .pointRadius('size')
-                        .pointAltitude(0.01)
+                        .pointAltitude(0.02)
+                        .pointResolution(24)
                         .pointLabel(d => `<b>Mag ${d.mag}</b><br/>${d.place}`);
                 })
                 .catch(err => {
@@ -110,7 +111,7 @@
         cargarTerremotos();
         setInterval(cargarTerremotos, 300000);
 
-        // --- BUSCADOR POR PAÍS ---
+        // --- BUSCADOR POR PAÍS CON ANILLO PULSANTE ---
         function buscarPais() {
             const query = document.getElementById('searchInput').value.trim();
             if (!query) return;
@@ -124,15 +125,28 @@
                 .then(data => {
                     if (data.length === 0) {
                         document.getElementById('info').innerText = '❌ No se encontró: ' + query;
+                        world.ringsData([]);
                         return;
                     }
                     const lat = parseFloat(data[0].lat);
                     const lng = parseFloat(data[0].lon);
 
                     world.controls().autoRotate = false;
-                    world.pointOfView({ lat: lat, lng: lng, altitude: 1.5 }, 2000);
+                    world.pointOfView({ lat: lat, lng: lng, altitude: 1.2 }, 2000);
 
-                    document.getElementById('info').innerText = '📍 ' + data[0].display_name;
+                    // Anillo pulsante en el país buscado
+                    world
+                        .ringsData([{ lat: lat, lng: lng }])
+                        .ringLat('lat')
+                        .ringLng('lng')
+                        .ringColor(() => t => `rgba(255, 45, 45, ${1 - t})`)
+                        .ringMaxRadius(8)
+                        .ringPropagationSpeed(3)
+                        .ringRepeatPeriod(800);
+
+                    document.getElementById('info').innerText =
+                        '📍 ' + data[0].display_name +
+                        ' · Coordenadas: ' + lat.toFixed(2) + ', ' + lng.toFixed(2);
                 })
                 .catch(err => {
                     document.getElementById('info').innerText = 'Error: ' + err;
