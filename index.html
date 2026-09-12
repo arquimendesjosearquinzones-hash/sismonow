@@ -63,6 +63,12 @@
             pointer-events: none;
         }
 
+        /* FIX E: quitar fondo blanco del divIcon de Leaflet */
+        .custom-quake-icon {
+            background: transparent !important;
+            border: none !important;
+        }
+
         #tsunamiBanner {
             position: fixed; top: 0; left: 0; right: 0;
             z-index: 10000;
@@ -255,6 +261,7 @@
             border-radius: 14px;
             box-shadow: 0 0 40px rgba(176, 38, 255, 0.5), inset 0 0 30px rgba(176, 38, 255, 0.05);
             padding: 14px;
+            transition: transform 0.3s ease;
         }
         #recentPanel .recent-title {
             font-family: 'Orbitron', sans-serif;
@@ -414,9 +421,7 @@
             border-bottom: 1px solid rgba(0, 255, 255, 0.15);
             font-size: 0.85rem;
         }
-        #satModal .modal-info-item {
-            display: flex; flex-direction: column; gap: 2px;
-        }
+        #satModal .modal-info-item { display: flex; flex-direction: column; gap: 2px; }
         #satModal .modal-info-item .lbl {
             font-size: 0.65rem; letter-spacing: 2px;
             color: rgba(0, 255, 255, 0.7); text-transform: uppercase;
@@ -524,9 +529,9 @@
             .search-box button { padding: 0 14px; font-size: 0.7rem; }
             .action-button { padding: 13px 14px; font-size: 0.7rem; flex: 1; }
             .filters-bar { padding: 0 12px; gap: 6px; }
-            .filter-group { flex: 1; padding: 6px 10px; min-width: 0; }
-            .filter-group label { font-size: 0.55rem; }
-            .filter-group select { font-size: 0.7rem; padding: 4px 6px; }
+            .filter-group { flex: 1; padding: 6px 8px; min-width: 0; }
+            .filter-group label { font-size: 0.5rem; letter-spacing: 0; }
+            .filter-group select { font-size: 0.65rem; padding: 4px 5px; }
             .info-bar { gap: 8px; padding: 0 12px; }
             .info-item { min-width: 0; flex: 1; padding: 8px 10px; }
             .info-item .label { font-size: 0.55rem; }
@@ -710,42 +715,29 @@
             it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', filterTime:'Intervallo', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', daysAgo:'g', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', tabNews:'Notizie', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', shareBtn:'CONDIVIDI', copied:'✓ LINK COPIATO', shareText:'🌍 Terremoto M{mag} vicino a {place} — Più info su sismonow' }
         };
 
+        // FIX 6: EMERGENCY por código ISO (más robusto que por nombre)
         const EMERGENCY = {
-            'Venezuela': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' },{ name:{es:'Protección Civil',en:'Civil Protection'},number:'0800-266-8465' },{ name:{es:'Bomberos',en:'Firefighters'},number:'171' }],
-            'Colombia': [{ name:{es:'Emergencias',en:'Emergency'},number:'123' },{ name:{es:'Bomberos',en:'Firefighters'},number:'119' }],
-            'México': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Mexico': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Argentina': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Chile': [{ name:{es:'Emergencias',en:'Emergency'},number:'132' }],
-            'Perú': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Peru': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Ecuador': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Estados Unidos': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'United States': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'España': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Spain': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Japan': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos',en:'Fire'},number:'119' }],
-            'Japón': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos',en:'Fire'},number:'119' }],
-            'Italy': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Italia': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Indonesia': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Philippines': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Filipinas': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Türkiye': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Turkey': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Turquía': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Haiti': [{ name:{es:'Emergencias',en:'Emergency'},number:'114' }],
-            'Haití': [{ name:{es:'Emergencias',en:'Emergency'},number:'114' }],
-            'República Dominicana': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Dominican Republic': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Cuba': [{ name:{es:'Emergencias',en:'Emergency'},number:'106' }],
-            'Puerto Rico': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Brazil': [{ name:{es:'Emergencias',en:'Emergency'},number:'190' }],
-            'Brasil': [{ name:{es:'Emergencias',en:'Emergency'},number:'190' }],
-            'France': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Francia': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Germany': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Alemania': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }]
+            've': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' },{ name:{es:'Protección Civil',en:'Civil Protection'},number:'0800-266-8465' },{ name:{es:'Bomberos',en:'Firefighters'},number:'171' }],
+            'co': [{ name:{es:'Emergencias',en:'Emergency'},number:'123' },{ name:{es:'Bomberos',en:'Firefighters'},number:'119' }],
+            'mx': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'ar': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'cl': [{ name:{es:'Emergencias',en:'Emergency'},number:'132' }],
+            'pe': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'ec': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'us': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'es': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
+            'jp': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos',en:'Fire'},number:'119' }],
+            'it': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
+            'id': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
+            'ph': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'tr': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
+            'ht': [{ name:{es:'Emergencias',en:'Emergency'},number:'114' }],
+            'do': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'cu': [{ name:{es:'Emergencias',en:'Emergency'},number:'106' }],
+            'pr': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'br': [{ name:{es:'Emergencias',en:'Emergency'},number:'190' }],
+            'fr': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
+            'de': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }]
         };
 
         let currentLang = localStorage.getItem('sismonow_lang') || 'es';
@@ -756,6 +748,7 @@
         let currentTimeRange = 'day';
         let leafletMap = null;
         let leafletMarker = null;
+        let leafletCircle = null; // FIX 2: guardar el círculo
         let currentQuake = null;
 
         function aplicarIdioma(lang) {
@@ -875,7 +868,6 @@
         world.controls().autoRotateSpeed = 0.5;
         world.onPointClick(point => { if (point && point.lat) abrirModalSismo(point); });
 
-        // URLs según el rango temporal
         const USGS_URLS = {
             day: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson',
             week: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson',
@@ -915,6 +907,7 @@
                         .map(q => {
                             const mag = (typeof q.properties?.mag === 'number') ? q.properties.mag : 0;
                             return {
+                                id: q.id || '',
                                 lat: q.geometry.coordinates[1],
                                 lng: q.geometry.coordinates[0],
                                 depth: q.geometry.coordinates[2] || 0,
@@ -973,28 +966,41 @@
             const p = document.getElementById('recentPanel');
             p.classList.toggle('collapsed');
             document.getElementById('recentToggle').textContent = p.classList.contains('collapsed') ? '▸' : '▾';
+            // FIX UX: en móvil, si abro uno, cierro el otro
+            if (window.innerWidth < 900 && !p.classList.contains('collapsed')) {
+                document.getElementById('localPanel').classList.remove('visible');
+            }
         }
 
+        // FIX 4: tsunami dismissed por ID del sismo, no por hora
         function verificarTsunami() {
-            const dismissed = localStorage.getItem('tsunami_dismissed');
-            if (dismissed && (Date.now() - parseInt(dismissed, 10)) < 3600000) return;
             const conTsunami = ultimosTerremotos.filter(q => q.tsunami);
             const banner = document.getElementById('tsunamiBanner');
-            if (conTsunami.length > 0) {
-                const fuerte = conTsunami.reduce((max, q) => q.mag > max.mag ? q : max, conTsunami[0]);
-                banner.dataset.lat = fuerte.lat;
-                banner.dataset.lng = fuerte.lng;
-                banner.dataset.idx = ultimosTerremotos.indexOf(fuerte);
-                banner.classList.add('visible');
-            } else {
+            if (conTsunami.length === 0) {
                 banner.classList.remove('visible');
+                return;
             }
+            const fuerte = conTsunami.reduce((max, q) => q.mag > max.mag ? q : max, conTsunami[0]);
+            const dismissedId = localStorage.getItem('tsunami_dismissed_id');
+            if (dismissedId === fuerte.id) {
+                banner.classList.remove('visible');
+                return;
+            }
+            banner.dataset.lat = fuerte.lat;
+            banner.dataset.lng = fuerte.lng;
+            banner.dataset.idx = ultimosTerremotos.indexOf(fuerte);
+            banner.dataset.quakeId = fuerte.id;
+            banner.classList.add('visible');
         }
 
         function cerrarBannerTsunami(e) {
             e.stopPropagation();
-            document.getElementById('tsunamiBanner').classList.remove('visible');
-            localStorage.setItem('tsunami_dismissed', Date.now());
+            const banner = document.getElementById('tsunamiBanner');
+            banner.classList.remove('visible');
+            // FIX 4: guardar el ID del sismo descartado, no la hora
+            if (banner.dataset.quakeId) {
+                localStorage.setItem('tsunami_dismissed_id', banner.dataset.quakeId);
+            }
         }
 
         function abrirTsunami() {
@@ -1036,16 +1042,20 @@
                     leafletMap.setView([q.lat, q.lng], 8);
                 }
 
-                if (leafletMarker) leafletMap.removeLayer(leafletMarker);
+                // FIX 2: eliminar marcador Y círculo previos
+                if (leafletMarker) { leafletMap.removeLayer(leafletMarker); leafletMarker = null; }
+                if (leafletCircle) { leafletMap.removeLayer(leafletCircle); leafletCircle = null; }
 
+                // FIX 5: className custom para quitar fondo blanco
                 const icon = L.divIcon({
-                    className: '',
+                    className: 'custom-quake-icon',
                     html: '<div style="width:36px;height:36px;border-radius:50%;background:' + q.color + ';border:3px solid #fff;box-shadow:0 0 25px ' + q.color + ';display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-weight:900;color:#000;font-size:0.7rem;">M' + q.mag.toFixed(1) + '</div>',
                     iconSize: [36, 36], iconAnchor: [18, 18]
                 });
                 leafletMarker = L.marker([q.lat, q.lng], { icon: icon }).addTo(leafletMap);
 
-                L.circle([q.lat, q.lng], {
+                // FIX 2: guardar el círculo en variable para poder eliminarlo
+                leafletCircle = L.circle([q.lat, q.lng], {
                     radius: Math.max(5000, q.mag * 15000),
                     color: q.color, fillColor: q.color,
                     fillOpacity: 0.15, weight: 2, dashArray: '5,10'
@@ -1107,7 +1117,8 @@
             const locEl = document.getElementById('activeLocation');
             locEl.dataset.translatable = 'false';
             locEl.textContent = t.searching;
-            fetch(url, { referrerPolicy: 'no-referrer' })
+            // FIX 3: sin referrerPolicy para no violar la política de Nominatim
+            fetch(url)
                 .then(r => { if (!r.ok) throw new Error('Nominatim ' + r.status); return r.json(); })
                 .then(data => {
                     if (!Array.isArray(data) || data.length === 0) {
@@ -1160,17 +1171,19 @@
                 (pos) => {
                     const lat = pos.coords.latitude, lng = pos.coords.longitude;
                     volarA(lat, lng);
-                    miUbicacion = { lat, lng, country: '' };
+                    miUbicacion = { lat, lng, countryCode: '' };
                     dibujarCirculoRadio();
                     locEl.dataset.translatable = 'false';
                     locEl.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     document.getElementById('panelLoc').textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     actualizarPanelLocal();
                     abrirPanel();
+                    // FIX 3: sin referrerPolicy
                     const url = 'https://nominatim.openstreetmap.org/reverse?format=json&limit=1&accept-language=' + currentLang + '&lat=' + lat + '&lon=' + lng;
-                    fetch(url, { referrerPolicy: 'no-referrer' }).then(r => r.json()).then(data => {
+                    fetch(url).then(r => r.json()).then(data => {
                         const lugar = data?.address?.city || data?.address?.town || data?.address?.state || data?.address?.country || (lat.toFixed(2) + ', ' + lng.toFixed(2));
-                        miUbicacion.country = data?.address?.country || '';
+                        // FIX 6: guardar código ISO en minúsculas
+                        miUbicacion.countryCode = (data?.address?.country_code || '').toLowerCase();
                         locEl.textContent = lugar;
                         document.getElementById('panelLoc').textContent = lugar;
                         actualizarPanelLocal();
@@ -1191,7 +1204,15 @@
             );
         }
 
-        function abrirPanel() { document.getElementById('localPanel').classList.add('visible'); }
+        function abrirPanel() {
+            document.getElementById('localPanel').classList.add('visible');
+            // FIX UX: en móvil, si abro uno, colapso el otro
+            if (window.innerWidth < 900) {
+                const rp = document.getElementById('recentPanel');
+                rp.classList.add('collapsed');
+                document.getElementById('recentToggle').textContent = '▸';
+            }
+        }
         function cerrarPanel() { document.getElementById('localPanel').classList.remove('visible'); }
 
         function actualizarPanelLocal() {
@@ -1219,11 +1240,12 @@
                 document.getElementById('statStrongest').className = 'stat-value' + (masFuerte.mag >= 5 ? ' danger' : masFuerte.mag >= 3 ? ' warn' : '');
             }
 
-            const pais = miUbicacion.country;
+            // FIX 6: usar código ISO
+            const code = miUbicacion.countryCode;
             const emergencySection = document.getElementById('emergencySection');
             const emergencyList = document.getElementById('emergencyList');
-            if (pais && EMERGENCY[pais]) {
-                emergencyList.innerHTML = EMERGENCY[pais].map(e => {
+            if (code && EMERGENCY[code]) {
+                emergencyList.innerHTML = EMERGENCY[code].map(e => {
                     const nombre = e.name[currentLang] || e.name.en || e.name.es || '';
                     return '<div class="emergency-item"><span>' + escapeHTML(nombre) + '</span><a class="number" href="tel:' + escapeHTML(e.number) + '">' + escapeHTML(e.number) + '</a></div>';
                 }).join('');
@@ -1235,7 +1257,6 @@
 
         function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-        // EVENTOS DE FILTROS
         document.getElementById('timeFilter').addEventListener('change', (e) => {
             currentTimeRange = e.target.value || 'day';
             cargarTerremotos();
@@ -1261,8 +1282,9 @@
             });
         }
 
-        aplicarIdioma(currentLang);
+        // FIX 1: orden correcto — translatable ANTES de aplicarIdioma
         document.getElementById('activeLocation').dataset.translatable = 'true';
+        aplicarIdioma(currentLang);
         cargarTerremotos();
         setInterval(cargarTerremotos, 300000);
     </script>
