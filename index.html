@@ -63,7 +63,15 @@
             pointer-events: none;
         }
 
-        /* ===== BANNER TSUNAMI (MEJORADO CON BOTÓN X) ===== */
+        /* ===== PARTÍCULAS CYBERPUNK ===== */
+        #particles-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===== BANNER TSUNAMI ===== */
         #tsunamiBanner {
             position: fixed;
             top: 0;
@@ -744,6 +752,8 @@
 </head>
 <body>
 
+    <div id="particles-bg"></div>
+
     <div id="tsunamiBanner" translate="no">
         <div class="tsunami-text" onclick="abrirTsunami()">
             <span id="t-tsunamiAlert">🌊 TSUNAMI ALERT</span>
@@ -881,7 +891,47 @@
 
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
     <script>
+        // ============ PARTÍCULAS CYBERPUNK ============
+        (function iniciarParticulas() {
+            if (typeof tsParticles === 'undefined') return;
+            const isMobile = window.innerWidth < 768;
+            tsParticles.load("particles-bg", {
+                fpsLimit: 60,
+                detectRetina: true,
+                particles: {
+                    number: {
+                        value: isMobile ? 30 : 80,
+                        density: { enable: true, area: 900 }
+                    },
+                    color: {
+                        value: ["#00ffff", "#b026ff", "#ff00ff", "#00ff88"]
+                    },
+                    shape: { type: "circle" },
+                    opacity: {
+                        value: { min: 0.15, max: 0.55 },
+                        animation: {
+                            enable: true,
+                            speed: 0.8,
+                            sync: false
+                        }
+                    },
+                    size: {
+                        value: { min: 0.4, max: 2.6 }
+                    },
+                    move: {
+                        enable: true,
+                        speed: 0.55,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        outModes: { default: "out" }
+                    }
+                }
+            });
+        })();
+
         const I18N = {
             es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos 24h', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', tabNews:'Noticias', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar' },
             en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes 24h', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', tabNews:'News', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place' },
@@ -1136,12 +1186,9 @@
             document.getElementById('recentToggle').textContent = p.classList.contains('collapsed') ? '▸' : '▾';
         }
 
-        // ============ TSUNAMI CON BOTÓN CERRAR ============
         function verificarTsunami() {
-            // Si el usuario cerró el banner en la última hora, no mostrar
             const dismissed = localStorage.getItem('tsunami_dismissed');
             if (dismissed && (Date.now() - parseInt(dismissed, 10)) < 3600000) return;
-
             const conTsunami = ultimosTerremotos.filter(q => q.tsunami);
             const banner = document.getElementById('tsunamiBanner');
             if (conTsunami.length > 0) {
@@ -1172,7 +1219,6 @@
             if (q) setTimeout(() => abrirModalSismo(q), 1200);
         }
 
-        // ============ MODAL SATELITAL ============
         function abrirModalSismo(q) {
             const t = I18N[currentLang];
             const modal = document.getElementById('satModal');
