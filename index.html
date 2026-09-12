@@ -37,30 +37,23 @@
 
         body::before {
             content: '';
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background-image:
                 linear-gradient(rgba(0, 255, 255, 0.04) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.04) 1px, transparent 1px);
             background-size: 60px 60px;
-            z-index: 0;
-            pointer-events: none;
+            z-index: 0; pointer-events: none;
             animation: gridMove 25s linear infinite;
         }
-        @keyframes gridMove {
-            0% { background-position: 0 0; }
-            100% { background-position: 60px 60px; }
-        }
+        @keyframes gridMove { 0% { background-position: 0 0; } 100% { background-position: 60px 60px; } }
 
         body::after {
             content: '';
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background:
                 radial-gradient(circle at 15% 15%, rgba(176, 38, 255, 0.15), transparent 45%),
                 radial-gradient(circle at 85% 85%, rgba(0, 255, 255, 0.10), transparent 45%);
-            z-index: 0;
-            pointer-events: none;
+            z-index: 0; pointer-events: none;
         }
 
         #tsunamiBanner {
@@ -107,7 +100,6 @@
             0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.6)); }
             50% { filter: drop-shadow(0 0 40px rgba(176, 38, 255, 0.9)); }
         }
-
         .subtitle {
             font-size: 0.95rem; letter-spacing: 3px; color: #00ffff;
             text-transform: uppercase; margin-top: 4px; opacity: 0.8;
@@ -150,10 +142,7 @@
             border-color: rgba(37, 211, 102, 0.5);
             box-shadow: 0 0 15px rgba(37, 211, 102, 0.2);
         }
-        .hub-btn-wa:hover {
-            background: rgba(37, 211, 102, 0.25); color: #fff;
-            box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
-        }
+        .hub-btn-wa:hover { background: rgba(37, 211, 102, 0.25); color: #fff; box-shadow: 0 0 25px rgba(37, 211, 102, 0.6); }
         .hub-btn-sound {
             background: rgba(255, 140, 0, 0.1); color: #ff8c00;
             border-color: rgba(255, 140, 0, 0.4);
@@ -184,10 +173,7 @@
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.05);
             overflow: hidden;
         }
-        .search-box:focus-within {
-            border-color: #00ffff;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
-        }
+        .search-box:focus-within { border-color: #00ffff; box-shadow: 0 0 30px rgba(0, 255, 255, 0.6); }
         .search-box input {
             flex: 1; padding: 16px 20px;
             background: transparent; border: none; outline: none;
@@ -281,10 +267,10 @@
         }
 
         #recentPanel {
-            position: fixed; top: 220px; left: 16px;
+            position: fixed; top: 240px; left: 16px;
             z-index: 9998; width: 300px;
             max-width: calc(100vw - 32px);
-            max-height: calc(100vh - 260px);
+            max-height: calc(100vh - 280px);
             overflow-y: auto;
             background: linear-gradient(135deg, rgba(20, 0, 30, 0.98), rgba(10, 0, 20, 0.98));
             border: 2px solid #b026ff;
@@ -332,10 +318,10 @@
         .recent-item:hover .recent-go { opacity: 1; }
 
         #localPanel {
-            position: fixed; top: 250px; right: 16px;
+            position: fixed; top: 270px; right: 16px;
             z-index: 9999; width: 320px;
             max-width: calc(100vw - 32px);
-            max-height: calc(100vh - 290px);
+            max-height: calc(100vh - 310px);
             overflow-y: auto;
             background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
             border: 2px solid #00ff88;
@@ -460,75 +446,40 @@
             font-family: 'Orbitron', sans-serif;
             font-weight: 700; color: #fff;
         }
-        #satMap { flex: 1; min-height: 380px; width: 100%; background: #000; }
+        #satMap { flex: 1; min-height: 360px; width: 100%; background: #000; }
         .modal-actions {
             padding: 14px 20px;
-            display: flex; gap: 10px; flex-wrap: wrap;
+            display: flex; gap: 8px; flex-wrap: wrap;
             border-top: 1px solid rgba(0, 255, 255, 0.15);
         }
-        .modal-actions a,
-        .modal-actions button {
-            flex: 1; min-width: 110px;
-            padding: 12px 14px;
+        .modal-actions a, .modal-actions button {
+            flex: 1; min-width: 100px;
+            padding: 11px 10px;
             border: 2px solid rgba(0, 255, 255, 0.5);
             border-radius: 10px;
             background: rgba(0, 255, 255, 0.08);
             color: #00ffff;
             font-family: 'Orbitron', sans-serif;
-            font-weight: 700; font-size: 0.7rem; letter-spacing: 1px;
+            font-weight: 700; font-size: 0.68rem; letter-spacing: 1px;
             text-align: center; text-decoration: none; cursor: pointer;
             transition: all 0.25s;
         }
-        .modal-actions a:hover,
-        .modal-actions button:hover {
+        .modal-actions a:hover, .modal-actions button:hover {
             background: rgba(0, 255, 255, 0.2);
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
-        .modal-actions .share-wa {
-            border-color: rgba(37, 211, 102, 0.6); color: #25d366;
-            background: rgba(37, 211, 102, 0.08);
-        }
-        .modal-actions .share-wa:hover {
-            background: rgba(37, 211, 102, 0.22);
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
-        }
-        .modal-actions .share-tg {
-            border-color: rgba(0, 136, 204, 0.6); color: #0088cc;
-            background: rgba(0, 136, 204, 0.08);
-        }
-        .modal-actions .share-tg:hover {
-            background: rgba(0, 136, 204, 0.22);
-            box-shadow: 0 0 20px rgba(0, 136, 204, 0.5);
-        }
-        .modal-actions .share-x {
-            border-color: rgba(255, 255, 255, 0.5); color: #fff;
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .modal-actions .share-x:hover {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-        }
-        .modal-actions .share-fb {
-            border-color: rgba(24, 119, 242, 0.6); color: #1877f2;
-            background: rgba(24, 119, 242, 0.08);
-        }
-        .modal-actions .share-fb:hover {
-            background: rgba(24, 119, 242, 0.22);
-            box-shadow: 0 0 20px rgba(24, 119, 242, 0.5);
-        }
-        .modal-actions .share-copy {
-            border-color: rgba(176, 38, 255, 0.6); color: #b026ff;
-            background: rgba(176, 38, 255, 0.08);
-        }
-        .modal-actions .share-copy:hover {
-            background: rgba(176, 38, 255, 0.22);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
-        }
+        .modal-actions .share-wa { border-color: rgba(37, 211, 102, 0.6); color: #25d366; background: rgba(37, 211, 102, 0.08); }
+        .modal-actions .share-wa:hover { background: rgba(37, 211, 102, 0.22); box-shadow: 0 0 20px rgba(37, 211, 102, 0.5); }
+        .modal-actions .share-tg { border-color: rgba(0, 136, 204, 0.6); color: #0088cc; background: rgba(0, 136, 204, 0.08); }
+        .modal-actions .share-tg:hover { background: rgba(0, 136, 204, 0.22); box-shadow: 0 0 20px rgba(0, 136, 204, 0.5); }
+        .modal-actions .share-x { border-color: rgba(255, 255, 255, 0.5); color: #fff; background: rgba(255, 255, 255, 0.05); }
+        .modal-actions .share-x:hover { background: rgba(255, 255, 255, 0.15); }
+        .modal-actions .share-fb { border-color: rgba(24, 119, 242, 0.6); color: #1877f2; background: rgba(24, 119, 242, 0.08); }
+        .modal-actions .share-fb:hover { background: rgba(24, 119, 242, 0.22); box-shadow: 0 0 20px rgba(24, 119, 242, 0.5); }
+        .modal-actions .share-copy { border-color: rgba(176, 38, 255, 0.6); color: #b026ff; background: rgba(176, 38, 255, 0.08); }
+        .modal-actions .share-copy:hover { background: rgba(176, 38, 255, 0.22); box-shadow: 0 0 20px rgba(176, 38, 255, 0.5); }
 
-        .custom-quake-icon {
-            background: transparent !important;
-            border: none !important;
-        }
+        .custom-quake-icon { background: transparent !important; border: none !important; }
 
         .mobile-tabs {
             display: none;
@@ -585,10 +536,7 @@
             header { padding: 18px 16px 4px; }
             .logo { font-size: 2.2rem; letter-spacing: 4px; }
             .subtitle { font-size: 0.7rem; letter-spacing: 2px; }
-            .lang-switch {
-                position: relative; top: auto; right: auto;
-                justify-content: center; margin: 10px auto 0; max-width: 100%;
-            }
+            .lang-switch { position: relative; top: auto; right: auto; justify-content: center; margin: 10px auto 0; max-width: 100%; }
             .hub-bar { gap: 6px; padding: 0 12px; }
             .hub-btn { font-size: 0.6rem; padding: 6px 10px; }
             .search-container { padding: 0 12px; gap: 6px; }
@@ -605,20 +553,14 @@
             .info-item .label { font-size: 0.55rem; }
             .info-item .value { font-size: 1rem; }
             #globeViz { height: 50vh; }
-            #recentPanel {
-                top: auto; bottom: 70px; left: 12px; right: 12px;
-                width: auto; max-height: 32vh; z-index: 9000;
-            }
+            #recentPanel { top: auto; bottom: 70px; left: 12px; right: 12px; width: auto; max-height: 32vh; z-index: 9000; }
             #recentPanel.collapsed { max-height: 48px; overflow: hidden; }
-            #localPanel {
-                top: auto; bottom: 70px; left: 12px; right: 12px;
-                width: auto; max-height: 40vh; z-index: 9001;
-            }
+            #localPanel { top: auto; bottom: 70px; left: 12px; right: 12px; width: auto; max-height: 40vh; z-index: 9001; }
             .mobile-tabs { display: flex; }
             .legend { gap: 10px; padding: 12px; margin-bottom: 70px; }
             .legend-item { font-size: 0.7rem; }
-            #satMap { min-height: 260px; }
-            .modal-actions a, .modal-actions button { min-width: 90px; font-size: 0.65rem; padding: 10px 8px; letter-spacing: 0; }
+            #satMap { min-height: 240px; }
+            .modal-actions a, .modal-actions button { min-width: 70px; font-size: 0.6rem; padding: 9px 6px; letter-spacing: 0; }
             #tsunamiBanner { font-size: 0.7rem; padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top)); }
             #tsunamiBanner .tsunami-close { width: 26px; height: 26px; font-size: 1rem; }
         }
@@ -647,9 +589,8 @@
         <div class="subtitle" id="t-subtitle"></div>
     </header>
 
-    <!-- Barra de Comunidad -->
     <div class="hub-bar" translate="no">
-        <!-- ⚠️ REEMPLAZA el href con el enlace real de tu canal de WhatsApp -->
+        <!-- ⚠️ REEMPLAZA href con el enlace real de tu canal WhatsApp -->
         <a class="hub-btn hub-btn-wa" id="btn-whatsapp" href="https://whatsapp.com/channel/TU_CANAL_AQUI" target="_blank" rel="noopener">
             💬 <span id="t-hubWa">CANAL WHATSAPP</span>
         </a>
@@ -759,7 +700,7 @@
         <button onclick="scrollToTop()">🏠 <span id="t-tabHome">Inicio</span></button>
         <button onclick="toggleRecent()">🔥 <span id="t-tabRecent">Sismos</span></button>
         <button onclick="usarMiUbicacion()">📍 <span id="t-tabLocation">Mi zona</span></button>
-        <a href="https://whatsapp.com/channel/TU_CANAL_AQUI" target="_blank" rel="noopener">💬 <span>WhatsApp</span></a>
+        <a href="https://whatsapp.com/channel/TU_CANAL_AQUI" target="_blank" rel="noopener">💬 WhatsApp</a>
     </div>
 
     <div class="legend" translate="no">
@@ -768,7 +709,6 @@
         <div class="legend-item"><div class="legend-dot" style="background:#ff0033; color:#ff0033;"></div><span id="t-legendHigh"></span></div>
     </div>
 
-    <!-- Modal Satelital -->
     <div id="satModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -846,7 +786,6 @@
         let currentQuake = null;
         let deferredInstallPrompt = null;
 
-        // ============ PWA INSTALL ============
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredInstallPrompt = e;
@@ -862,15 +801,12 @@
             if (!deferredInstallPrompt) return;
             deferredInstallPrompt.prompt();
             deferredInstallPrompt.userChoice.then(choice => {
-                if (choice.outcome === 'accepted') {
-                    mostrarToast('✓ ' + (currentLang === 'es' ? 'APP INSTALADA' : 'APP INSTALLED'));
-                }
+                if (choice.outcome === 'accepted') mostrarToast('✓ ' + (currentLang === 'es' ? 'APP INSTALADA' : 'APP INSTALLED'));
                 deferredInstallPrompt = null;
                 document.getElementById('btn-install').classList.remove('visible');
             });
         }
 
-        // ============ AUDIO ALARMA ============
         function initAudio() {
             if (!audioCtx) {
                 const AC = window.AudioContext || window.webkitAudioContext;
@@ -886,8 +822,7 @@
                 if (!audioCtx) return;
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
+                osc.connect(gain); gain.connect(audioCtx.destination);
                 const now = audioCtx.currentTime;
                 if (tipo === 'danger') {
                     osc.type = 'sawtooth';
@@ -897,16 +832,14 @@
                     osc.frequency.exponentialRampToValueAtTime(400, now + 0.6);
                     gain.gain.setValueAtTime(0.3, now);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
-                    osc.start(now);
-                    osc.stop(now + 0.7);
+                    osc.start(now); osc.stop(now + 0.7);
                 } else {
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(880, now);
                     osc.frequency.exponentialRampToValueAtTime(440, now + 0.4);
                     gain.gain.setValueAtTime(0.2, now);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-                    osc.start(now);
-                    osc.stop(now + 0.4);
+                    osc.start(now); osc.stop(now + 0.4);
                 }
             } catch (err) { console.warn('Audio:', err); }
         }
@@ -931,7 +864,6 @@
             }
         }
 
-        // ============ IDIOMA ============
         function aplicarIdioma(lang) {
             if (!I18N[lang]) lang = 'es';
             currentLang = lang;
@@ -1057,9 +989,7 @@
             month: 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson'
         };
 
-        function getUSGSURL() {
-            return USGS_URLS[currentTimeRange] || USGS_URLS.day;
-        }
+        function getUSGSURL() { return USGS_URLS[currentTimeRange] || USGS_URLS.day; }
 
         function redibujarPuntos() {
             const t = I18N[currentLang];
@@ -1154,7 +1084,6 @@
         function verificarTsunami() {
             const conTsunami = ultimosTerremotos.filter(q => q.tsunami);
             const banner = document.getElementById('tsunamiBanner');
-
             if (conTsunami.length > 0) {
                 const fuerte = conTsunami.reduce((max, q) => q.mag > max.mag ? q : max, conTsunami[0]);
                 const dismissedId = localStorage.getItem('tsunami_dismissed_id');
@@ -1168,7 +1097,6 @@
                 banner.dataset.idx = ultimosTerremotos.indexOf(fuerte);
                 banner.classList.add('visible');
 
-                // Alarma solo si no sonó antes para ESTE sismo
                 const sismoKey = 'tsunami_' + (fuerte.id || fuerte.time);
                 if (!sismosSonados.includes(sismoKey)) {
                     sismosSonados.push(sismoKey);
@@ -1185,9 +1113,7 @@
             e.stopPropagation();
             const banner = document.getElementById('tsunamiBanner');
             banner.classList.remove('visible');
-            if (banner.dataset.id) {
-                localStorage.setItem('tsunami_dismissed_id', banner.dataset.id);
-            }
+            if (banner.dataset.id) localStorage.setItem('tsunami_dismissed_id', banner.dataset.id);
         }
 
         function abrirTsunami() {
@@ -1249,7 +1175,6 @@
             }, 100);
         }
 
-        // ============ COMPARTIR REDES SOCIALES ============
         function textoCompartir() {
             if (!currentQuake) return '';
             const t = I18N[currentLang];
@@ -1258,46 +1183,33 @@
 
         function compartirWhatsApp() {
             if (!currentQuake) return;
-            const url = 'https://wa.me/?text=' + encodeURIComponent(textoCompartir() + '\n' + SITE_URL);
-            window.open(url, '_blank', 'noopener,noreferrer');
+            window.open('https://wa.me/?text=' + encodeURIComponent(textoCompartir() + '\n' + SITE_URL), '_blank', 'noopener,noreferrer');
         }
-
         function compartirTelegram() {
             if (!currentQuake) return;
-            const url = 'https://t.me/share/url?url=' + encodeURIComponent(SITE_URL) + '&text=' + encodeURIComponent(textoCompartir());
-            window.open(url, '_blank', 'noopener,noreferrer');
+            window.open('https://t.me/share/url?url=' + encodeURIComponent(SITE_URL) + '&text=' + encodeURIComponent(textoCompartir()), '_blank', 'noopener,noreferrer');
         }
-
         function compartirX() {
             if (!currentQuake) return;
-            const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(textoCompartir()) + '&url=' + encodeURIComponent(SITE_URL);
-            window.open(url, '_blank', 'noopener,noreferrer');
+            window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(textoCompartir()) + '&url=' + encodeURIComponent(SITE_URL), '_blank', 'noopener,noreferrer');
         }
-
         function compartirFacebook() {
             if (!currentQuake) return;
-            const url = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL);
-            window.open(url, '_blank', 'noopener,noreferrer');
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL), '_blank', 'noopener,noreferrer');
         }
-
         function copiarEnlace() {
             if (!currentQuake) return;
             const t = I18N[currentLang];
             const contenido = textoCompartir() + '\n' + SITE_URL;
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(contenido).then(() => mostrarToast(t.copied)).catch(() => copiarFallback(contenido));
-            } else {
-                copiarFallback(contenido);
-            }
+            } else copiarFallback(contenido);
         }
-
         function copiarFallback(texto) {
             const ta = document.createElement('textarea');
             ta.value = texto;
-            ta.style.position = 'fixed';
-            ta.style.top = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
+            ta.style.position = 'fixed'; ta.style.top = '-9999px';
+            document.body.appendChild(ta); ta.select();
             try { document.execCommand('copy'); mostrarToast(I18N[currentLang].copied); } catch(e) { alert(texto); }
             document.body.removeChild(ta);
         }
@@ -1323,23 +1235,16 @@
             const locEl = document.getElementById('activeLocation');
             locEl.dataset.translatable = 'false';
             locEl.textContent = t.searching;
-
             fetch(url)
                 .then(r => { if (!r.ok) throw new Error('Nominatim ' + r.status); return r.json(); })
                 .then(data => {
-                    if (!Array.isArray(data) || data.length === 0) {
-                        locEl.textContent = t.notFound; world.ringsData([]); return;
-                    }
+                    if (!Array.isArray(data) || data.length === 0) { locEl.textContent = t.notFound; world.ringsData([]); return; }
                     const lat = parseFloat(data[0].lat), lng = parseFloat(data[0].lon);
                     if (isNaN(lat) || isNaN(lng)) { locEl.textContent = t.error; return; }
                     volarA(lat, lng);
                     const lugar = (data[0].display_name || '').split(',')[0].trim() || t.world;
                     locEl.textContent = lugar;
-
-                    miUbicacion = {
-                        lat, lng,
-                        countryCode: (data[0].address?.country_code || '').toLowerCase()
-                    };
+                    miUbicacion = { lat, lng, countryCode: (data[0].address?.country_code || '').toLowerCase() };
                     document.getElementById('panelLoc').textContent = lugar;
                     dibujarCirculoRadio();
                     actualizarPanelLocal();
@@ -1370,16 +1275,13 @@
                 .pathDashLength(0.02).pathDashGap(0.005).pathDashAnimateTime(8000);
         }
 
-        // ============ NOTICIAS ACTUALES (últimas 24h) ============
         function abrirNoticias() {
             const locEl = document.getElementById('activeLocation');
             const loc = locEl.textContent && locEl.textContent !== I18N[currentLang].world ? locEl.textContent : '';
-            // Google News: query + when:1d = últimas 24 horas
-            let query = 'earthquake when:1d';
-            if (loc) query = loc + ' earthquake when:1d';
-            // Si el filtro de magnitud está en M5+, buscar terremotos fuertes
+            let query = loc ? loc + ' earthquake when:1d' : 'earthquake when:1d';
             if (currentMagFilter >= 5) query = (loc ? loc + ' ' : '') + 'major earthquake when:7d';
-            window.open('https://news.google.com/search?q=' + encodeURIComponent(query) + '&hl=' + (currentLang === 'pt' ? 'pt-BR' : currentLang === 'fr' ? 'fr' : currentLang === 'de' ? 'de' : currentLang === 'it' ? 'it' : currentLang === 'en' ? 'en-US' : 'es-419'), '_blank', 'noopener,noreferrer');
+            const hl = currentLang === 'pt' ? 'pt-BR' : currentLang === 'fr' ? 'fr' : currentLang === 'de' ? 'de' : currentLang === 'it' ? 'it' : currentLang === 'en' ? 'en-US' : 'es-419';
+            window.open('https://news.google.com/search?q=' + encodeURIComponent(query) + '&hl=' + hl, '_blank', 'noopener,noreferrer');
         }
 
         function usarMiUbicacion() {
@@ -1500,7 +1402,6 @@
             });
         }
 
-        // Inicialización en orden
         document.getElementById('activeLocation').dataset.translatable = 'true';
         aplicarIdioma(currentLang);
         cargarTerremotos();
