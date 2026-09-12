@@ -1,0 +1,27 @@
+{
+  "name": "sismonow — Monitor Global de Terremotos",
+  "short_name": "sismonow",
+  "description": "Terremotos globales en tiempo real con mapa 3D, alertas de tsunami y números de emergencia.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#05050a",
+  "theme_color": "#05050a",
+  "lang": "es",
+  "categories": ["news", "utilities", "weather"],
+  "icons": [
+    {
+      "src": "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}
