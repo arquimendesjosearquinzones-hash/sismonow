@@ -265,30 +265,31 @@
             margin: 0 auto;
         }
 
-        /* ===== PANEL LOCAL ===== */
+        /* ============================================ */
+        /* PANEL LOCAL — SIMPLIFICADO Y ROBUSTO        */
+        /* ============================================ */
         #localPanel {
             position: fixed;
-            top: 180px;
+            top: 200px;
             right: 20px;
-            z-index: 50;
-            width: 320px;
+            z-index: 9999;
+            width: 340px;
             max-width: calc(100vw - 40px);
-            background: rgba(0, 10, 20, 0.92);
+            max-height: calc(100vh - 240px);
+            overflow-y: auto;
+            background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
             border: 2px solid #00ff88;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
-            backdrop-filter: blur(12px);
-            padding: 18px;
+            border-radius: 14px;
+            box-shadow:
+                0 0 40px rgba(0, 255, 136, 0.5),
+                0 0 80px rgba(0, 255, 136, 0.2),
+                inset 0 0 30px rgba(0, 255, 136, 0.05);
+            padding: 20px;
             display: none;
-            transform: translateX(400px);
-            transition: transform 0.4s ease, opacity 0.3s ease;
-            opacity: 0;
         }
 
-        #localPanel.show {
+        #localPanel.visible {
             display: block;
-            transform: translateX(0);
-            opacity: 1;
         }
 
         #localPanel .panel-title {
@@ -297,37 +298,42 @@
             font-size: 1rem;
             letter-spacing: 2px;
             color: #00ff88;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         #localPanel .panel-loc {
-            font-size: 0.95rem;
+            font-size: 1rem;
             color: #fff;
-            margin-bottom: 14px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+            font-weight: 500;
         }
 
         #localPanel .panel-close {
             background: none;
             border: none;
             color: #00ff88;
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             cursor: pointer;
-            padding: 0 4px;
+            padding: 0 6px;
             line-height: 1;
+            transition: all 0.2s;
         }
 
-        #localPanel .panel-close:hover { color: #ff2d2d; }
+        #localPanel .panel-close:hover {
+            color: #ff2d2d;
+            transform: scale(1.2);
+        }
 
         .stat-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 10px 0;
             border-bottom: 1px dashed rgba(0, 255, 255, 0.15);
             font-size: 0.9rem;
         }
@@ -350,9 +356,9 @@
         .stat-value.danger { color: #ff0033; }
 
         .emergency-section {
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 45, 45, 0.3);
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 2px solid rgba(255, 45, 45, 0.5);
         }
 
         .emergency-title {
@@ -360,25 +366,34 @@
             font-size: 0.85rem;
             letter-spacing: 2px;
             color: #ff2d2d;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
         .emergency-item {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            font-size: 0.85rem;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed rgba(255, 45, 45, 0.15);
         }
+
+        .emergency-item:last-child { border-bottom: none; }
 
         .emergency-item .number {
             font-family: 'Orbitron', sans-serif;
             color: #ff2d2d;
             font-weight: 700;
             text-decoration: none;
+            padding: 4px 10px;
+            border: 1px solid rgba(255, 45, 45, 0.4);
+            border-radius: 6px;
+            transition: all 0.2s;
         }
 
         .emergency-item .number:hover {
-            text-decoration: underline;
+            background: rgba(255, 45, 45, 0.15);
+            box-shadow: 0 0 12px rgba(255, 45, 45, 0.6);
         }
 
         .legend {
@@ -422,10 +437,11 @@
             #globeViz { height: 55vh; }
             #localPanel {
                 top: auto;
-                bottom: 20px;
-                right: 20px;
-                left: 20px;
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
                 width: auto;
+                max-height: 50vh;
             }
         }
     </style>
@@ -621,17 +637,25 @@
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
                 { name: { es: 'USGS', en: 'USGS' }, number: '1-888-275-8747' }
             ],
+            'Spain': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '112' }
+            ],
             'España': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
                 { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '112' }
             ],
             'Japan': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '110' },
+                { name: { es: 'Policía', en: 'Police' }, number: '110' },
                 { name: { es: 'Bomberos/Ambulancia', en: 'Fire/Ambulance' }, number: '119' }
             ],
             'Japón': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '110' },
+                { name: { es: 'Policía', en: 'Police' }, number: '110' },
                 { name: { es: 'Bomberos/Ambulancia', en: 'Fire/Ambulance' }, number: '119' }
+            ],
+            'Italy': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '800-840-840' }
             ],
             'Italia': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
@@ -641,9 +665,15 @@
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
                 { name: { es: 'BNPB', en: 'BNPB' }, number: '117' }
             ],
+            'Philippines': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
+            ],
             'Filipinas': [
-                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
-                { name: { es: 'NDRRMC', en: 'NDRRMC' }, number: '911' }
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
+            ],
+            'Türkiye': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'AFAD', en: 'AFAD' }, number: '122' }
             ],
             'Turkey': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
@@ -652,6 +682,26 @@
             'Turquía': [
                 { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
                 { name: { es: 'AFAD', en: 'AFAD' }, number: '122' }
+            ],
+            'Haiti': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '114' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '114' }
+            ],
+            'Haití': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '114' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '114' }
+            ],
+            'Dominican Republic': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
+            ],
+            'República Dominicana': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
+            ],
+            'Cuba': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '106' }
+            ],
+            'Puerto Rico': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' }
             ]
         };
 
@@ -660,7 +710,7 @@
         // ============================================================
         let currentLang = localStorage.getItem('sismonow_lang') || 'es';
         let ultimosTerremotos = [];
-        let miUbicacion = null; // { lat, lng, country }
+        let miUbicacion = null;
 
         // ============================================================
         // APLICAR IDIOMA
@@ -930,7 +980,15 @@
                     volarA(lat, lng);
                     miUbicacion = { lat: lat, lng: lng, country: '' };
 
-                    // Reverse geocoding
+                    // Mostrar panel inmediatamente con datos básicos
+                    const locElInner = document.getElementById('activeLocation');
+                    locElInner.dataset.translatable = 'false';
+                    locElInner.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
+                    document.getElementById('panelLoc').textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
+                    actualizarPanelLocal();
+                    abrirPanel();
+
+                    // Reverse geocoding (opcional, para mejorar el nombre)
                     const url = 'https://nominatim.openstreetmap.org/reverse'
                         + '?format=json&limit=1'
                         + '&accept-language=' + currentLang
@@ -946,16 +1004,11 @@
                                 || (lat.toFixed(2) + ', ' + lng.toFixed(2));
                             const pais = data?.address?.country || '';
                             miUbicacion.country = pais;
-                            locEl.dataset.translatable = 'false';
-                            locEl.textContent = lugar;
+                            locElInner.textContent = lugar;
                             actualizarPanelLocal();
-                            abrirPanel();
                         })
                         .catch(() => {
-                            locEl.dataset.translatable = 'false';
-                            locEl.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
-                            actualizarPanelLocal();
-                            abrirPanel();
+                            // Ya mostramos coords antes, no hace falta más
                         })
                         .finally(() => {
                             geoBtn.disabled = false;
@@ -978,11 +1031,11 @@
         // PANEL LOCAL
         // ============================================================
         function abrirPanel() {
-            document.getElementById('localPanel').classList.add('show');
+            document.getElementById('localPanel').classList.add('visible');
         }
 
         function cerrarPanel() {
-            document.getElementById('localPanel').classList.remove('show');
+            document.getElementById('localPanel').classList.remove('visible');
         }
 
         function actualizarPanelLocal() {
@@ -990,8 +1043,8 @@
             const t = I18N[currentLang];
             const { lat, lng } = miUbicacion;
 
-            document.getElementById('panelLoc').textContent =
-                document.getElementById('activeLocation').textContent || '—';
+            const locText = document.getElementById('activeLocation').textContent || '—';
+            document.getElementById('panelLoc').textContent = locText;
 
             // Filtrar sismos en 500 km
             const cercanos = ultimosTerremotos
