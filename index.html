@@ -139,18 +139,14 @@
             border-radius: 12px;
             background: rgba(0, 10, 20, 0.7);
             backdrop-filter: blur(10px);
-            box-shadow:
-                0 0 20px rgba(0, 255, 255, 0.3),
-                inset 0 0 20px rgba(0, 255, 255, 0.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.05);
             overflow: hidden;
             transition: all 0.3s ease;
         }
 
         .search-box:focus-within {
             border-color: #00ffff;
-            box-shadow:
-                0 0 30px rgba(0, 255, 255, 0.6),
-                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.1);
         }
 
         .search-box input {
@@ -269,6 +265,122 @@
             margin: 0 auto;
         }
 
+        /* ===== PANEL LOCAL ===== */
+        #localPanel {
+            position: fixed;
+            top: 180px;
+            right: 20px;
+            z-index: 50;
+            width: 320px;
+            max-width: calc(100vw - 40px);
+            background: rgba(0, 10, 20, 0.92);
+            border: 2px solid #00ff88;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 18px;
+            display: none;
+            transform: translateX(400px);
+            transition: transform 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        #localPanel.show {
+            display: block;
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        #localPanel .panel-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: #00ff88;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #localPanel .panel-loc {
+            font-size: 0.95rem;
+            color: #fff;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+        }
+
+        #localPanel .panel-close {
+            background: none;
+            border: none;
+            color: #00ff88;
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        #localPanel .panel-close:hover { color: #ff2d2d; }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(0, 255, 255, 0.15);
+            font-size: 0.9rem;
+        }
+
+        .stat-row:last-child { border-bottom: none; }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            color: #00ffff;
+            font-size: 1rem;
+        }
+
+        .stat-value.warn { color: #ff8c00; }
+        .stat-value.danger { color: #ff0033; }
+
+        .emergency-section {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 45, 45, 0.3);
+        }
+
+        .emergency-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: #ff2d2d;
+            margin-bottom: 10px;
+        }
+
+        .emergency-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.85rem;
+        }
+
+        .emergency-item .number {
+            font-family: 'Orbitron', sans-serif;
+            color: #ff2d2d;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .emergency-item .number:hover {
+            text-decoration: underline;
+        }
+
         .legend {
             position: relative;
             z-index: 10;
@@ -308,6 +420,13 @@
             .info-item { min-width: 140px; padding: 8px 16px; }
             .info-item .value { font-size: 1.2rem; }
             #globeViz { height: 55vh; }
+            #localPanel {
+                top: auto;
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                width: auto;
+            }
         }
     </style>
 </head>
@@ -347,6 +466,32 @@
     </div>
 
     <div id="globeViz"></div>
+
+    <div id="localPanel" translate="no">
+        <div class="panel-title">
+            <span id="t-panelTitle">📍 TU ZONA</span>
+            <button class="panel-close" onclick="cerrarPanel()">×</button>
+        </div>
+        <div class="panel-loc" id="panelLoc">—</div>
+
+        <div class="stat-row">
+            <span class="stat-label" id="t-statNear">Sismos en 500 km</span>
+            <span class="stat-value" id="statNear">—</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label" id="t-statClosest">Más cercano</span>
+            <span class="stat-value" id="statClosest">—</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label" id="t-statStrongest">Más fuerte (500 km)</span>
+            <span class="stat-value" id="statStrongest">—</span>
+        </div>
+
+        <div class="emergency-section" id="emergencySection" style="display:none;">
+            <div class="emergency-title" id="t-emergencyTitle">🚨 NÚMEROS DE EMERGENCIA</div>
+            <div id="emergencyList"></div>
+        </div>
+    </div>
 
     <div class="legend" translate="no">
         <div class="legend-item">
@@ -390,6 +535,13 @@
                 legendLow: 'Magnitud < 3.0',
                 legendMid: 'Magnitud 3.0 – 4.9',
                 legendHigh: 'Magnitud ≥ 5.0',
+                panelTitle: '📍 TU ZONA',
+                statNear: 'Sismos en 500 km',
+                statClosest: 'Más cercano',
+                statStrongest: 'Más fuerte (500 km)',
+                emergencyTitle: '🚨 NÚMEROS DE EMERGENCIA',
+                km: 'km',
+                none: 'Ninguno',
                 locale: 'es-ES'
             },
             en: {
@@ -413,12 +565,102 @@
                 legendLow: 'Magnitude < 3.0',
                 legendMid: 'Magnitude 3.0 – 4.9',
                 legendHigh: 'Magnitude ≥ 5.0',
+                panelTitle: '📍 YOUR AREA',
+                statNear: 'Quakes within 500 km',
+                statClosest: 'Closest',
+                statStrongest: 'Strongest (500 km)',
+                emergencyTitle: '🚨 EMERGENCY NUMBERS',
+                km: 'km',
+                none: 'None',
                 locale: 'en-US'
             }
         };
 
+        // ============================================================
+        // NÚMEROS DE EMERGENCIA POR PAÍS
+        // ============================================================
+        const EMERGENCY = {
+            'Venezuela': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '0800-266-8465' },
+                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '171' }
+            ],
+            'Colombia': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '123' },
+                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '119' },
+                { name: { es: 'Cruz Roja', en: 'Red Cross' }, number: '132' }
+            ],
+            'México': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '800-713-4147' }
+            ],
+            'Argentina': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '100' },
+                { name: { es: 'Defensa Civil', en: 'Civil Defense' }, number: '103' }
+            ],
+            'Chile': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '132' },
+                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '132' },
+                { name: { es: 'Carabineros', en: 'Police' }, number: '133' }
+            ],
+            'Perú': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '116' },
+                { name: { es: 'INDECI', en: 'Civil Defense' }, number: '115' }
+            ],
+            'Ecuador': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'Bomberos', en: 'Firefighters' }, number: '102' }
+            ],
+            'Estados Unidos': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'USGS', en: 'USGS' }, number: '1-888-275-8747' }
+            ],
+            'United States': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'USGS', en: 'USGS' }, number: '1-888-275-8747' }
+            ],
+            'España': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '112' }
+            ],
+            'Japan': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '110' },
+                { name: { es: 'Bomberos/Ambulancia', en: 'Fire/Ambulance' }, number: '119' }
+            ],
+            'Japón': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '110' },
+                { name: { es: 'Bomberos/Ambulancia', en: 'Fire/Ambulance' }, number: '119' }
+            ],
+            'Italia': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'Protección Civil', en: 'Civil Protection' }, number: '800-840-840' }
+            ],
+            'Indonesia': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'BNPB', en: 'BNPB' }, number: '117' }
+            ],
+            'Filipinas': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '911' },
+                { name: { es: 'NDRRMC', en: 'NDRRMC' }, number: '911' }
+            ],
+            'Turkey': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'AFAD', en: 'AFAD' }, number: '122' }
+            ],
+            'Turquía': [
+                { name: { es: 'Emergencias', en: 'Emergency' }, number: '112' },
+                { name: { es: 'AFAD', en: 'AFAD' }, number: '122' }
+            ]
+        };
+
+        // ============================================================
+        // ESTADO GLOBAL
+        // ============================================================
         let currentLang = localStorage.getItem('sismonow_lang') || 'es';
         let ultimosTerremotos = [];
+        let miUbicacion = null; // { lat, lng, country }
 
         // ============================================================
         // APLICAR IDIOMA
@@ -439,12 +681,17 @@
             document.getElementById('t-legendMid').textContent = t.legendMid;
             document.getElementById('t-legendHigh').textContent = t.legendHigh;
 
+            document.getElementById('t-panelTitle').textContent = t.panelTitle;
+            document.getElementById('t-statNear').textContent = t.statNear;
+            document.getElementById('t-statClosest').textContent = t.statClosest;
+            document.getElementById('t-statStrongest').textContent = t.statStrongest;
+            document.getElementById('t-emergencyTitle').textContent = t.emergencyTitle;
+
             const searchInput = document.getElementById('searchInput');
             searchInput.placeholder = t.searchPlaceholder;
 
             document.getElementById('btn-search').textContent = t.searchBtn;
 
-            // Botón geolocalización: respeta su estado actual
             const geoBtn = document.getElementById('btn-geo');
             if (!geoBtn.disabled) {
                 if (geoBtn.classList.contains('success')) {
@@ -465,6 +712,10 @@
             if (ultimosTerremotos.length > 0) {
                 dibujarPuntos(ultimosTerremotos);
             }
+
+            if (miUbicacion) {
+                actualizarPanelLocal();
+            }
         }
 
         document.getElementById('btn-es').addEventListener('click', () => aplicarIdioma('es'));
@@ -481,6 +732,19 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#39;');
+        }
+
+        // ============================================================
+        // DISTANCIA (Haversine)
+        // ============================================================
+        function distanciaKm(lat1, lng1, lat2, lng2) {
+            const R = 6371;
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLng = (lng2 - lng1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) ** 2 +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLng / 2) ** 2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         }
 
         // ============================================================
@@ -557,6 +821,10 @@
                         });
 
                     dibujarPuntos(ultimosTerremotos);
+
+                    if (miUbicacion) {
+                        actualizarPanelLocal();
+                    }
                 })
                 .catch(err => {
                     console.error('Error terremotos:', err);
@@ -620,7 +888,7 @@
         });
 
         // ============================================================
-        // VUELO + ANILLO (reutilizable)
+        // VUELO + ANILLO
         // ============================================================
         function volarA(lat, lng) {
             world.controls().autoRotate = false;
@@ -660,8 +928,9 @@
                     const lng = pos.coords.longitude;
 
                     volarA(lat, lng);
+                    miUbicacion = { lat: lat, lng: lng, country: '' };
 
-                    // Reverse geocoding: convertir coordenadas a nombre de lugar
+                    // Reverse geocoding
                     const url = 'https://nominatim.openstreetmap.org/reverse'
                         + '?format=json&limit=1'
                         + '&accept-language=' + currentLang
@@ -675,12 +944,18 @@
                                 || data?.address?.state
                                 || data?.address?.country
                                 || (lat.toFixed(2) + ', ' + lng.toFixed(2));
+                            const pais = data?.address?.country || '';
+                            miUbicacion.country = pais;
                             locEl.dataset.translatable = 'false';
                             locEl.textContent = lugar;
+                            actualizarPanelLocal();
+                            abrirPanel();
                         })
                         .catch(() => {
                             locEl.dataset.translatable = 'false';
                             locEl.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
+                            actualizarPanelLocal();
+                            abrirPanel();
                         })
                         .finally(() => {
                             geoBtn.disabled = false;
@@ -697,6 +972,69 @@
                 },
                 { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
             );
+        }
+
+        // ============================================================
+        // PANEL LOCAL
+        // ============================================================
+        function abrirPanel() {
+            document.getElementById('localPanel').classList.add('show');
+        }
+
+        function cerrarPanel() {
+            document.getElementById('localPanel').classList.remove('show');
+        }
+
+        function actualizarPanelLocal() {
+            if (!miUbicacion) return;
+            const t = I18N[currentLang];
+            const { lat, lng } = miUbicacion;
+
+            document.getElementById('panelLoc').textContent =
+                document.getElementById('activeLocation').textContent || '—';
+
+            // Filtrar sismos en 500 km
+            const cercanos = ultimosTerremotos
+                .map(q => ({ ...q, dist: distanciaKm(lat, lng, q.lat, q.lng) }))
+                .filter(q => q.dist <= 500)
+                .sort((a, b) => a.dist - b.dist);
+
+            document.getElementById('statNear').textContent = cercanos.length;
+
+            if (cercanos.length === 0) {
+                document.getElementById('statClosest').textContent = t.none;
+                document.getElementById('statClosest').className = 'stat-value';
+                document.getElementById('statStrongest').textContent = t.none;
+                document.getElementById('statStrongest').className = 'stat-value';
+            } else {
+                const masCercano = cercanos[0];
+                document.getElementById('statClosest').textContent =
+                    Math.round(masCercano.dist) + ' ' + t.km + ' · M' + masCercano.mag.toFixed(1);
+                document.getElementById('statClosest').className = 'stat-value' +
+                    (masCercano.mag >= 5 ? ' danger' : masCercano.mag >= 3 ? ' warn' : '');
+
+                const masFuerte = cercanos.reduce((max, q) => q.mag > max.mag ? q : max, cercanos[0]);
+                document.getElementById('statStrongest').textContent = 'M' + masFuerte.mag.toFixed(1);
+                document.getElementById('statStrongest').className = 'stat-value' +
+                    (masFuerte.mag >= 5 ? ' danger' : masFuerte.mag >= 3 ? ' warn' : '');
+            }
+
+            // Números de emergencia
+            const pais = miUbicacion.country;
+            const emergencySection = document.getElementById('emergencySection');
+            const emergencyList = document.getElementById('emergencyList');
+
+            if (pais && EMERGENCY[pais]) {
+                emergencyList.innerHTML = EMERGENCY[pais].map(e =>
+                    '<div class="emergency-item">' +
+                    '<span>' + escapeHTML(e.name[currentLang]) + '</span>' +
+                    '<a class="number" href="tel:' + escapeHTML(e.number) + '">' + escapeHTML(e.number) + '</a>' +
+                    '</div>'
+                ).join('');
+                emergencySection.style.display = 'block';
+            } else {
+                emergencySection.style.display = 'none';
+            }
         }
 
         window.addEventListener('resize', () => {
