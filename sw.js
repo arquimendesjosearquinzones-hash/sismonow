@@ -1,5 +1,5 @@
-// Service Worker mínimo para sismonow
-const CACHE_NAME = 'sismonow-v1';
+// Service Worker para sismonow — v3
+const CACHE_NAME = 'sismonow-v3';
 const ASSETS = [
   '/',
   '/index.html',
