@@ -124,14 +124,17 @@
             z-index: 10;
             display: flex;
             justify-content: center;
+            gap: 10px;
             margin: 30px auto 20px;
-            max-width: 700px;
+            max-width: 900px;
             padding: 0 20px;
+            flex-wrap: wrap;
         }
 
         .search-box {
             display: flex;
-            width: 100%;
+            flex: 1;
+            min-width: 300px;
             border: 2px solid rgba(0, 255, 255, 0.5);
             border-radius: 12px;
             background: rgba(0, 10, 20, 0.7);
@@ -185,6 +188,38 @@
             background: linear-gradient(90deg, #b026ff, #ff00ff);
             color: #fff;
             letter-spacing: 4px;
+        }
+
+        .geo-button {
+            padding: 18px 24px;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 12px;
+            background: rgba(0, 10, 20, 0.7);
+            backdrop-filter: blur(10px);
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .geo-button:hover {
+            background: rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .geo-button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .geo-button.success {
+            border-color: #00ff88;
+            color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
         .info-bar {
@@ -266,8 +301,10 @@
             .subtitle { font-size: 0.8rem; letter-spacing: 2px; }
             .lang-switch { top: 15px; right: 15px; }
             .lang-switch button { padding: 6px 10px; font-size: 0.7rem; }
+            .search-box { min-width: 100%; }
             .search-box input { padding: 14px 16px; font-size: 0.95rem; }
             .search-box button { padding: 0 18px; letter-spacing: 2px; font-size: 0.75rem; }
+            .geo-button { padding: 14px 18px; font-size: 0.75rem; width: 100%; }
             .info-item { min-width: 140px; padding: 8px 16px; }
             .info-item .value { font-size: 1.2rem; }
             #globeViz { height: 55vh; }
@@ -291,6 +328,7 @@
             <input type="text" id="searchInput" maxlength="100" autocomplete="off" />
             <button id="btn-search" onclick="buscarPais()"></button>
         </div>
+        <button class="geo-button" id="btn-geo" onclick="usarMiUbicacion()">📍</button>
     </div>
 
     <div class="info-bar" translate="no">
@@ -335,6 +373,9 @@
                 subtitle: 'Monitor Global de Terremotos · En Vivo',
                 searchPlaceholder: 'BUSCAR PAÍS · EJ: VENEZUELA',
                 searchBtn: 'BUSCAR',
+                geoBtn: '📍 USAR MI UBICACIÓN',
+                geoBtnLoading: '📍 LOCALIZANDO...',
+                geoBtnSuccess: '📍 TU ZONA',
                 quakeLabel: 'Terremotos 24h',
                 updateLabel: 'Última actualización',
                 locationLabel: 'Ubicación activa',
@@ -342,6 +383,8 @@
                 searching: 'Buscando...',
                 notFound: 'No encontrado',
                 error: 'Error',
+                geoDenied: 'Permiso denegado',
+                geoUnsupported: 'No soportado',
                 mag: 'Mag',
                 unknownPlace: 'Ubicación desconocida',
                 legendLow: 'Magnitud < 3.0',
@@ -353,6 +396,9 @@
                 subtitle: 'Global Earthquake Monitor · Live',
                 searchPlaceholder: 'SEARCH COUNTRY · EX: VENEZUELA',
                 searchBtn: 'SEARCH',
+                geoBtn: '📍 USE MY LOCATION',
+                geoBtnLoading: '📍 LOCATING...',
+                geoBtnSuccess: '📍 YOUR AREA',
                 quakeLabel: 'Earthquakes 24h',
                 updateLabel: 'Last update',
                 locationLabel: 'Active location',
@@ -360,6 +406,8 @@
                 searching: 'Searching...',
                 notFound: 'Not found',
                 error: 'Error',
+                geoDenied: 'Permission denied',
+                geoUnsupported: 'Not supported',
                 mag: 'Mag',
                 unknownPlace: 'Unknown location',
                 legendLow: 'Magnitude < 3.0',
@@ -395,6 +443,16 @@
             searchInput.placeholder = t.searchPlaceholder;
 
             document.getElementById('btn-search').textContent = t.searchBtn;
+
+            // Botón geolocalización: respeta su estado actual
+            const geoBtn = document.getElementById('btn-geo');
+            if (!geoBtn.disabled) {
+                if (geoBtn.classList.contains('success')) {
+                    geoBtn.textContent = t.geoBtnSuccess;
+                } else {
+                    geoBtn.textContent = t.geoBtn;
+                }
+            }
 
             const locEl = document.getElementById('activeLocation');
             if (locEl.dataset.translatable === 'true') {
@@ -507,7 +565,7 @@
         }
 
         // ============================================================
-        // BUSCADOR
+        // BUSCADOR POR PAÍS
         // ============================================================
         function buscarPais() {
             const t = I18N[currentLang];
@@ -546,17 +604,7 @@
                         return;
                     }
 
-                    world.controls().autoRotate = false;
-                    world.pointOfView({ lat: lat, lng: lng, altitude: 1.2 }, 2000);
-
-                    world
-                        .ringsData([{ lat: lat, lng: lng }])
-                        .ringLat('lat')
-                        .ringLng('lng')
-                        .ringColor(() => t2 => 'rgba(0, 255, 255, ' + (1 - t2) + ')')
-                        .ringMaxRadius(8)
-                        .ringPropagationSpeed(3)
-                        .ringRepeatPeriod(800);
+                    volarA(lat, lng);
 
                     const nombreCorto = (data[0].display_name || '').split(',')[0].trim() || t.world;
                     locEl.textContent = nombreCorto;
@@ -570,6 +618,86 @@
         document.getElementById('searchInput').addEventListener('keypress', e => {
             if (e.key === 'Enter') buscarPais();
         });
+
+        // ============================================================
+        // VUELO + ANILLO (reutilizable)
+        // ============================================================
+        function volarA(lat, lng) {
+            world.controls().autoRotate = false;
+            world.pointOfView({ lat: lat, lng: lng, altitude: 1.2 }, 2000);
+
+            world
+                .ringsData([{ lat: lat, lng: lng }])
+                .ringLat('lat')
+                .ringLng('lng')
+                .ringColor(() => t2 => 'rgba(0, 255, 255, ' + (1 - t2) + ')')
+                .ringMaxRadius(8)
+                .ringPropagationSpeed(3)
+                .ringRepeatPeriod(800);
+        }
+
+        // ============================================================
+        // GEOLOCALIZACIÓN
+        // ============================================================
+        function usarMiUbicacion() {
+            const t = I18N[currentLang];
+            const geoBtn = document.getElementById('btn-geo');
+            const locEl = document.getElementById('activeLocation');
+
+            if (!navigator.geolocation) {
+                locEl.dataset.translatable = 'false';
+                locEl.textContent = t.geoUnsupported;
+                return;
+            }
+
+            geoBtn.disabled = true;
+            geoBtn.textContent = t.geoBtnLoading;
+            geoBtn.classList.remove('success');
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+
+                    volarA(lat, lng);
+
+                    // Reverse geocoding: convertir coordenadas a nombre de lugar
+                    const url = 'https://nominatim.openstreetmap.org/reverse'
+                        + '?format=json&limit=1'
+                        + '&accept-language=' + currentLang
+                        + '&lat=' + lat + '&lon=' + lng;
+
+                    fetch(url, { referrerPolicy: 'no-referrer' })
+                        .then(r => r.json())
+                        .then(data => {
+                            const lugar = data?.address?.city
+                                || data?.address?.town
+                                || data?.address?.state
+                                || data?.address?.country
+                                || (lat.toFixed(2) + ', ' + lng.toFixed(2));
+                            locEl.dataset.translatable = 'false';
+                            locEl.textContent = lugar;
+                        })
+                        .catch(() => {
+                            locEl.dataset.translatable = 'false';
+                            locEl.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
+                        })
+                        .finally(() => {
+                            geoBtn.disabled = false;
+                            geoBtn.classList.add('success');
+                            geoBtn.textContent = t.geoBtnSuccess;
+                        });
+                },
+                (err) => {
+                    console.error('Error geolocalización:', err);
+                    locEl.dataset.translatable = 'false';
+                    locEl.textContent = t.geoDenied;
+                    geoBtn.disabled = false;
+                    geoBtn.textContent = t.geoBtn;
+                },
+                { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+            );
+        }
 
         window.addEventListener('resize', () => {
             world.width(globeEl.clientWidth).height(globeEl.clientHeight);
