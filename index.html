@@ -12,7 +12,7 @@
     <meta name="apple-mobile-web-app-title" content="sismonow">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com; img-src 'self' https://unpkg.com https://server.arcgisonline.com https://a.basemaps.cartocdn.com data:; connect-src https://earthquake.usgs.gov https://nominatim.openstreetmap.org;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com; img-src 'self' https://unpkg.com https://server.arcgisonline.com data:; connect-src https://earthquake.usgs.gov https://nominatim.openstreetmap.org;">
 
     <title>sismonow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,6 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
         html, body { overscroll-behavior: none; }
 
         body {
@@ -48,7 +47,6 @@
             pointer-events: none;
             animation: gridMove 20s linear infinite;
         }
-
         @keyframes gridMove {
             0% { background-position: 0 0; }
             100% { background-position: 50px 50px; }
@@ -65,7 +63,7 @@
             pointer-events: none;
         }
 
-        /* BANNER TSUNAMI */
+        /* ===== BANNER TSUNAMI (MEJORADO CON BOTÓN X) ===== */
         #tsunamiBanner {
             position: fixed;
             top: 0;
@@ -75,22 +73,48 @@
             background: linear-gradient(90deg, #ff0000, #cc0000, #ff0000);
             color: #fff;
             padding: 12px 20px;
-            text-align: center;
+            padding-top: calc(12px + env(safe-area-inset-top));
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
             letter-spacing: 1px;
             font-size: 0.9rem;
             box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
             display: none;
-            cursor: pointer;
+            align-items: center;
+            gap: 12px;
             animation: tsunamiPulse 1.5s ease-in-out infinite;
-            padding-top: calc(12px + env(safe-area-inset-top));
         }
-        #tsunamiBanner.visible { display: block; }
-        #tsunamiBanner:hover { background: linear-gradient(90deg, #ff2020, #dd0000, #ff2020); }
+        #tsunamiBanner.visible { display: flex; }
         @keyframes tsunamiPulse {
             0%, 100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.7); }
             50% { box-shadow: 0 0 60px rgba(255, 0, 0, 1); }
+        }
+        #tsunamiBanner .tsunami-text {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+        #tsunamiBanner .tsunami-text:hover { text-decoration: underline; }
+        #tsunamiBanner .tsunami-close {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #fff;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        #tsunamiBanner .tsunami-close:hover {
+            background: #000;
+            transform: scale(1.15);
         }
 
         header {
@@ -99,7 +123,6 @@
             text-align: center;
             padding: 26px 20px 6px;
         }
-
         .logo {
             font-family: 'Orbitron', sans-serif;
             font-weight: 900;
@@ -137,7 +160,6 @@
             max-width: 280px;
             justify-content: flex-end;
         }
-
         .lang-switch button {
             padding: 4px 7px;
             border: 1px solid rgba(0, 255, 255, 0.4);
@@ -167,7 +189,6 @@
             padding: 0 16px;
             flex-wrap: wrap;
         }
-
         .search-box {
             display: flex;
             flex: 1;
@@ -178,7 +199,6 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.05);
             overflow: hidden;
-            transition: all 0.3s ease;
         }
         .search-box:focus-within {
             border-color: #00ffff;
@@ -207,13 +227,11 @@
             letter-spacing: 2px;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.3s;
         }
         .search-box button:hover {
             background: linear-gradient(90deg, #b026ff, #ff00ff);
             color: #fff;
         }
-
         .action-button {
             padding: 16px 18px;
             border: 2px solid rgba(0, 255, 255, 0.5);
@@ -226,14 +244,12 @@
             font-size: 0.8rem;
             letter-spacing: 1px;
             cursor: pointer;
-            transition: all 0.3s;
             white-space: nowrap;
         }
-        .action-button:hover { background: rgba(0, 255, 255, 0.15); box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+        .action-button:hover { background: rgba(0, 255, 255, 0.15); }
         .action-button:disabled { opacity: 0.6; cursor: wait; }
-        .action-button.success { border-color: #00ff88; color: #00ff88; box-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+        .action-button.success { border-color: #00ff88; color: #00ff88; }
         .news-button { border-color: rgba(255, 0, 255, 0.5); color: #ff00ff; }
-        .news-button:hover { background: rgba(255, 0, 255, 0.15); box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); }
 
         .filters-bar {
             position: relative;
@@ -246,7 +262,6 @@
             max-width: 900px;
             padding: 0 16px;
         }
-
         .filter-group {
             display: flex;
             align-items: center;
@@ -287,7 +302,6 @@
             margin-bottom: 14px;
             padding: 0 16px;
         }
-
         .info-item {
             display: flex;
             flex-direction: column;
@@ -322,7 +336,6 @@
             margin: 0 auto;
         }
 
-        /* PANEL ÚLTIMOS SISMOS */
         #recentPanel {
             position: fixed;
             top: 180px;
@@ -339,7 +352,6 @@
             padding: 14px;
             transition: transform 0.3s ease;
         }
-
         #recentPanel .recent-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
@@ -352,8 +364,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
         }
-
         .recent-item {
             padding: 9px 6px;
             border-bottom: 1px dashed rgba(176, 38, 255, 0.15);
@@ -394,7 +406,6 @@
             color: #ff0000;
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            letter-spacing: 1px;
             margin-left: 5px;
         }
         .recent-go {
@@ -417,12 +428,11 @@
             background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
             border: 2px solid #00ff88;
             border-radius: 14px;
-            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5), inset 0 0 30px rgba(0, 255, 136, 0.05);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
             padding: 18px;
             display: none;
         }
         #localPanel.visible { display: block; }
-
         #localPanel .panel-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
@@ -440,7 +450,6 @@
             margin-bottom: 14px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(0, 255, 136, 0.3);
-            font-weight: 500;
         }
         #localPanel .panel-close {
             background: none;
@@ -449,10 +458,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             padding: 0 6px;
-            line-height: 1;
         }
-        #localPanel .panel-close:hover { color: #ff2d2d; }
-
         .stat-row {
             display: flex;
             justify-content: space-between;
@@ -471,7 +477,6 @@
         }
         .stat-value.warn { color: #ff8c00; }
         .stat-value.danger { color: #ff0033; }
-
         .panel-actions {
             margin-top: 12px;
             padding-top: 10px;
@@ -491,11 +496,6 @@
             letter-spacing: 1px;
             cursor: pointer;
         }
-        .panel-actions button:hover {
-            background: rgba(255, 0, 255, 0.2);
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-        }
-
         .emergency-section {
             margin-top: 14px;
             padding-top: 12px;
@@ -526,11 +526,7 @@
             border: 1px solid rgba(255, 45, 45, 0.4);
             border-radius: 6px;
         }
-        .emergency-item .number:hover {
-            background: rgba(255, 45, 45, 0.15);
-        }
 
-        /* ===== MODAL MAPA SATELITAL ===== */
         #satModal {
             position: fixed;
             inset: 0;
@@ -543,7 +539,6 @@
             padding: 20px;
         }
         #satModal.visible { display: flex; }
-
         #satModal .modal-content {
             width: 100%;
             max-width: 900px;
@@ -556,7 +551,6 @@
             flex-direction: column;
             overflow: hidden;
         }
-
         #satModal .modal-header {
             padding: 16px 20px;
             border-bottom: 1px solid rgba(0, 255, 255, 0.3);
@@ -565,7 +559,6 @@
             align-items: center;
             gap: 12px;
         }
-
         #satModal .modal-title {
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
@@ -574,7 +567,6 @@
             color: #00ffff;
             flex: 1;
         }
-
         #satModal .modal-close {
             background: none;
             border: 2px solid rgba(0, 255, 255, 0.4);
@@ -584,14 +576,7 @@
             cursor: pointer;
             padding: 4px 12px;
             line-height: 1;
-            transition: all 0.2s;
         }
-        #satModal .modal-close:hover {
-            background: rgba(255, 45, 45, 0.2);
-            border-color: #ff2d2d;
-            color: #ff2d2d;
-        }
-
         #satModal .modal-info {
             padding: 14px 20px;
             display: flex;
@@ -616,14 +601,12 @@
             font-weight: 700;
             color: #fff;
         }
-
         #satMap {
             flex: 1;
             min-height: 400px;
             width: 100%;
             background: #000;
         }
-
         #satModal .modal-actions {
             padding: 14px 20px;
             display: flex;
@@ -631,7 +614,6 @@
             flex-wrap: wrap;
             border-top: 1px solid rgba(0, 255, 255, 0.15);
         }
-
         #satModal .modal-actions a,
         #satModal .modal-actions button {
             flex: 1;
@@ -648,15 +630,8 @@
             text-align: center;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.25s;
-        }
-        #satModal .modal-actions a:hover,
-        #satModal .modal-actions button:hover {
-            background: rgba(0, 255, 255, 0.2);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
         }
 
-        /* ===== MOBILE MENU ===== */
         .mobile-tabs {
             display: none;
             position: fixed;
@@ -682,10 +657,6 @@
             font-size: 0.6rem;
             letter-spacing: 1px;
             cursor: pointer;
-        }
-        .mobile-tabs button.active {
-            background: #00ffff;
-            color: #000;
         }
 
         .legend {
@@ -714,12 +685,10 @@
             box-shadow: 0 0 10px currentColor;
         }
 
-        /* ===== MOBILE ===== */
         @media (max-width: 900px) {
             header { padding: 18px 16px 4px; }
             .logo { font-size: 2.2rem; letter-spacing: 4px; }
             .subtitle { font-size: 0.7rem; letter-spacing: 2px; }
-
             .lang-switch {
                 position: relative;
                 top: auto;
@@ -728,27 +697,20 @@
                 margin: 10px auto 0;
                 max-width: 100%;
             }
-            .lang-switch button { padding: 5px 8px; font-size: 0.6rem; }
-
             .search-container { padding: 0 12px; gap: 6px; }
             .search-box { min-width: 100%; }
             .search-box input { padding: 13px 14px; font-size: 0.9rem; }
-            .search-box button { padding: 0 14px; font-size: 0.7rem; letter-spacing: 1px; }
-            .action-button { padding: 13px 14px; font-size: 0.7rem; flex: 1; letter-spacing: 1px; }
-
+            .search-box button { padding: 0 14px; font-size: 0.7rem; }
+            .action-button { padding: 13px 14px; font-size: 0.7rem; flex: 1; }
             .filters-bar { padding: 0 12px; gap: 6px; }
-            .filter-group { flex: 1; padding: 6px 10px; justify-content: space-between; }
+            .filter-group { flex: 1; padding: 6px 10px; }
             .filter-group label { font-size: 0.55rem; }
             .filter-group select { font-size: 0.7rem; padding: 4px 6px; }
-
             .info-bar { gap: 8px; padding: 0 12px; }
             .info-item { min-width: 0; flex: 1; padding: 8px 10px; }
-            .info-item .label { font-size: 0.55rem; letter-spacing: 1px; }
+            .info-item .label { font-size: 0.55rem; }
             .info-item .value { font-size: 1rem; }
-
             #globeViz { height: 55vh; }
-
-            /* Panel recientes colapsable en móvil */
             #recentPanel {
                 top: auto;
                 bottom: 70px;
@@ -762,8 +724,6 @@
                 max-height: 48px;
                 overflow: hidden;
             }
-
-            /* Panel local colapsable */
             #localPanel {
                 top: auto;
                 bottom: 70px;
@@ -773,23 +733,22 @@
                 max-height: 40vh;
                 z-index: 9001;
             }
-
             .mobile-tabs { display: flex; }
-
             .legend { gap: 10px; padding: 12px; margin-bottom: 70px; }
             .legend-item { font-size: 0.7rem; }
-
-            #satModal .modal-content { max-height: 95vh; }
             #satMap { min-height: 280px; }
-            #satModal .modal-info { font-size: 0.75rem; gap: 12px; padding: 10px 14px; }
-            #satModal .modal-title { font-size: 0.85rem; }
+            #tsunamiBanner { font-size: 0.7rem; padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top)); }
+            #tsunamiBanner .tsunami-close { width: 26px; height: 26px; font-size: 1rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="tsunamiBanner" translate="no" onclick="abrirTsunami()">
-        <span id="t-tsunamiAlert">🌊 TSUNAMI ALERT</span>
+    <div id="tsunamiBanner" translate="no">
+        <div class="tsunami-text" onclick="abrirTsunami()">
+            <span id="t-tsunamiAlert">🌊 TSUNAMI ALERT</span>
+        </div>
+        <button class="tsunami-close" onclick="cerrarBannerTsunami(event)">×</button>
     </div>
 
     <div class="lang-switch" translate="no">
@@ -855,7 +814,7 @@
     <div id="recentPanel" translate="no">
         <div class="recent-title" onclick="toggleRecent()">
             <span id="t-recentTitle">🔥 ÚLTIMOS SISMOS</span>
-            <span id="recentToggle" style="cursor:pointer;font-size:1rem;">▾</span>
+            <span id="recentToggle" style="font-size:1rem;">▾</span>
         </div>
         <div id="recentList"></div>
     </div>
@@ -900,18 +859,9 @@
     </div>
 
     <div class="legend" translate="no">
-        <div class="legend-item">
-            <div class="legend-dot" style="background:#ffe600; color:#ffe600;"></div>
-            <span id="t-legendLow"></span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-dot" style="background:#ff8c00; color:#ff8c00;"></div>
-            <span id="t-legendMid"></span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-dot" style="background:#ff0033; color:#ff0033;"></div>
-            <span id="t-legendHigh"></span>
-        </div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ffe600; color:#ffe600;"></div><span id="t-legendLow"></span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff8c00; color:#ff8c00;"></div><span id="t-legendMid"></span></div>
+        <div class="legend-item"><div class="legend-dot" style="background:#ff0033; color:#ff0033;"></div><span id="t-legendHigh"></span></div>
     </div>
 
     <div id="satModal">
@@ -932,28 +882,22 @@
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // ============================================================
-        // TRADUCCIONES
-        // ============================================================
         const I18N = {
-            es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos 24h', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', tabNews:'Noticias', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar', modalOpenUSGS:'Ver en USGS', modalOpenMaps:'Abrir en Maps' },
-            en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes 24h', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', tabNews:'News', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place', modalOpenUSGS:'Open in USGS', modalOpenMaps:'Open in Maps' },
-            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos 24h', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não suportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', tabNews:'Notícias', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', modalOpenUSGS:'Ver no USGS', modalOpenMaps:'Abrir no Maps' },
-            fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes 24h', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', tabNews:'Actus', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu', modalOpenUSGS:'Voir sur USGS', modalOpenMaps:'Ouvrir dans Maps' },
-            de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben 24h', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', tabNews:'News', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort', modalOpenUSGS:'In USGS öffnen', modalOpenMaps:'In Maps öffnen' },
-            it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti 24h', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', tabNews:'Notizie', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', modalOpenUSGS:'Apri in USGS', modalOpenMaps:'Apri in Maps' }
+            es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos 24h', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', tabNews:'Noticias', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar' },
+            en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes 24h', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', tabNews:'News', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place' },
+            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos 24h', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não suportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', tabNews:'Notícias', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local' },
+            fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes 24h', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', tabNews:'Actus', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu' },
+            de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben 24h', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', tabNews:'News', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort' },
+            it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti 24h', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', tabNews:'Notizie', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo' }
         };
 
-        // ============================================================
-        // EMERGENCY (abreviado)
-        // ============================================================
         const EMERGENCY = {
             'Venezuela': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' },{ name:{es:'Protección Civil',en:'Civil Protection'},number:'0800-266-8465' },{ name:{es:'Bomberos',en:'Firefighters'},number:'171' }],
-            'Colombia': [{ name:{es:'Emergencias',en:'Emergency'},number:'123' },{ name:{es:'Bomberos',en:'Firefighters'},number:'119' },{ name:{es:'Cruz Roja',en:'Red Cross'},number:'132' }],
+            'Colombia': [{ name:{es:'Emergencias',en:'Emergency'},number:'123' },{ name:{es:'Bomberos',en:'Firefighters'},number:'119' }],
             'México': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
             'Mexico': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
-            'Argentina': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' },{ name:{es:'Bomberos',en:'Firefighters'},number:'100' }],
-            'Chile': [{ name:{es:'Emergencias',en:'Emergency'},number:'132' },{ name:{es:'Carabineros',en:'Police'},number:'133' }],
+            'Argentina': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
+            'Chile': [{ name:{es:'Emergencias',en:'Emergency'},number:'132' }],
             'Perú': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
             'Peru': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
             'Ecuador': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
@@ -961,8 +905,8 @@
             'United States': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' }],
             'España': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
             'Spain': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
-            'Japan': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos/Ambulancia',en:'Fire/Ambulance'},number:'119' }],
-            'Japón': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos/Ambulancia',en:'Fire/Ambulance'},number:'119' }],
+            'Japan': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos',en:'Fire'},number:'119' }],
+            'Japón': [{ name:{es:'Policía',en:'Police'},number:'110' },{ name:{es:'Bomberos',en:'Fire'},number:'119' }],
             'Italy': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
             'Italia': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
             'Indonesia': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }],
@@ -985,9 +929,6 @@
             'Alemania': [{ name:{es:'Emergencias',en:'Emergency'},number:'112' }]
         };
 
-        // ============================================================
-        // ESTADO
-        // ============================================================
         let currentLang = localStorage.getItem('sismonow_lang') || 'es';
         let ultimosTerremotos = [];
         let miUbicacion = null;
@@ -996,15 +937,11 @@
         let leafletMap = null;
         let leafletMarker = null;
 
-        // ============================================================
-        // APLICAR IDIOMA
-        // ============================================================
         function aplicarIdioma(lang) {
             if (!I18N[lang]) lang = 'es';
             currentLang = lang;
             localStorage.setItem('sismonow_lang', lang);
             const t = I18N[lang];
-
             document.documentElement.lang = lang;
             document.title = 'sismonow — ' + t.subtitle;
 
@@ -1030,12 +967,10 @@
             set('t-tabRecent', t.tabRecent);
             set('t-tabLocation', t.tabLocation);
             set('t-tabNews', t.tabNews);
-            set('satTitle', '📍 ' + t.modalDetails);
 
             document.getElementById('magFilter').options[0].text = t.all;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             document.getElementById('btn-search').textContent = t.searchBtn;
-
             const geoBtn = document.getElementById('btn-geo');
             if (!geoBtn.disabled) geoBtn.textContent = geoBtn.classList.contains('success') ? t.geoBtnSuccess : t.geoBtn;
             document.getElementById('btn-news').textContent = t.newsBtn;
@@ -1099,9 +1034,6 @@
             return coords;
         }
 
-        // ============================================================
-        // GLOBO
-        // ============================================================
         const globeEl = document.getElementById('globeViz');
         const world = Globe()
             (globeEl)
@@ -1114,10 +1046,7 @@
 
         world.controls().autoRotate = true;
         world.controls().autoRotateSpeed = 0.5;
-
-        world.onPointClick(point => {
-            if (point && point.lat) abrirModalSismo(point);
-        });
+        world.onPointClick(point => { if (point && point.lat) abrirModalSismo(point); });
 
         const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
@@ -1171,9 +1100,6 @@
                 });
         }
 
-        // ============================================================
-        // PANEL ÚLTIMOS SISMOS — click vuela al lugar y abre modal
-        // ============================================================
         function dibujarUltimosSismos() {
             const t = I18N[currentLang];
             const ultimos = [...ultimosTerremotos].sort((a, b) => b.time - a.time).slice(0, 5);
@@ -1190,13 +1116,11 @@
                 return '<div class="recent-item" data-idx="' + i + '">' +
                     '<span class="recent-go">▶</span>' +
                     '<span class="recent-mag ' + cls + '">M' + q.mag.toFixed(1) + '</span>' +
-                    '<span class="recent-place">' + escapeHTML(q.place.substring(0, 50)) + '</span>' +
-                    ts +
+                    '<span class="recent-place">' + escapeHTML(q.place.substring(0, 50)) + '</span>' + ts +
                     '<div class="recent-time">' + tiempoRelativo(q.time, t) + '</div>' +
                     '</div>';
             }).join('');
 
-            // Asignar listeners DESPUÉS de generar el HTML
             list.querySelectorAll('.recent-item').forEach((el, i) => {
                 el.addEventListener('click', () => {
                     const q = ultimos[i];
@@ -1212,10 +1136,12 @@
             document.getElementById('recentToggle').textContent = p.classList.contains('collapsed') ? '▸' : '▾';
         }
 
-        // ============================================================
-        // TSUNAMI
-        // ============================================================
+        // ============ TSUNAMI CON BOTÓN CERRAR ============
         function verificarTsunami() {
+            // Si el usuario cerró el banner en la última hora, no mostrar
+            const dismissed = localStorage.getItem('tsunami_dismissed');
+            if (dismissed && (Date.now() - parseInt(dismissed, 10)) < 3600000) return;
+
             const conTsunami = ultimosTerremotos.filter(q => q.tsunami);
             const banner = document.getElementById('tsunamiBanner');
             if (conTsunami.length > 0) {
@@ -1229,6 +1155,12 @@
             }
         }
 
+        function cerrarBannerTsunami(e) {
+            e.stopPropagation();
+            document.getElementById('tsunamiBanner').classList.remove('visible');
+            localStorage.setItem('tsunami_dismissed', Date.now());
+        }
+
         function abrirTsunami() {
             const banner = document.getElementById('tsunamiBanner');
             const lat = parseFloat(banner.dataset.lat);
@@ -1240,18 +1172,13 @@
             if (q) setTimeout(() => abrirModalSismo(q), 1200);
         }
 
-        // ============================================================
-        // MODAL MAPA SATELITAL
-        // ============================================================
+        // ============ MODAL SATELITAL ============
         function abrirModalSismo(q) {
             const t = I18N[currentLang];
             const modal = document.getElementById('satModal');
-
             document.getElementById('satTitle').textContent = '📍 ' + t.modalDetails;
 
-            const fecha = new Date(q.time).toLocaleString(t.locale, {
-                day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
-            });
+            const fecha = new Date(q.time).toLocaleString(t.locale, { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
 
             document.getElementById('satInfo').innerHTML =
                 '<div class="modal-info-item"><span class="lbl">' + escapeHTML(t.modalMag) + '</span><span class="val">M' + q.mag.toFixed(1) + '</span></div>' +
@@ -1264,24 +1191,11 @@
 
             modal.classList.add('visible');
 
-            // Inicializar Leaflet si no existe
             setTimeout(() => {
                 if (!leafletMap) {
-                    leafletMap = L.map('satMap', {
-                        zoomControl: true,
-                        attributionControl: false
-                    }).setView([q.lat, q.lng], 8);
-
-                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                        maxZoom: 18,
-                        minZoom: 1
-                    }).addTo(leafletMap);
-
-                    // Etiquetas encima del satélite
-                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-                        maxZoom: 18,
-                        opacity: 0.7
-                    }).addTo(leafletMap);
+                    leafletMap = L.map('satMap', { zoomControl: true, attributionControl: false }).setView([q.lat, q.lng], 8);
+                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, minZoom: 1 }).addTo(leafletMap);
+                    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, opacity: 0.7 }).addTo(leafletMap);
                 } else {
                     leafletMap.setView([q.lat, q.lng], 8);
                 }
@@ -1291,75 +1205,48 @@
                 const icon = L.divIcon({
                     className: '',
                     html: '<div style="width:36px;height:36px;border-radius:50%;background:' + q.color + ';border:3px solid #fff;box-shadow:0 0 25px ' + q.color + ';display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-weight:900;color:#000;font-size:0.7rem;">M' + q.mag.toFixed(1) + '</div>',
-                    iconSize: [36, 36],
-                    iconAnchor: [18, 18]
+                    iconSize: [36, 36], iconAnchor: [18, 18]
                 });
-
                 leafletMarker = L.marker([q.lat, q.lng], { icon: icon }).addTo(leafletMap);
 
-                // Anillo pulsante
                 L.circle([q.lat, q.lng], {
                     radius: Math.max(5000, q.mag * 15000),
-                    color: q.color,
-                    fillColor: q.color,
-                    fillOpacity: 0.15,
-                    weight: 2,
-                    dashArray: '5,10'
+                    color: q.color, fillColor: q.color,
+                    fillOpacity: 0.15, weight: 2, dashArray: '5,10'
                 }).addTo(leafletMap);
 
                 leafletMap.invalidateSize();
             }, 100);
         }
 
-        function cerrarModal() {
-            document.getElementById('satModal').classList.remove('visible');
-        }
+        function cerrarModal() { document.getElementById('satModal').classList.remove('visible'); }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrarModal(); });
+        document.getElementById('satModal').addEventListener('click', e => { if (e.target.id === 'satModal') cerrarModal(); });
 
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') cerrarModal();
-        });
-
-        // Cerrar modal con click fuera
-        document.getElementById('satModal').addEventListener('click', e => {
-            if (e.target.id === 'satModal') cerrarModal();
-        });
-
-        // ============================================================
-        // BUSCADOR / GEOLOCALIZACIÓN / CIRCULO
-        // ============================================================
         function buscarPais() {
             const t = I18N[currentLang];
             const rawQuery = document.getElementById('searchInput').value.trim();
             if (!rawQuery) return;
             const query = rawQuery.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s,\-\.]/g, '');
             if (query.length === 0 || query.length > 100) return;
-
             const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=' + currentLang + '&q=' + encodeURIComponent(query);
             const locEl = document.getElementById('activeLocation');
             locEl.dataset.translatable = 'false';
             locEl.textContent = t.searching;
-
             fetch(url, { referrerPolicy: 'no-referrer' })
                 .then(r => { if (!r.ok) throw new Error('Nominatim ' + r.status); return r.json(); })
                 .then(data => {
                     if (!Array.isArray(data) || data.length === 0) {
-                        locEl.textContent = t.notFound;
-                        world.ringsData([]);
-                        return;
+                        locEl.textContent = t.notFound; world.ringsData([]); return;
                     }
-                    const lat = parseFloat(data[0].lat);
-                    const lng = parseFloat(data[0].lon);
+                    const lat = parseFloat(data[0].lat), lng = parseFloat(data[0].lon);
                     if (isNaN(lat) || isNaN(lng)) { locEl.textContent = t.error; return; }
                     volarA(lat, lng);
                     locEl.textContent = (data[0].display_name || '').split(',')[0].trim() || t.world;
                 })
                 .catch(err => { console.error(err); locEl.textContent = t.error; });
         }
-
-        document.getElementById('searchInput').addEventListener('keypress', e => {
-            if (e.key === 'Enter') buscarPais();
-        });
+        document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') buscarPais(); });
 
         function volarA(lat, lng) {
             world.controls().autoRotate = false;
@@ -1391,47 +1278,33 @@
             const t = I18N[currentLang];
             const geoBtn = document.getElementById('btn-geo');
             const locEl = document.getElementById('activeLocation');
-
-            if (!navigator.geolocation) {
-                locEl.dataset.translatable = 'false';
-                locEl.textContent = t.geoUnsupported;
-                return;
-            }
-
+            if (!navigator.geolocation) { locEl.dataset.translatable='false'; locEl.textContent = t.geoUnsupported; return; }
             geoBtn.disabled = true;
             geoBtn.textContent = t.geoBtnLoading;
             geoBtn.classList.remove('success');
-
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
-                    const lat = pos.coords.latitude;
-                    const lng = pos.coords.longitude;
+                    const lat = pos.coords.latitude, lng = pos.coords.longitude;
                     volarA(lat, lng);
                     miUbicacion = { lat, lng, country: '' };
                     dibujarCirculoRadio();
-
                     locEl.dataset.translatable = 'false';
                     locEl.textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     document.getElementById('panelLoc').textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     actualizarPanelLocal();
                     abrirPanel();
-
                     const url = 'https://nominatim.openstreetmap.org/reverse?format=json&limit=1&accept-language=' + currentLang + '&lat=' + lat + '&lon=' + lng;
-                    fetch(url, { referrerPolicy: 'no-referrer' })
-                        .then(r => r.json())
-                        .then(data => {
-                            const lugar = data?.address?.city || data?.address?.town || data?.address?.state || data?.address?.country || (lat.toFixed(2) + ', ' + lng.toFixed(2));
-                            miUbicacion.country = data?.address?.country || '';
-                            locEl.textContent = lugar;
-                            document.getElementById('panelLoc').textContent = lugar;
-                            actualizarPanelLocal();
-                        })
-                        .catch(() => {})
-                        .finally(() => {
-                            geoBtn.disabled = false;
-                            geoBtn.classList.add('success');
-                            geoBtn.textContent = t.geoBtnSuccess;
-                        });
+                    fetch(url, { referrerPolicy: 'no-referrer' }).then(r => r.json()).then(data => {
+                        const lugar = data?.address?.city || data?.address?.town || data?.address?.state || data?.address?.country || (lat.toFixed(2) + ', ' + lng.toFixed(2));
+                        miUbicacion.country = data?.address?.country || '';
+                        locEl.textContent = lugar;
+                        document.getElementById('panelLoc').textContent = lugar;
+                        actualizarPanelLocal();
+                    }).catch(()=>{}).finally(() => {
+                        geoBtn.disabled = false;
+                        geoBtn.classList.add('success');
+                        geoBtn.textContent = t.geoBtnSuccess;
+                    });
                 },
                 (err) => {
                     console.error(err);
@@ -1451,7 +1324,6 @@
             if (!miUbicacion) return;
             const t = I18N[currentLang];
             const { lat, lng } = miUbicacion;
-
             const cercanos = ultimosTerremotos
                 .map(q => ({ ...q, dist: distanciaKm(lat, lng, q.lat, q.lng) }))
                 .filter(q => q.dist <= currentRadiusKm)
@@ -1468,7 +1340,6 @@
                 const masCercano = cercanos[0];
                 document.getElementById('statClosest').textContent = Math.round(masCercano.dist) + ' ' + t.km + ' · M' + masCercano.mag.toFixed(1);
                 document.getElementById('statClosest').className = 'stat-value' + (masCercano.mag >= 5 ? ' danger' : masCercano.mag >= 3 ? ' warn' : '');
-
                 const masFuerte = cercanos.reduce((max, q) => q.mag > max.mag ? q : max, cercanos[0]);
                 document.getElementById('statStrongest').textContent = 'M' + masFuerte.mag.toFixed(1);
                 document.getElementById('statStrongest').className = 'stat-value' + (masFuerte.mag >= 5 ? ' danger' : masFuerte.mag >= 3 ? ' warn' : '');
@@ -1477,7 +1348,6 @@
             const pais = miUbicacion.country;
             const emergencySection = document.getElementById('emergencySection');
             const emergencyList = document.getElementById('emergencyList');
-
             if (pais && EMERGENCY[pais]) {
                 emergencyList.innerHTML = EMERGENCY[pais].map(e => {
                     const nombre = e.name[currentLang] || e.name.en || e.name.es || '';
@@ -1489,44 +1359,30 @@
             }
         }
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
-        // ============================================================
-        // FILTROS
-        // ============================================================
         document.getElementById('magFilter').addEventListener('change', (e) => {
             currentMagFilter = parseFloat(e.target.value) || 0;
             redibujarPuntos();
         });
-
         document.getElementById('radiusFilter').addEventListener('change', (e) => {
             currentRadiusKm = parseInt(e.target.value, 10) || 500;
             dibujarCirculoRadio();
             if (miUbicacion) actualizarPanelLocal();
         });
-
         window.addEventListener('resize', () => {
             world.width(globeEl.clientWidth).height(globeEl.clientHeight);
             if (leafletMap) leafletMap.invalidateSize();
         });
 
-        // ============================================================
-        // SERVICE WORKER + PWA
-        // ============================================================
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW error:', err));
+                navigator.serviceWorker.register('sw.js').catch(err => console.log('SW:', err));
             });
         }
 
-        // ============================================================
-        // ARRANQUE
-        // ============================================================
         aplicarIdioma(currentLang);
         document.getElementById('activeLocation').dataset.translatable = 'true';
-
         cargarTerremotos();
         setInterval(cargarTerremotos, 300000);
     </script>
