@@ -35,7 +35,6 @@
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* Rejilla más sutil para no competir con las partículas */
         body::before {
             content: '';
             position: fixed;
@@ -58,26 +57,26 @@
             position: fixed;
             inset: 0;
             background:
-                radial-gradient(circle at 15% 15%, rgba(176, 38, 255, 0.12), transparent 45%),
-                radial-gradient(circle at 85% 85%, rgba(0, 255, 255, 0.08), transparent 45%);
+                radial-gradient(circle at 15% 15%, rgba(176, 38, 255, 0.15), transparent 45%),
+                radial-gradient(circle at 85% 85%, rgba(0, 255, 255, 0.10), transparent 45%);
             z-index: 0;
             pointer-events: none;
         }
 
-        /* ===== PARTÍCULAS CYBERPUNK ===== */
-        #particles-bg {
+        /* ===== CANVAS DE PARTÍCULAS ===== */
+        #particles-canvas {
             position: fixed;
             inset: 0;
-            z-index: 1;
+            z-index: 2;
             pointer-events: none;
+            width: 100%;
+            height: 100%;
         }
 
         /* ===== BANNER TSUNAMI ===== */
         #tsunamiBanner {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 10000;
             background: linear-gradient(90deg, #ff0000, #cc0000, #ff0000);
             color: #fff;
@@ -275,7 +274,6 @@
             border-radius: 14px;
             box-shadow: 0 0 40px rgba(176, 38, 255, 0.5), inset 0 0 30px rgba(176, 38, 255, 0.05);
             padding: 14px;
-            transition: transform 0.3s ease;
         }
         #recentPanel .recent-title {
             font-family: 'Orbitron', sans-serif;
@@ -543,7 +541,7 @@
 </head>
 <body>
 
-    <div id="particles-bg"></div>
+    <canvas id="particles-canvas"></canvas>
 
     <div id="tsunamiBanner" translate="no">
         <div class="tsunami-text" onclick="abrirTsunami()">
@@ -682,85 +680,97 @@
 
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
     <script>
-        // ============ PARTÍCULAS CYBERPUNK CON EFECTO CONSTELACIÓN ============
-        (function iniciarParticulas() {
-            if (typeof tsParticles === 'undefined') return;
+        // ============================================================
+        // SISTEMA DE PARTÍCULAS PROPIO (CANVAS) — 100% GARANTIZADO
+        // ============================================================
+        (function() {
+            const canvas = document.getElementById('particles-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let W, H;
             const isMobile = window.innerWidth < 768;
-            tsParticles.load("particles-bg", {
-                fpsLimit: 60,
-                detectRetina: true,
-                particles: {
-                    number: {
-                        value: isMobile ? 40 : 100,
-                        density: { enable: true, area: 800 }
-                    },
-                    color: {
-                        value: ["#00ffff", "#b026ff", "#ff00ff", "#00ff88", "#7df9ff"]
-                    },
-                    shape: { type: "circle" },
-                    opacity: {
-                        value: { min: 0.5, max: 0.95 },
-                        animation: {
-                            enable: true,
-                            speed: 1,
-                            sync: false,
-                            startValue: "random"
+            const COUNT = isMobile ? 40 : 90;
+            const COLORS = ['#00ffff', '#b026ff', '#ff00ff', '#00ff88', '#7df9ff'];
+            const MAX_DIST = isMobile ? 100 : 150;
+
+            function resize() {
+                W = canvas.width = window.innerWidth;
+                H = canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function crear() {
+                particles = [];
+                for (let i = 0; i < COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * W,
+                        y: Math.random() * H,
+                        vx: (Math.random() - 0.5) * 0.6,
+                        vy: (Math.random() - 0.5) * 0.6,
+                        r: Math.random() * 3 + 2, // 2-5px
+                        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                        opacity: Math.random() * 0.4 + 0.6 // 0.6-1.0
+                    });
+                }
+            }
+            crear();
+            window.addEventListener('resize', crear);
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+
+                // Dibujar líneas conectando partículas cercanas
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < MAX_DIST) {
+                            const opacity = (1 - dist / MAX_DIST) * 0.25;
+                            ctx.strokeStyle = 'rgba(0, 255, 255, ' + opacity + ')';
+                            ctx.lineWidth = 0.8;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
                         }
-                    },
-                    size: {
-                        value: { min: 1.5, max: 4.5 },
-                        animation: {
-                            enable: true,
-                            speed: 3,
-                            sync: false
-                        }
-                    },
-                    links: {
-                        enable: true,
-                        distance: 140,
-                        color: "#00ffff",
-                        opacity: 0.22,
-                        width: 1,
-                        triangles: {
-                            enable: true,
-                            color: "#b026ff",
-                            opacity: 0.05
-                        }
-                    },
-                    move: {
-                        enable: true,
-                        speed: 0.9,
-                        direction: "none",
-                        random: true,
-                        straight: false,
-                        outModes: { default: "bounce" },
-                        attract: { enable: false }
-                    }
-                },
-                interactivity: {
-                    detectsOn: "window",
-                    events: {
-                        onHover: {
-                            enable: true,
-                            mode: "grab"
-                        },
-                        onClick: {
-                            enable: true,
-                            mode: "push"
-                        },
-                        resize: true
-                    },
-                    modes: {
-                        grab: {
-                            distance: 160,
-                            links: { opacity: 0.5, color: "#b026ff" }
-                        },
-                        push: { quantity: 3 }
                     }
                 }
-            });
+
+                // Dibujar partículas con glow
+                for (const p of particles) {
+                    // Glow exterior
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = p.color;
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.opacity;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Núcleo brillante
+                    ctx.shadowBlur = 0;
+                    ctx.globalAlpha = 1;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Mover
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > W) p.vx *= -1;
+                    if (p.y < 0 || p.y > H) p.vy *= -1;
+                }
+
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+                requestAnimationFrame(draw);
+            }
+            draw();
         })();
 
         const I18N = {
