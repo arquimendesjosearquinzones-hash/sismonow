@@ -6,7 +6,7 @@
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://unpkg.com data:; connect-src https://earthquake.usgs.gov https://nominatim.openstreetmap.org;">
 
-    <title>sismonow — Terremotos en tiempo real</title>
+    <title>sismonow</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
@@ -276,34 +276,34 @@
 <body>
 
     <div class="lang-switch">
-        <button id="btn-es" onclick="setLang('es')" class="active">ES</button>
-        <button id="btn-en" onclick="setLang('en')">EN</button>
+        <button id="btn-es" data-lang="es">ES</button>
+        <button id="btn-en" data-lang="en">EN</button>
     </div>
 
     <header>
         <div class="logo">SISMONOW</div>
-        <div class="subtitle" data-i18n="subtitle">Monitor Global de Terremotos · En Vivo</div>
+        <div class="subtitle" id="t-subtitle"></div>
     </header>
 
     <div class="search-container">
         <div class="search-box">
-            <input type="text" id="searchInput" data-i18n-placeholder="searchPlaceholder" placeholder="BUSCAR PAÍS · EJ: VENEZUELA" maxlength="100" autocomplete="off" />
-            <button onclick="buscarPais()" data-i18n="searchBtn">BUSCAR</button>
+            <input type="text" id="searchInput" maxlength="100" autocomplete="off" />
+            <button id="btn-search" onclick="buscarPais()"></button>
         </div>
     </div>
 
     <div class="info-bar">
         <div class="info-item">
-            <span class="label" data-i18n="quakeLabel">Terremotos 24h</span>
+            <span class="label" id="t-quakeLabel"></span>
             <span class="value" id="quakeCount">—</span>
         </div>
         <div class="info-item">
-            <span class="label" data-i18n="updateLabel">Última actualización</span>
+            <span class="label" id="t-updateLabel"></span>
             <span class="value" id="lastUpdate">—</span>
         </div>
         <div class="info-item">
-            <span class="label" data-i18n="locationLabel">Ubicación activa</span>
-            <span class="value" id="activeLocation" style="font-size:1rem;" data-i18n="world">Mundo</span>
+            <span class="label" id="t-locationLabel"></span>
+            <span class="value" id="activeLocation" style="font-size:1rem;"></span>
         </div>
     </div>
 
@@ -312,24 +312,24 @@
     <div class="legend">
         <div class="legend-item">
             <div class="legend-dot" style="background:#ffe600; color:#ffe600;"></div>
-            <span data-i18n="legendLow">Magnitud &lt; 3.0</span>
+            <span id="t-legendLow"></span>
         </div>
         <div class="legend-item">
             <div class="legend-dot" style="background:#ff8c00; color:#ff8c00;"></div>
-            <span data-i18n="legendMid">Magnitud 3.0 – 4.9</span>
+            <span id="t-legendMid"></span>
         </div>
         <div class="legend-item">
             <div class="legend-dot" style="background:#ff0033; color:#ff0033;"></div>
-            <span data-i18n="legendHigh">Magnitud ≥ 5.0</span>
+            <span id="t-legendHigh"></span>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
     <script>
         // ============================================================
-        // SISTEMA DE TRADUCCIÓN (i18n) — REAL, SIN GOOGLE TRANSLATE
+        // TRADUCCIONES COMPLETAS
         // ============================================================
-        const translations = {
+        const I18N = {
             es: {
                 subtitle: 'Monitor Global de Terremotos · En Vivo',
                 searchPlaceholder: 'BUSCAR PAÍS · EJ: VENEZUELA',
@@ -341,9 +341,12 @@
                 searching: 'Buscando...',
                 notFound: 'No encontrado',
                 error: 'Error',
+                mag: 'Mag',
+                unknownPlace: 'Ubicación desconocida',
                 legendLow: 'Magnitud < 3.0',
                 legendMid: 'Magnitud 3.0 – 4.9',
-                legendHigh: 'Magnitud ≥ 5.0'
+                legendHigh: 'Magnitud ≥ 5.0',
+                locale: 'es-ES'
             },
             en: {
                 subtitle: 'Global Earthquake Monitor · Live',
@@ -356,35 +359,62 @@
                 searching: 'Searching...',
                 notFound: 'Not found',
                 error: 'Error',
+                mag: 'Mag',
+                unknownPlace: 'Unknown location',
                 legendLow: 'Magnitude < 3.0',
                 legendMid: 'Magnitude 3.0 – 4.9',
-                legendHigh: 'Magnitude ≥ 5.0'
+                legendHigh: 'Magnitude ≥ 5.0',
+                locale: 'en-US'
             }
         };
 
-        let currentLang = 'es';
-
-        function setLang(lang) {
-            currentLang = lang;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
-            });
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[lang][key]) {
-                    el.placeholder = translations[lang][key];
-                }
-            });
-            document.getElementById('btn-es').classList.toggle('active', lang === 'es');
-            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-            document.documentElement.lang = lang;
-        }
+        let currentLang = localStorage.getItem('sismonow_lang') || 'es';
+        let ultimosTerremotos = [];
 
         // ============================================================
-        // UTILIDADES DE SEGURIDAD
+        // APLICAR IDIOMA (traduce TODO)
+        // ============================================================
+        function aplicarIdioma(lang) {
+            currentLang = lang;
+            localStorage.setItem('sismonow_lang', lang);
+            const t = I18N[lang];
+
+            document.documentElement.lang = lang;
+            document.title = 'sismonow — ' + t.subtitle;
+
+            document.getElementById('t-subtitle').textContent = t.subtitle;
+            document.getElementById('t-quakeLabel').textContent = t.quakeLabel;
+            document.getElementById('t-updateLabel').textContent = t.updateLabel;
+            document.getElementById('t-locationLabel').textContent = t.locationLabel;
+            document.getElementById('t-legendLow').textContent = t.legendLow;
+            document.getElementById('t-legendMid').textContent = t.legendMid;
+            document.getElementById('t-legendHigh').textContent = t.legendHigh;
+
+            const searchInput = document.getElementById('searchInput');
+            searchInput.placeholder = t.searchPlaceholder;
+
+            document.getElementById('btn-search').textContent = t.searchBtn;
+
+            // Solo resetear "Ubicación activa" si está en el valor por defecto
+            const locEl = document.getElementById('activeLocation');
+            if (locEl.dataset.translatable === 'true') {
+                locEl.textContent = t.world;
+            }
+
+            document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            // Redibujar los puntos con el nuevo idioma
+            if (ultimosTerremotos.length > 0) {
+                dibujarPuntos(ultimosTerremotos);
+            }
+        }
+
+        document.getElementById('btn-es').addEventListener('click', () => aplicarIdioma('es'));
+        document.getElementById('btn-en').addEventListener('click', () => aplicarIdioma('en'));
+
+        // ============================================================
+        // SEGURIDAD
         // ============================================================
         function escapeHTML(str) {
             if (str === null || str === undefined) return '';
@@ -397,7 +427,7 @@
         }
 
         // ============================================================
-        // INICIALIZAR GLOBO
+        // GLOBO
         // ============================================================
         const globeEl = document.getElementById('globeViz');
 
@@ -413,15 +443,30 @@
         world.controls().autoRotate = true;
         world.controls().autoRotateSpeed = 0.5;
 
+        // ============================================================
+        // TERREMOTOS
+        // ============================================================
         const USGS_URL = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
-        // ============================================================
-        // CARGAR TERREMOTOS
-        // ============================================================
+        function dibujarPuntos(points) {
+            const t = I18N[currentLang];
+            world
+                .pointsData(points)
+                .pointLat('lat')
+                .pointLng('lng')
+                .pointColor('color')
+                .pointRadius('size')
+                .pointAltitude(0.02)
+                .pointResolution(24)
+                .pointLabel(d => '<b>' + escapeHTML(t.mag) + ' ' + escapeHTML(d.mag) + '</b><br/>' + escapeHTML(d.place));
+        }
+
         function cargarTerremotos() {
+            const t = I18N[currentLang];
+
             fetch(USGS_URL, { referrerPolicy: 'no-referrer' })
                 .then(r => {
-                    if (!r.ok) throw new Error('USGS respondió ' + r.status);
+                    if (!r.ok) throw new Error('USGS ' + r.status);
                     return r.json();
                 })
                 .then(data => {
@@ -430,15 +475,15 @@
                     }
 
                     const quakes = data.features;
-                    const ahora = new Date().toLocaleTimeString(
-                        currentLang === 'es' ? 'es-ES' : 'en-US',
-                        { hour: '2-digit', minute: '2-digit' }
-                    );
+                    const ahora = new Date().toLocaleTimeString(t.locale, {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
 
-                    document.getElementById('quakeCount').innerText = quakes.length;
-                    document.getElementById('lastUpdate').innerText = ahora;
+                    document.getElementById('quakeCount').textContent = quakes.length;
+                    document.getElementById('lastUpdate').textContent = ahora;
 
-                    const points = quakes
+                    ultimosTerremotos = quakes
                         .filter(q => q && q.geometry && Array.isArray(q.geometry.coordinates) && q.geometry.coordinates.length >= 2)
                         .map(q => {
                             const mag = (typeof q.properties?.mag === 'number') ? q.properties.mag : 0;
@@ -446,7 +491,7 @@
                                 lat: q.geometry.coordinates[1],
                                 lng: q.geometry.coordinates[0],
                                 mag: mag,
-                                place: q.properties?.place || 'Ubicación desconocida',
+                                place: q.properties?.place || t.unknownPlace,
                                 size: Math.max(0.25, mag * 0.25),
                                 color: mag >= 5 ? '#ff0033'
                                      : mag >= 3 ? '#ff8c00'
@@ -454,47 +499,43 @@
                             };
                         });
 
-                    world
-                        .pointsData(points)
-                        .pointLat('lat')
-                        .pointLng('lng')
-                        .pointColor('color')
-                        .pointRadius('size')
-                        .pointAltitude(0.02)
-                        .pointResolution(24)
-                        .pointLabel(d => '<b>Mag ' + escapeHTML(d.mag) + '</b><br/>' + escapeHTML(d.place));
+                    dibujarPuntos(ultimosTerremotos);
                 })
                 .catch(err => {
                     console.error('Error terremotos:', err);
-                    document.getElementById('quakeCount').innerText = translations[currentLang].error;
+                    document.getElementById('quakeCount').textContent = t.error;
                 });
         }
-
-        cargarTerremotos();
-        setInterval(cargarTerremotos, 300000);
 
         // ============================================================
         // BUSCADOR
         // ============================================================
         function buscarPais() {
+            const t = I18N[currentLang];
             const rawQuery = document.getElementById('searchInput').value.trim();
             if (!rawQuery) return;
 
             const query = rawQuery.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s,\-\.]/g, '');
             if (query.length === 0 || query.length > 100) return;
 
-            const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(query);
+            // Forzamos a Nominatim a responder en el idioma actual
+            const url = 'https://nominatim.openstreetmap.org/search'
+                + '?format=json&limit=1'
+                + '&accept-language=' + currentLang
+                + '&q=' + encodeURIComponent(query);
 
-            document.getElementById('activeLocation').innerText = translations[currentLang].searching;
+            const locEl = document.getElementById('activeLocation');
+            locEl.dataset.translatable = 'false';
+            locEl.textContent = t.searching;
 
             fetch(url, { referrerPolicy: 'no-referrer' })
                 .then(r => {
-                    if (!r.ok) throw new Error('Nominatim respondió ' + r.status);
+                    if (!r.ok) throw new Error('Nominatim ' + r.status);
                     return r.json();
                 })
                 .then(data => {
                     if (!Array.isArray(data) || data.length === 0) {
-                        document.getElementById('activeLocation').innerText = translations[currentLang].notFound;
+                        locEl.textContent = t.notFound;
                         world.ringsData([]);
                         return;
                     }
@@ -503,7 +544,7 @@
                     const lng = parseFloat(data[0].lon);
 
                     if (isNaN(lat) || isNaN(lng)) {
-                        document.getElementById('activeLocation').innerText = translations[currentLang].error;
+                        locEl.textContent = t.error;
                         return;
                     }
 
@@ -514,17 +555,18 @@
                         .ringsData([{ lat: lat, lng: lng }])
                         .ringLat('lat')
                         .ringLng('lng')
-                        .ringColor(() => t => 'rgba(0, 255, 255, ' + (1 - t) + ')')
+                        .ringColor(() => t2 => 'rgba(0, 255, 255, ' + (1 - t2) + ')')
                         .ringMaxRadius(8)
                         .ringPropagationSpeed(3)
                         .ringRepeatPeriod(800);
 
-                    const nombreCorto = (data[0].display_name || '').split(',')[0] || translations[currentLang].world;
-                    document.getElementById('activeLocation').innerText = nombreCorto;
+                    // Solo el primer segmento del nombre (antes de la coma)
+                    const nombreCorto = (data[0].display_name || '').split(',')[0].trim() || t.world;
+                    locEl.textContent = nombreCorto;
                 })
                 .catch(err => {
                     console.error('Error búsqueda:', err);
-                    document.getElementById('activeLocation').innerText = translations[currentLang].error;
+                    locEl.textContent = t.error;
                 });
         }
 
@@ -535,6 +577,16 @@
         window.addEventListener('resize', () => {
             world.width(globeEl.clientWidth).height(globeEl.clientHeight);
         });
+
+        // ============================================================
+        // ARRANQUE
+        // ============================================================
+        aplicarIdioma(currentLang);
+        // Marcar "Mundo" como traducible en el primer arranque
+        document.getElementById('activeLocation').dataset.translatable = 'true';
+
+        cargarTerremotos();
+        setInterval(cargarTerremotos, 300000);
     </script>
 </body>
 </html>
