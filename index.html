@@ -13,7 +13,6 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg">
 
-    <!-- Meta tags para preview en redes sociales -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="sismonow · Monitor Global de Terremotos">
     <meta property="og:description" content="Terremotos en vivo, mapa 3D interactivo, alertas de tsunami y números de emergencia. Actualizado cada 5 minutos.">
@@ -21,7 +20,7 @@
     <meta property="og:url" content="https://sismonow.arquimendesjosearquinzones.workers.dev">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="sismonow · Monitor Global de Terremotos">
-    <meta name="twitter:description" content="Terremotos en vivo, mapa 3D interactivo, alertas de tsunami.">
+    <meta name="twitter:description" content="Terremotos en vivo, mapa 3D interactivo.">
     <meta name="twitter:image" content="https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg">
 
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com; img-src 'self' https://unpkg.com https://server.arcgisonline.com data:; connect-src https://earthquake.usgs.gov https://nominatim.openstreetmap.org;">
@@ -517,7 +516,7 @@
         .legend {
             position: relative; z-index: 10;
             display: flex; justify-content: center; gap: 20px;
-            flex-wrap: wrap; padding: 16px; margin-top: 10px; margin-bottom: 60px;
+            flex-wrap: wrap; padding: 16px; margin-top: 10px;
         }
         .legend-item {
             display: flex; align-items: center; gap: 6px;
@@ -528,6 +527,73 @@
             width: 10px; height: 10px; border-radius: 50%;
             box-shadow: 0 0 10px currentColor;
         }
+
+        /* ===== FOOTER LEGAL ===== */
+        .site-footer {
+            position: relative; z-index: 10;
+            text-align: center;
+            padding: 24px 20px 90px;
+            border-top: 1px solid rgba(0, 255, 255, 0.15);
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 1px;
+        }
+        .site-footer a {
+            color: #00ffff;
+            text-decoration: none;
+            margin: 0 6px;
+        }
+        .site-footer a:hover { text-decoration: underline; }
+
+        /* ===== BANNER COOKIES ===== */
+        #cookieBanner {
+            position: fixed;
+            bottom: 20px; left: 20px; right: 20px;
+            z-index: 999998;
+            max-width: 480px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 20, 30, 0.98), rgba(0, 10, 20, 0.98));
+            border: 2px solid #00ffff;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            padding: 16px 18px;
+            display: none;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        #cookieBanner.visible { display: block; animation: fadeUp 0.4s ease; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        #cookieBanner .cookie-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            color: #00ffff;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        #cookieBanner .cookie-text { color: rgba(255, 255, 255, 0.85); margin-bottom: 12px; }
+        #cookieBanner .cookie-text a { color: #00ffff; text-decoration: none; border-bottom: 1px dashed rgba(0,255,255,0.4); }
+        #cookieBanner .cookie-text a:hover { color: #fff; }
+        #cookieBanner .cookie-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        #cookieBanner button {
+            flex: 1; min-width: 100px;
+            padding: 9px 14px;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 8px;
+            background: rgba(0, 255, 255, 0.08);
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem; letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+        #cookieBanner button:hover { background: rgba(0, 255, 255, 0.2); box-shadow: 0 0 15px rgba(0, 255, 255, 0.5); }
+        #cookieBanner button.accept {
+            background: linear-gradient(90deg, #00ffff, #b026ff);
+            color: #000;
+            border-color: transparent;
+        }
+        #cookieBanner button.accept:hover { background: linear-gradient(90deg, #b026ff, #ff00ff); color: #fff; }
 
         .copy-toast {
             position: fixed; bottom: 30px; left: 50%;
@@ -569,12 +635,16 @@
             #recentPanel.collapsed { max-height: 48px; overflow: hidden; }
             #localPanel { top: auto; bottom: 70px; left: 12px; right: 12px; width: auto; max-height: 40vh; z-index: 9001; }
             .mobile-tabs { display: flex; }
-            .legend { gap: 10px; padding: 12px; margin-bottom: 70px; }
+            .legend { gap: 10px; padding: 12px; }
             .legend-item { font-size: 0.7rem; }
             #satMap { min-height: 240px; }
             .modal-actions a, .modal-actions button { min-width: 70px; font-size: 0.6rem; padding: 9px 6px; letter-spacing: 0; }
             #tsunamiBanner { font-size: 0.7rem; padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top)); }
             #tsunamiBanner .tsunami-close { width: 26px; height: 26px; font-size: 1rem; }
+            #cookieBanner { bottom: 80px; left: 12px; right: 12px; padding: 14px; font-size: 0.78rem; }
+            #cookieBanner .cookie-title { font-size: 0.75rem; }
+            #cookieBanner button { font-size: 0.62rem; padding: 8px 10px; }
+            .site-footer { padding-bottom: 90px; font-size: 0.68rem; }
         }
     </style>
 </head>
@@ -720,6 +790,16 @@
         <div class="legend-item"><div class="legend-dot" style="background:#ff0033; color:#ff0033;"></div><span id="t-legendHigh"></span></div>
     </div>
 
+    <footer class="site-footer" translate="no">
+        <div id="footerLine1">sismonow © 2026 · Datos: USGS · Hecho con ❤️ para el mundo</div>
+        <div style="margin-top: 8px;">
+            <a href="/">Inicio</a> ·
+            <a href="legal.html">Legal</a> ·
+            <a href="https://earthquake.usgs.gov" target="_blank" rel="noopener">USGS</a> ·
+            <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OSM</a>
+        </div>
+    </footer>
+
     <div id="satModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -740,6 +820,15 @@
         </div>
     </div>
 
+    <div id="cookieBanner" translate="no">
+        <div class="cookie-title" id="ck-title">🍪 AVISO DE PRIVACIDAD</div>
+        <div class="cookie-text" id="ck-text"></div>
+        <div class="cookie-actions">
+            <button class="accept" onclick="aceptarCookies()" id="ck-accept">ENTENDIDO</button>
+            <button onclick="window.open('legal.html','_blank')" id="ck-more">VER LEGAL</button>
+        </div>
+    </div>
+
     <div class="copy-toast" id="copyToast">✓ ENLACE COPIADO</div>
 
     <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
@@ -747,13 +836,25 @@
     <script>
         const SITE_URL = 'https://sismonow.arquimendesjosearquinzones.workers.dev';
 
+        // ============ BANNER DE COOKIES ============
+        function verificarBannerCookies() {
+            const consent = localStorage.getItem('cookieConsent');
+            if (!consent) {
+                setTimeout(() => document.getElementById('cookieBanner').classList.add('visible'), 1500);
+            }
+        }
+        function aceptarCookies() {
+            localStorage.setItem('cookieConsent', new Date().toISOString());
+            document.getElementById('cookieBanner').classList.remove('visible');
+        }
+
         const I18N = {
-            es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', filterTime:'Rango temporal', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar', copyBtn:'Copiar', copied:'✓ ENLACE COPIADO', shareText:'🌍 Terremoto M{mag} cerca de {place} — Más info en sismonow', hubWa:'CANAL WHATSAPP', soundOn:'ALARMA: ON', soundOff:'ALARMA: OFF', hubInstall:'INSTALAR APP', notFoundShared:'Este sismo ya no está en la lista de 24h. Mostrando datos.' },
-            en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', filterTime:'Time range', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place', copyBtn:'Copy', copied:'✓ LINK COPIED', shareText:'🌍 Earthquake M{mag} near {place} — More info at sismonow', hubWa:'WHATSAPP CHANNEL', soundOn:'ALARM: ON', soundOff:'ALARM: OFF', hubInstall:'INSTALL APP', notFoundShared:'This quake is no longer in the 24h list. Showing data.' },
-            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não soportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', filterTime:'Intervalo', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', copyBtn:'Copiar', copied:'✓ LINK COPIADO', shareText:'🌍 Terremoto M{mag} perto de {place} — Mais info em sismonow', hubWa:'CANAL WHATSAPP', soundOn:'ALARME: ON', soundOff:'ALARME: OFF', hubInstall:'INSTALAR APP', notFoundShared:'Este sismo não está mais na lista de 24h.' },
-            fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', filterTime:'Période', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', daysAgo:'j', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu', copyBtn:'Copier', copied:'✓ LIEN COPIÉ', shareText:'🌍 Séisme M{mag} près de {place} — Plus d\'infos sur sismonow', hubWa:'CHAÎNE WHATSAPP', soundOn:'ALARME: ON', soundOff:'ALARME: OFF', hubInstall:'INSTALLER', notFoundShared:'Ce séisme n\'est plus dans la liste des 24h.' },
-            de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', filterTime:'Zeitraum', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', daysAgo:'T', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort', copyBtn:'Kopieren', copied:'✓ LINK KOPIERT', shareText:'🌍 Erdbeben M{mag} nahe {place} — Mehr Infos auf sismonow', hubWa:'WHATSAPP-KANAL', soundOn:'ALARM: AN', soundOff:'ALARM: AUS', hubInstall:'INSTALLIEREN', notFoundShared:'Dieses Beben ist nicht mehr in der 24h-Liste.' },
-            it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', filterTime:'Intervallo', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', daysAgo:'g', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', copyBtn:'Copia', copied:'✓ LINK COPIATO', shareText:'🌍 Terremoto M{mag} vicino a {place} — Più info su sismonow', hubWa:'CANALE WHATSAPP', soundOn:'ALLARME: ON', soundOff:'ALLARME: OFF', hubInstall:'INSTALLA', notFoundShared:'Questo sisma non è più nella lista 24h.' }
+            es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', filterTime:'Rango temporal', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar', copyBtn:'Copiar', copied:'✓ ENLACE COPIADO', shareText:'🌍 Terremoto M{mag} cerca de {place} — Más info en sismonow', hubWa:'CANAL WHATSAPP', soundOn:'ALARMA: ON', soundOff:'ALARMA: OFF', hubInstall:'INSTALAR APP', ckTitle:'🍪 AVISO DE PRIVACIDAD', ckText:'sismonow NO usa cookies. Solo guardamos tu idioma y preferencias en tu propio navegador.', ckMore:'Más info', ckAccept:'ENTENDIDO', ckMoreBtn:'VER LEGAL', footerLine:'sismonow © 2026 · Datos: USGS · Hecho con ❤️ para el mundo' },
+            en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', filterTime:'Time range', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place', copyBtn:'Copy', copied:'✓ LINK COPIED', shareText:'🌍 Earthquake M{mag} near {place} — More info at sismonow', hubWa:'WHATSAPP CHANNEL', soundOn:'ALARM: ON', soundOff:'ALARM: OFF', hubInstall:'INSTALL APP', ckTitle:'🍪 PRIVACY NOTICE', ckText:'sismonow does NOT use cookies. We only store your language and preferences in your own browser.', ckMore:'More info', ckAccept:'GOT IT', ckMoreBtn:'VIEW LEGAL', footerLine:'sismonow © 2026 · Data: USGS · Made with ❤️ for the world' },
+            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não soportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', filterTime:'Intervalo', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', copyBtn:'Copiar', copied:'✓ LINK COPIADO', shareText:'🌍 Terremoto M{mag} perto de {place} — Mais info em sismonow', hubWa:'CANAL WHATSAPP', soundOn:'ALARME: ON', soundOff:'ALARME: OFF', hubInstall:'INSTALAR APP', ckTitle:'🍪 AVISO DE PRIVACIDADE', ckText:'sismonow NÃO usa cookies. Guardamos apenas seu idioma e preferências no seu navegador.', ckMore:'Mais info', ckAccept:'ENTENDIDO', ckMoreBtn:'VER LEGAL', footerLine:'sismonow © 2026 · Dados: USGS' },
+            fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', filterTime:'Période', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', daysAgo:'j', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu', copyBtn:'Copier', copied:'✓ LIEN COPIÉ', shareText:'🌍 Séisme M{mag} près de {place} — Plus d\'infos sur sismonow', hubWa:'CHAÎNE WHATSAPP', soundOn:'ALARME: ON', soundOff:'ALARME: OFF', hubInstall:'INSTALLER', ckTitle:'🍪 AVIS DE CONFIDENTIALITÉ', ckText:'sismonow N\'utilise PAS de cookies. Nous stockons seulement votre langue et préférences dans votre navigateur.', ckMore:'Plus d\'info', ckAccept:'COMPRIS', ckMoreBtn:'VOIR LÉGAL', footerLine:'sismonow © 2026 · Données: USGS' },
+            de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', filterTime:'Zeitraum', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', daysAgo:'T', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort', copyBtn:'Kopieren', copied:'✓ LINK KOPIERT', shareText:'🌍 Erdbeben M{mag} nahe {place} — Mehr Infos auf sismonow', hubWa:'WHATSAPP-KANAL', soundOn:'ALARM: AN', soundOff:'ALARM: AUS', hubInstall:'INSTALLIEREN', ckTitle:'🍪 DATENSCHUTZHINWEIS', ckText:'sismonow verwendet KEINE Cookies. Wir speichern nur Ihre Sprache und Einstellungen in Ihrem Browser.', ckMore:'Mehr Info', ckAccept:'VERSTANDEN', ckMoreBtn:'RECHTLICHES ANSEHEN', footerLine:'sismonow © 2026 · Daten: USGS' },
+            it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', filterTime:'Intervallo', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', daysAgo:'g', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', copyBtn:'Copia', copied:'✓ LINK COPIATO', shareText:'🌍 Terremoto M{mag} vicino a {place} — Più info su sismonow', hubWa:'CANALE WHATSAPP', soundOn:'ALLARME: ON', soundOff:'ALLARME: OFF', hubInstall:'INSTALLA', ckTitle:'🍪 AVVISO PRIVACY', ckText:'sismonow NON usa cookie. Salviamo solo la tua lingua e preferenze nel tuo browser.', ckMore:'Più info', ckAccept:'CAPITO', ckMoreBtn:'VEDI LEGALE', footerLine:'sismonow © 2026 · Dati: USGS' }
         };
 
         const EMERGENCY = {
@@ -796,7 +897,6 @@
         let currentQuake = null;
         let deferredInstallPrompt = null;
 
-        // ============ LECTURA DE PARÁMETROS URL PARA COMPARTIR ============
         function leerParamsYCompartir() {
             const params = new URLSearchParams(window.location.search);
             const lat = parseFloat(params.get('lat'));
@@ -806,7 +906,6 @@
             const depth = parseFloat(params.get('depth'));
             const time = parseInt(params.get('time'));
             const id = params.get('id') || '';
-
             if (isNaN(lat) || isNaN(lng)) return null;
             return {
                 lat, lng,
@@ -834,7 +933,6 @@
             return SITE_URL + '/?' + params.toString();
         }
 
-        // ============ PWA INSTALL ============
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredInstallPrompt = e;
@@ -854,7 +952,6 @@
             });
         }
 
-        // ============ AUDIO ALARMA ============
         function initAudio() {
             if (!audioCtx) {
                 const AC = window.AudioContext || window.webkitAudioContext;
@@ -909,7 +1006,6 @@
             }
         }
 
-        // ============ IDIOMA ============
         function aplicarIdioma(lang) {
             if (!I18N[lang]) lang = 'es';
             currentLang = lang;
@@ -943,6 +1039,12 @@
             set('t-copyBtn', t.copyBtn);
             set('t-hubWa', t.hubWa);
             set('t-hubInstall', t.hubInstall);
+            set('ck-title', t.ckTitle);
+            set('ck-accept', t.ckAccept);
+            set('ck-more', t.ckMoreBtn);
+            set('footerLine1', t.footerLine);
+            const ckTextEl = document.getElementById('ck-text');
+            if (ckTextEl) ckTextEl.innerHTML = t.ckText + ' <a href="legal.html" target="_blank">' + t.ckMore + '</a>';
 
             actualizarBotonSonido();
 
@@ -1084,7 +1186,6 @@
                     verificarTsunami();
                     if (miUbicacion) actualizarPanelLocal();
 
-                    // Si venimos de un link compartido, abrir ese sismo
                     const qCompartido = leerParamsYCompartir();
                     if (qCompartido) {
                         setTimeout(() => {
@@ -1226,7 +1327,6 @@
             }, 100);
         }
 
-        // ============ COMPARTIR CON COORDENADAS ============
         function textoCompartir() {
             if (!currentQuake) return '';
             const t = I18N[currentLang];
@@ -1463,6 +1563,7 @@
         aplicarIdioma(currentLang);
         cargarTerremotos();
         setInterval(cargarTerremotos, 300000);
+        verificarBannerCookies();
     </script>
 </body>
 </html>
