@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="referrer" content="no-referrer">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="google" content="notranslate">
     <meta name="theme-color" content="#05050a">
     <meta name="mobile-web-app-capable" content="yes">
@@ -61,12 +61,6 @@
                 radial-gradient(circle at 85% 85%, rgba(0, 255, 255, 0.10), transparent 45%);
             z-index: 0;
             pointer-events: none;
-        }
-
-        /* FIX E: quitar fondo blanco del divIcon de Leaflet */
-        .custom-quake-icon {
-            background: transparent !important;
-            border: none !important;
         }
 
         #tsunamiBanner {
@@ -464,6 +458,12 @@
             box-shadow: 0 0 20px rgba(176, 38, 255, 0.5);
         }
 
+        /* Estilo limpio para el icono de Leaflet sin recuadro blanco */
+        .custom-quake-icon {
+            background: transparent !important;
+            border: none !important;
+        }
+
         .mobile-tabs {
             display: none;
             position: fixed; bottom: 0; left: 0; right: 0;
@@ -709,13 +709,12 @@
         const I18N = {
             es: { subtitle:'Monitor Global de Terremotos · En Vivo', searchPlaceholder:'BUSCAR PAÍS · EJ: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 UBICACIÓN', geoBtnLoading:'📍 BUSCANDO...', geoBtnSuccess:'📍 TU ZONA', newsBtn:'📰 NOTICIAS', quakeLabel:'Terremotos', updateLabel:'Última actualización', locationLabel:'Ubicación activa', world:'Mundo', searching:'Buscando...', notFound:'No encontrado', error:'Error', geoDenied:'Permiso denegado', geoUnsupported:'No soportado', mag:'Mag', unknownPlace:'Ubicación desconocida', legendLow:'Magnitud < 3.0', legendMid:'Magnitud 3.0 – 4.9', legendHigh:'Magnitud ≥ 5.0', panelTitle:'📍 TU ZONA', statNear:'Sismos en tu radio', statClosest:'Más cercano', statStrongest:'Más fuerte', panelNews:'📰 VER NOTICIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGENCIA', filterMag:'Magnitud mínima', filterRadius:'Radio', filterTime:'Rango temporal', all:'Todas', km:'km', none:'Ninguno', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO CON POTENCIAL TSUNAMIGÉNICO DETECTADO', justNow:'ahora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'es-ES', tabHome:'Inicio', tabRecent:'Sismos', tabLocation:'Mi zona', tabNews:'Noticias', modalDetails:'Detalles del sismo', modalMag:'Magnitud', modalDepth:'Profundidad', modalTime:'Hora', modalPlace:'Lugar', shareBtn:'COMPARTIR', copied:'✓ ENLACE COPIADO', shareText:'🌍 Terremoto M{mag} cerca de {place} — Más info en sismonow' },
             en: { subtitle:'Global Earthquake Monitor · Live', searchPlaceholder:'SEARCH COUNTRY · EX: VENEZUELA', searchBtn:'SEARCH', geoBtn:'📍 LOCATION', geoBtnLoading:'📍 LOCATING...', geoBtnSuccess:'📍 YOUR AREA', newsBtn:'📰 NEWS', quakeLabel:'Earthquakes', updateLabel:'Last update', locationLabel:'Active location', world:'World', searching:'Searching...', notFound:'Not found', error:'Error', geoDenied:'Permission denied', geoUnsupported:'Not supported', mag:'Mag', unknownPlace:'Unknown location', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 YOUR AREA', statNear:'Quakes in your radius', statClosest:'Closest', statStrongest:'Strongest', panelNews:'📰 VIEW NEWS', emergencyTitle:'🚨 EMERGENCY NUMBERS', filterMag:'Min magnitude', filterRadius:'Radius', filterTime:'Time range', all:'All', km:'km', none:'None', recentTitle:'🔥 LATEST QUAKES', tsunamiAlert:'TSUNAMI ALERT · TSUNAMIGENIC QUAKE DETECTED', justNow:'now', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'en-US', tabHome:'Home', tabRecent:'Quakes', tabLocation:'My area', tabNews:'News', modalDetails:'Earthquake details', modalMag:'Magnitude', modalDepth:'Depth', modalTime:'Time', modalPlace:'Place', shareBtn:'SHARE', copied:'✓ LINK COPIED', shareText:'🌍 Earthquake M{mag} near {place} — More info at sismonow' },
-            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não suportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', filterTime:'Intervalo', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', tabNews:'Notícias', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', shareBtn:'COMPARTILHAR', copied:'✓ LINK COPIADO', shareText:'🌍 Terremoto M{mag} perto de {place} — Mais info em sismonow' },
+            pt: { subtitle:'Monitor Global de Terremotos · Ao Vivo', searchPlaceholder:'BUSCAR PAÍS · EX: VENEZUELA', searchBtn:'BUSCAR', geoBtn:'📍 LOCALIZAÇÃO', geoBtnLoading:'📍 LOCALIZANDO...', geoBtnSuccess:'📍 SUA ÁREA', newsBtn:'📰 NOTÍCIAS', quakeLabel:'Terremotos', updateLabel:'Última atualização', locationLabel:'Localização ativa', world:'Mundo', searching:'Buscando...', notFound:'Não encontrado', error:'Erro', geoDenied:'Permissão negada', geoUnsupported:'Não soportado', mag:'Mag', unknownPlace:'Localização desconhecida', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 SUA ÁREA', statNear:'Sismos no seu raio', statClosest:'Mais próximo', statStrongest:'Mais forte', panelNews:'📰 VER NOTÍCIAS', emergencyTitle:'🚨 NÚMEROS DE EMERGÊNCIA', filterMag:'Magnitude mínima', filterRadius:'Raio', filterTime:'Intervalo', all:'Todas', km:'km', none:'Nenhum', recentTitle:'🔥 ÚLTIMOS SISMOS', tsunamiAlert:'ALERTA DE TSUNAMI · SISMO TSUNAMIGÊNICO', justNow:'agora', minutesAgo:'min', hoursAgo:'h', daysAgo:'d', locale:'pt-BR', tabHome:'Início', tabRecent:'Sismos', tabLocation:'Minha área', tabNews:'Notícias', modalDetails:'Detalhes do sismo', modalMag:'Magnitude', modalDepth:'Profundidade', modalTime:'Hora', modalPlace:'Local', shareBtn:'COMPARTILHAR', copied:'✓ LINK COPIADO', shareText:'🌍 Terremoto M{mag} perto de {place} — Mais info em sismonow' },
             fr: { subtitle:'Moniteur Mondial des Séismes · En Direct', searchPlaceholder:'RECHERCHER UN PAYS · EX: VENEZUELA', searchBtn:'RECHERCHER', geoBtn:'📍 LOCALISATION', geoBtnLoading:'📍 LOCALISATION...', geoBtnSuccess:'📍 VOTRE ZONE', newsBtn:'📰 ACTUALITÉS', quakeLabel:'Séismes', updateLabel:'Dernière mise à jour', locationLabel:'Localisation active', world:'Monde', searching:'Recherche...', notFound:'Non trouvé', error:'Erreur', geoDenied:'Permission refusée', geoUnsupported:'Non supporté', mag:'Mag', unknownPlace:'Lieu inconnu', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 VOTRE ZONE', statNear:'Séismes dans votre rayon', statClosest:'Le plus proche', statStrongest:'Le plus fort', panelNews:'📰 VOIR ACTUALITÉS', emergencyTitle:'🚨 NUMÉROS D\'URGENCE', filterMag:'Magnitude min', filterRadius:'Rayon', filterTime:'Période', all:'Toutes', km:'km', none:'Aucun', recentTitle:'🔥 DERNIERS SÉISMES', tsunamiAlert:'ALERTE TSUNAMI · SÉISME TSUNAMIGÈNE', justNow:'maintenant', minutesAgo:'min', hoursAgo:'h', daysAgo:'j', locale:'fr-FR', tabHome:'Accueil', tabRecent:'Séismes', tabLocation:'Ma zone', tabNews:'Actus', modalDetails:'Détails du séisme', modalMag:'Magnitude', modalDepth:'Profondeur', modalTime:'Heure', modalPlace:'Lieu', shareBtn:'PARTAGER', copied:'✓ LIEN COPIÉ', shareText:'🌍 Séisme M{mag} près de {place} — Plus d\'infos sur sismonow' },
             de: { subtitle:'Globaler Erdbeben-Monitor · Live', searchPlaceholder:'LAND SUCHEN · Z.B.: VENEZUELA', searchBtn:'SUCHEN', geoBtn:'📍 STANDORT', geoBtnLoading:'📍 ORTUNG...', geoBtnSuccess:'📍 IHRE ZONE', newsBtn:'📰 NACHRICHTEN', quakeLabel:'Erdbeben', updateLabel:'Letzte Aktualisierung', locationLabel:'Aktiver Standort', world:'Welt', searching:'Suche...', notFound:'Nicht gefunden', error:'Fehler', geoDenied:'Zugriff verweigert', geoUnsupported:'Nicht unterstützt', mag:'Mag', unknownPlace:'Unbekannter Ort', legendLow:'Magnitude < 3.0', legendMid:'Magnitude 3.0 – 4.9', legendHigh:'Magnitude ≥ 5.0', panelTitle:'📍 IHRE ZONE', statNear:'Beben in Ihrem Radius', statClosest:'Nächstes', statStrongest:'Stärkstes', panelNews:'📰 NACHRICHTEN', emergencyTitle:'🚨 NOTRUFNUMMERN', filterMag:'Min. Magnitude', filterRadius:'Radius', filterTime:'Zeitraum', all:'Alle', km:'km', none:'Keine', recentTitle:'🔥 LETZTE BEBEN', tsunamiAlert:'TSUNAMI-WARNUNG · TSUNAMIGENES BEBEN', justNow:'jetzt', minutesAgo:'min', hoursAgo:'h', daysAgo:'T', locale:'de-DE', tabHome:'Start', tabRecent:'Beben', tabLocation:'Meine Zone', tabNews:'News', modalDetails:'Erdbeben-Details', modalMag:'Magnitude', modalDepth:'Tiefe', modalTime:'Zeit', modalPlace:'Ort', shareBtn:'TEILEN', copied:'✓ LINK KOPIERT', shareText:'🌍 Erdbeben M{mag} nahe {place} — Mehr Infos auf sismonow' },
             it: { subtitle:'Monitor Globale dei Terremoti · In Diretta', searchPlaceholder:'CERCA PAESE · ES: VENEZUELA', searchBtn:'CERCA', geoBtn:'📍 POSIZIONE', geoBtnLoading:'📍 LOCALIZZAZIONE...', geoBtnSuccess:'📍 LA TUA ZONA', newsBtn:'📰 NOTIZIE', quakeLabel:'Terremoti', updateLabel:'Ultimo aggiornamento', locationLabel:'Posizione attiva', world:'Mondo', searching:'Ricerca...', notFound:'Non trovato', error:'Errore', geoDenied:'Permesso negato', geoUnsupported:'Non supportato', mag:'Mag', unknownPlace:'Posizione sconosciuta', legendLow:'Magnitudo < 3.0', legendMid:'Magnitudo 3.0 – 4.9', legendHigh:'Magnitudo ≥ 5.0', panelTitle:'📍 LA TUA ZONA', statNear:'Sismi nel tuo raggio', statClosest:'Più vicino', statStrongest:'Più forte', panelNews:'📰 VEDI NOTIZIE', emergencyTitle:'🚨 NUMERI DI EMERGENZA', filterMag:'Magnitudo minima', filterRadius:'Raggio', filterTime:'Intervallo', all:'Tutte', km:'km', none:'Nessuno', recentTitle:'🔥 ULTIMI SISMI', tsunamiAlert:'ALLERTA TSUNAMI · SISMA TSUNAMIGENICO', justNow:'adesso', minutesAgo:'min', hoursAgo:'h', daysAgo:'g', locale:'it-IT', tabHome:'Home', tabRecent:'Sismi', tabLocation:'Mia zona', tabNews:'Notizie', modalDetails:'Dettagli terremoto', modalMag:'Magnitudo', modalDepth:'Profondità', modalTime:'Ora', modalPlace:'Luogo', shareBtn:'CONDIVIDI', copied:'✓ LINK COPIATO', shareText:'🌍 Terremoto M{mag} vicino a {place} — Più info su sismonow' }
         };
 
-        // FIX 6: EMERGENCY por código ISO (más robusto que por nombre)
         const EMERGENCY = {
             've': [{ name:{es:'Emergencias',en:'Emergency'},number:'911' },{ name:{es:'Protección Civil',en:'Civil Protection'},number:'0800-266-8465' },{ name:{es:'Bomberos',en:'Firefighters'},number:'171' }],
             'co': [{ name:{es:'Emergencias',en:'Emergency'},number:'123' },{ name:{es:'Bomberos',en:'Firefighters'},number:'119' }],
@@ -748,7 +747,7 @@
         let currentTimeRange = 'day';
         let leafletMap = null;
         let leafletMarker = null;
-        let leafletCircle = null; // FIX 2: guardar el círculo
+        let leafletCircle = null;
         let currentQuake = null;
 
         function aplicarIdioma(lang) {
@@ -893,7 +892,7 @@
             const URL = getUSGSURL();
             document.getElementById('quakeCount').textContent = '...';
 
-            fetch(URL, { referrerPolicy: 'no-referrer' })
+            fetch(URL)
                 .then(r => { if (!r.ok) throw new Error('USGS ' + r.status); return r.json(); })
                 .then(data => {
                     if (!data || !Array.isArray(data.features)) throw new Error('Formato inesperado');
@@ -966,40 +965,35 @@
             const p = document.getElementById('recentPanel');
             p.classList.toggle('collapsed');
             document.getElementById('recentToggle').textContent = p.classList.contains('collapsed') ? '▸' : '▾';
-            // FIX UX: en móvil, si abro uno, cierro el otro
-            if (window.innerWidth < 900 && !p.classList.contains('collapsed')) {
-                document.getElementById('localPanel').classList.remove('visible');
-            }
         }
 
-        // FIX 4: tsunami dismissed por ID del sismo, no por hora
         function verificarTsunami() {
             const conTsunami = ultimosTerremotos.filter(q => q.tsunami);
             const banner = document.getElementById('tsunamiBanner');
-            if (conTsunami.length === 0) {
+
+            if (conTsunami.length > 0) {
+                const fuerte = conTsunami.reduce((max, q) => q.mag > max.mag ? q : max, conTsunami[0]);
+                const dismissedId = localStorage.getItem('tsunami_dismissed_id');
+                if (dismissedId === String(fuerte.id || fuerte.time)) {
+                    banner.classList.remove('visible');
+                    return;
+                }
+                banner.dataset.lat = fuerte.lat;
+                banner.dataset.lng = fuerte.lng;
+                banner.dataset.id = fuerte.id || fuerte.time;
+                banner.dataset.idx = ultimosTerremotos.indexOf(fuerte);
+                banner.classList.add('visible');
+            } else {
                 banner.classList.remove('visible');
-                return;
             }
-            const fuerte = conTsunami.reduce((max, q) => q.mag > max.mag ? q : max, conTsunami[0]);
-            const dismissedId = localStorage.getItem('tsunami_dismissed_id');
-            if (dismissedId === fuerte.id) {
-                banner.classList.remove('visible');
-                return;
-            }
-            banner.dataset.lat = fuerte.lat;
-            banner.dataset.lng = fuerte.lng;
-            banner.dataset.idx = ultimosTerremotos.indexOf(fuerte);
-            banner.dataset.quakeId = fuerte.id;
-            banner.classList.add('visible');
         }
 
         function cerrarBannerTsunami(e) {
             e.stopPropagation();
             const banner = document.getElementById('tsunamiBanner');
             banner.classList.remove('visible');
-            // FIX 4: guardar el ID del sismo descartado, no la hora
-            if (banner.dataset.quakeId) {
-                localStorage.setItem('tsunami_dismissed_id', banner.dataset.quakeId);
+            if (banner.dataset.id) {
+                localStorage.setItem('tsunami_dismissed_id', banner.dataset.id);
             }
         }
 
@@ -1042,11 +1036,9 @@
                     leafletMap.setView([q.lat, q.lng], 8);
                 }
 
-                // FIX 2: eliminar marcador Y círculo previos
-                if (leafletMarker) { leafletMap.removeLayer(leafletMarker); leafletMarker = null; }
-                if (leafletCircle) { leafletMap.removeLayer(leafletCircle); leafletCircle = null; }
+                if (leafletMarker) leafletMap.removeLayer(leafletMarker);
+                if (leafletCircle) leafletMap.removeLayer(leafletCircle);
 
-                // FIX 5: className custom para quitar fondo blanco
                 const icon = L.divIcon({
                     className: 'custom-quake-icon',
                     html: '<div style="width:36px;height:36px;border-radius:50%;background:' + q.color + ';border:3px solid #fff;box-shadow:0 0 25px ' + q.color + ';display:flex;align-items:center;justify-content:center;font-family:Orbitron,sans-serif;font-weight:900;color:#000;font-size:0.7rem;">M' + q.mag.toFixed(1) + '</div>',
@@ -1054,7 +1046,6 @@
                 });
                 leafletMarker = L.marker([q.lat, q.lng], { icon: icon }).addTo(leafletMap);
 
-                // FIX 2: guardar el círculo en variable para poder eliminarlo
                 leafletCircle = L.circle([q.lat, q.lng], {
                     radius: Math.max(5000, q.mag * 15000),
                     color: q.color, fillColor: q.color,
@@ -1069,7 +1060,7 @@
             if (!currentQuake) return;
             const q = currentQuake;
             const t = I18N[currentLang];
-            const url = 'https://sismonow.arquimendesjosearquinzones.workers.dev';
+            const url = window.location.href;
             const texto = t.shareText
                 .replace('{mag}', q.mag.toFixed(1))
                 .replace('{place}', q.place);
@@ -1113,11 +1104,11 @@
             if (!rawQuery) return;
             const query = rawQuery.replace(/[^a-zA-Z0-9áéíóúñÁÉÍÓÚÑ\s,\-\.]/g, '');
             if (query.length === 0 || query.length > 100) return;
-            const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&accept-language=' + currentLang + '&q=' + encodeURIComponent(query);
+            const url = 'https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=1&accept-language=' + currentLang + '&q=' + encodeURIComponent(query);
             const locEl = document.getElementById('activeLocation');
             locEl.dataset.translatable = 'false';
             locEl.textContent = t.searching;
-            // FIX 3: sin referrerPolicy para no violar la política de Nominatim
+
             fetch(url)
                 .then(r => { if (!r.ok) throw new Error('Nominatim ' + r.status); return r.json(); })
                 .then(data => {
@@ -1127,7 +1118,18 @@
                     const lat = parseFloat(data[0].lat), lng = parseFloat(data[0].lon);
                     if (isNaN(lat) || isNaN(lng)) { locEl.textContent = t.error; return; }
                     volarA(lat, lng);
-                    locEl.textContent = (data[0].display_name || '').split(',')[0].trim() || t.world;
+                    const lugar = (data[0].display_name || '').split(',')[0].trim() || t.world;
+                    locEl.textContent = lugar;
+
+                    // Conectar la búsqueda con el panel de datos y el radio geográfico
+                    miUbicacion = {
+                        lat, lng,
+                        countryCode: (data[0].address?.country_code || '').toLowerCase()
+                    };
+                    document.getElementById('panelLoc').textContent = lugar;
+                    dibujarCirculoRadio();
+                    actualizarPanelLocal();
+                    abrirPanel();
                 })
                 .catch(err => { console.error(err); locEl.textContent = t.error; });
         }
@@ -1178,11 +1180,9 @@
                     document.getElementById('panelLoc').textContent = lat.toFixed(2) + ', ' + lng.toFixed(2);
                     actualizarPanelLocal();
                     abrirPanel();
-                    // FIX 3: sin referrerPolicy
-                    const url = 'https://nominatim.openstreetmap.org/reverse?format=json&limit=1&accept-language=' + currentLang + '&lat=' + lat + '&lon=' + lng;
+                    const url = 'https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&limit=1&accept-language=' + currentLang + '&lat=' + lat + '&lon=' + lng;
                     fetch(url).then(r => r.json()).then(data => {
                         const lugar = data?.address?.city || data?.address?.town || data?.address?.state || data?.address?.country || (lat.toFixed(2) + ', ' + lng.toFixed(2));
-                        // FIX 6: guardar código ISO en minúsculas
                         miUbicacion.countryCode = (data?.address?.country_code || '').toLowerCase();
                         locEl.textContent = lugar;
                         document.getElementById('panelLoc').textContent = lugar;
@@ -1206,11 +1206,12 @@
 
         function abrirPanel() {
             document.getElementById('localPanel').classList.add('visible');
-            // FIX UX: en móvil, si abro uno, colapso el otro
-            if (window.innerWidth < 900) {
-                const rp = document.getElementById('recentPanel');
-                rp.classList.add('collapsed');
-                document.getElementById('recentToggle').textContent = '▸';
+            // Si la pantalla es móvil, colapsar el panel de últimos sismos para evitar superposición
+            if (window.innerWidth <= 900) {
+                const recent = document.getElementById('recentPanel');
+                if (!recent.classList.contains('collapsed')) {
+                    toggleRecent();
+                }
             }
         }
         function cerrarPanel() { document.getElementById('localPanel').classList.remove('visible'); }
@@ -1240,7 +1241,6 @@
                 document.getElementById('statStrongest').className = 'stat-value' + (masFuerte.mag >= 5 ? ' danger' : masFuerte.mag >= 3 ? ' warn' : '');
             }
 
-            // FIX 6: usar código ISO
             const code = miUbicacion.countryCode;
             const emergencySection = document.getElementById('emergencySection');
             const emergencyList = document.getElementById('emergencyList');
@@ -1282,7 +1282,7 @@
             });
         }
 
-        // FIX 1: orden correcto — translatable ANTES de aplicarIdioma
+        // Inicialización correcta
         document.getElementById('activeLocation').dataset.translatable = 'true';
         aplicarIdioma(currentLang);
         cargarTerremotos();
